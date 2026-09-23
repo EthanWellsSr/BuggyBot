@@ -17,6 +17,7 @@ import copy
 import glob
 import os
 from pptx import Presentation
+from pptx.opc.packuri import PackURI
 from pptx.oxml.ns import qn
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -42,19 +43,51 @@ def copy_slide(src_slide, dest):
     for sh in src_slide.shapes:
         new.shapes._spTree.append(copy.deepcopy(sh._element))
 
-    # re-create the slide's relationships (images, media, hyperlinks) and remap any changed rIds
+    # re-create the slide's relationships (images, media, hyperlinks), building a
+    # complete old-rId -> new-rId map BEFORE touching the shapes
+    rid_map = {}
     for rId, rel in src_slide.part.rels.items():
         if rel.reltype.endswith("slideLayout") or rel.reltype.endswith("notesSlide"):
             continue
         if rel.is_external:
-            new_rId = new.part.rels.get_or_add_ext_rel(rel.reltype, rel.target_ref)
+            rid_map[rId] = new.part.rels.get_or_add_ext_rel(rel.reltype, rel.target_ref)
         else:
-            new_rId = new.part.relate_to(rel.target_part, rel.reltype)
-        if new_rId != rId:
-            for el in new.shapes._spTree.iter():
-                for attr, val in list(el.attrib.items()):
-                    if attr.startswith(RNS) and val == rId:
-                        el.set(attr, new_rId)
+            rid_map[rId] = new.part.relate_to(rel.target_part, rel.reltype)
+
+    # then remap in ONE pass, so every r: attribute is rewritten exactly once.
+    # Rewriting per relationship instead would let a value written by an earlier
+    # mapping (rId1 -> rId2) be matched again by a later one (rId2 -> rId3), which
+    # collapses two shapes onto the same image.
+    for el in new.shapes._spTree.iter():
+        for attr, val in list(el.attrib.items()):
+            if attr.startswith(RNS) and val in rid_map:
+                el.set(attr, rid_map[val])
+
+
+def dedupe_media(dest):
+    """Give every image/media part a unique name inside the output package.
+
+    Each source deck numbers its own media from image1 up, so two people can both
+    ship a ppt/media/image2.jpeg. Those parts keep their original names when they
+    are copied in, the saved .pptx then holds two zip entries with the same name,
+    and PowerPoint resolves both references to whichever one it reads -- so one
+    person's picture silently replaces another's. Renumbering them here keeps each
+    picture pointing at its own file.
+    """
+    used = set()
+    n = 0
+    for part in dest.part.package.iter_parts():
+        name = str(part.partname)
+        if not name.startswith("/ppt/media/"):
+            continue
+        ext = name.rsplit(".", 1)[-1]
+        while True:
+            n += 1
+            new = "/ppt/media/image%d.%s" % (n, ext)
+            if new.lower() not in used:
+                break
+        used.add(new.lower())
+        part.partname = PackURI(new)
 
 
 def main():
@@ -71,6 +104,8 @@ def main():
     for f in files:
         for slide in Presentation(f).slides:
             copy_slide(slide, dest)
+
+    dedupe_media(dest)
 
     dest.save(OUT)
     print("assembled %d slides from %d files -> %s"

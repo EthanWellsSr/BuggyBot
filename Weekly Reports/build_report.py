@@ -4,42 +4,42 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 PROJECT = "Self Driving RC Car"
-DATE = "9/15/2026"
-SUMMARY_DATE = "9/15/2026"
+DATE = "9/22/2026"
+SUMMARY_DATE = "9/22/2026"
 
 members = ["Ethan Wells (Group Leader)", "Alexis Perez", "Ethan Bishop", "Abigail Duran"]
 
-summary = ("This week the team made progress on all fronts. "
-    "Ethan Wells trained the traffic-sign model — a convolutional neural network on the GTSRB German dataset reaching about 95% validation accuracy — "
-    "committed the model and training code, and ordered the CR2032 RTC battery and the KIOXIA NVMe boot SSD with a USB enclosure. "
-    "Alexis Perez bench-tested the ultrasonic sensor's distance readings and accuracy and researched drive-motor options. "
-    "Ethan Bishop tested the IMU for measurement accuracy, researched motor-controller options, and started drying filament to prepare the home 3D printer for chassis-component testing. "
-    "Abigail Duran completed and refined the first-semester schematic around the Raspberry Pi Compute Module 5, resolved ERC issues to ready it for PCB development, "
-    "and began hardware prototyping for the stationary test setup.")
+summary = ("This week the team moved from selecting parts to testing them on hardware. "
+    "Ethan Wells set the machine-learning goals aside to get the compute ready for the rest of the team: he assembled the Raspberry Pi Compute Module 5 on the Compute Module 5 IO Board with its heatsink and PWM fan, CR2032 real-time-clock battery, and 27 W USB-C power supply, "
+    "flashed Raspberry Pi OS Lite (64-bit) to the 128 GB NVMe solid-state drive that the board boots from, and brought the board up headless over SSH through a USB Wi-Fi dongle, which the CM5 needs because it has no onboard wireless; "
+    "he traced very slow SSH throughput to the dongle's stock driver and replaced it with a working one, and wrote setup.sh so any team member can install the shared software prerequisites on a board with one command. "
+    "Alexis Perez finalized the ultrasonic sensor implementation on the Pi, which measures distance to obstacles and walls, and tested the TT-style drive motors and L298N motor controller, finding performance issues that may require replacement parts; he also determined the hardware power requirements that will drive battery selection. "
+    "Ethan Bishop ordered 2WD and 4WD Raspberry Pi HAT motor controllers and wrote code to test them for operational accuracy, and continued implementing the IMU, the sensor that reports the vehicle's heading and turns, verifying its measurements and directions. "
+    "Abigail Duran prepared the libraries and software for the LCD1602 RGB status display, researched camera setup and configuration for the CM5, and identified the steps needed to integrate the camera and display with the machine-learning model.")
 
 plan = [
-    ("Ethan Wells", "Prepare the LISA dataset (US traffic signs) for training; test the trained German-sign (GTSRB) model."),
-    ("Alexis Perez", "Select and order motors; write code to integrate the ultrasonic sensor on the Raspberry Pi."),
-    ("Ethan Bishop", "Select and order a motor controller; write code to integrate the IMU on the Raspberry Pi."),
-    ("Abigail Duran", "Begin the PCB design and layout from the completed schematic; place major components and determine board dimensions; begin planning power and signal routing."),
+    ("Ethan Wells", "Prepare the LISA dataset (US traffic signs) for training and test the trained German-sign (GTSRB) model."),
+    ("Alexis Perez", "Select replacement motors and motor controller if the tested parts do not meet requirements, and narrow down the battery and power-supply options."),
+    ("Ethan Bishop", "Finish testing the Pi HAT motor controllers, finish the IMU implementation on the Raspberry Pi, and research 3D-printable STL files for the chassis."),
+    ("Abigail Duran", "Continue hardware testing and verify communication between the Raspberry Pi and all connected components, determine which components and connections go on the final PCB, and begin the PCB layout including component placement, board dimensions, power distribution, and signal routing."),
 ]
 
 contributions = [
-    ("Ethan Wells", [("9/10/2026", "Built and ran the first CNN training on the GTSRB German traffic-sign dataset in TensorFlow", 3),
-                        ("9/14/2026", "Tuned the model to ~95% validation accuracy and committed the trained model (gtsrb_model.keras) and training script to the repo", 4)]),
-    ("Alexis Perez", [("", "Tested the ultrasonic sensor's distance readings and measurement accuracy", None),
-                        ("", "Researched drive-motor options for the vehicle", None)]),
-    ("Ethan Bishop", [("", "Tested the IMU for measurement accuracy", None),
-                        ("", "Researched motor-controller options", None),
-                        ("", "Started drying filament to prep the home 3D printer for chassis-component testing", None)]),
-    ("Abigail Duran", [("", "Completed the first-semester schematic for stationary testing of the autonomous car system", None),
-                        ("", "Built and refined the schematic around the Raspberry Pi Compute Module 5", None),
-                        ("", "Resolved schematic/ERC issues and prepared the design for PCB development", None),
-                        ("", "Began hardware prototyping for the stationary test setup", None)]),
+    ("Ethan Wells", [("9/19/2026", "Assembled the CM5 on the Compute Module 5 IO Board with the heatsink and PWM fan, CR2032 RTC battery, and 27 W USB-C power supply, then flashed Raspberry Pi OS Lite (64-bit) to the 128 GB NVMe SSD and booted the board from M.2", 3),
+                     ("9/21/2026", "Brought up headless SSH over the USB Wi-Fi dongle and, after tracing very slow SSH throughput to the dongle's stock driver, replaced it with a working driver", 2),
+                     ("9/23/2026", "Wrote setup.sh, a one-command install of the shared software prerequisites (git, python3, pip, venv), and updated the parts list with the remaining compute purchases", 2)]),
+    ("Alexis Perez", [("", "Finalized the ultrasonic sensor implementation on the Raspberry Pi, including additional distance-reading and range testing", None),
+                      ("", "Tested the TT-style drive motors and L298N motor controller for performance and identified issues with the current components", None),
+                      ("", "Determined the hardware power requirements to guide battery and power-supply selection", None)]),
+    ("Ethan Bishop", [("", "Ordered 2WD and 4WD Raspberry Pi HAT motor controllers and wrote code to test them for operational accuracy", None),
+                      ("", "Continued implementing the IMU on the Raspberry Pi and verified its measurements and directions", None)]),
+    ("Abigail Duran", [("", "Prepared the necessary libraries and software for the LCD1602 RGB display module", None),
+                       ("", "Researched camera setup and configuration for the Raspberry Pi Compute Module 5", None),
+                       ("", "Identified the steps needed to integrate the camera and LCD with the machine-learning model", None)]),
 ]
 
-hours = [("Ethan Wells", "7", "12"), ("Alexis Perez", "6", "9"),
-         ("Ethan Bishop", "6", "9"), ("Abigail Duran", "6", "11")]
+hours = [("Ethan Wells", "7", "19"), ("Alexis Perez", "7", "16"),
+         ("Ethan Bishop", "6", "15"), ("Abigail Duran", "6", "17")]
 
 d = Document("project_name.docx")
 
