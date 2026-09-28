@@ -5,6 +5,11 @@ Training code for the traffic-sign classifier (Self-Driving RC Car).
 Current status: a CNN trained on GTSRB (German signs) reaching **~95% validation
 accuracy**. Trained model committed as `gtsrb_model.keras`.
 
+The LISA source dataset contains 47 US traffic-sign classes. The current
+model-specific dataset retains 12 selected classes. Download and preparation
+instructions are in [`LISA_PREPARATION.md`](LISA_PREPARATION.md). The preparation
+script is `prepare_lisa.py`; model training and testing are intentionally separate.
+
 ## Setup
 
 Requires **Python 3.12** (TensorFlow has no wheels for 3.13/3.14 yet). From this
