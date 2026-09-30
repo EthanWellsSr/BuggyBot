@@ -2,7 +2,7 @@
 
 Training code for the traffic-sign classifier (Self-Driving RC Car).
 
-Current status: `training.py` trains and saves the GTSRB model. It uses a
+Current status: `train_gtsrb.py` trains and saves the GTSRB model. It uses a
 physical-sign-track split so neighboring frames of the same sign cannot appear in
 both training and validation. `evaluate_gtsrb.py` independently tests the saved
 model and writes the results to `gtsrb_test_results.json`.
@@ -33,7 +33,7 @@ pip install tensorflow
 ## Train
 
 ```
-python training.py
+python train_gtsrb.py
 ```
 
 Loads `GTSRB/Train.csv`, creates a class-stratified 80/20 split by physical sign

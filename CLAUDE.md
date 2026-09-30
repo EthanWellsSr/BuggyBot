@@ -49,7 +49,7 @@ and explain the approach instead.
   planned stack (TensorFlow → TF Lite on the CM5, OpenCV sign-detection pipeline,
   GTSRB then LISA datasets). `.pdf` alongside; Gantt charts in the same folder.
 - `Model Training/` — the ML code Ethan writes and you help him understand.
-  Current state: `training.py` trains a small CNN on GTSRB (German signs) to ~95%
+  Current state: `train_gtsrb.py` trains a small CNN on GTSRB (German signs) to ~95%
   validation accuracy; the trained model is committed as `gtsrb_model.keras`. The
   dataset is gitignored (see its `README.md`). Next: prepare LISA (US signs), test
   the German model, convert to TF Lite for the CM5.
