@@ -4,42 +4,40 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 PROJECT = "Self Driving RC Car"
-DATE = "9/22/2026"
-SUMMARY_DATE = "9/22/2026"
+DATE = "9/29/2026"
+SUMMARY_DATE = "9/29/2026"
 
 members = ["Ethan Wells (Group Leader)", "Alexis Perez", "Ethan Bishop", "Abigail Duran"]
 
-summary = ("This week the team moved from selecting parts to testing them on hardware. "
-    "Ethan Wells set the machine-learning goals aside to get the compute ready for the rest of the team: he assembled the Raspberry Pi Compute Module 5 on the Compute Module 5 IO Board with its heatsink and PWM fan, CR2032 real-time-clock battery, and 27 W USB-C power supply, "
-    "flashed Raspberry Pi OS Lite (64-bit) to the 128 GB NVMe solid-state drive that the board boots from, and brought the board up headless over SSH through a USB Wi-Fi dongle, which the CM5 needs because it has no onboard wireless; "
-    "he traced very slow SSH throughput to the dongle's stock driver and replaced it with a working one, and wrote setup.sh so any team member can install the shared software prerequisites on a board with one command. "
-    "Alexis Perez finalized the ultrasonic sensor implementation on the Pi, which measures distance to obstacles and walls, and tested the TT-style drive motors and L298N motor controller, finding performance issues that may require replacement parts; he also determined the hardware power requirements that will drive battery selection. "
-    "Ethan Bishop ordered 2WD and 4WD Raspberry Pi HAT motor controllers and wrote code to test them for operational accuracy, and continued implementing the IMU, the sensor that reports the vehicle's heading and turns, verifying its measurements and directions. "
-    "Abigail Duran prepared the libraries and software for the LCD1602 RGB status display, researched camera setup and configuration for the CM5, and identified the steps needed to integrate the camera and display with the machine-learning model.")
+summary = ("This week the team finished bench-testing the core hardware on the Raspberry Pi and moved the sign-recognition model onto US traffic signs. "
+    "Ethan Wells completed both of last week's machine-learning goals: he prepared the LISA Traffic Signs dataset (US signs) for training, writing prepare_lisa.py to validate the download, crop each annotated sign, and split the crops into training, validation, and test sets, "
+    "narrowing the dataset's 47 sign classes to the 12 the car needs (6,097 cropped signs) and keeping every frame of the same physical sign in one split so near-identical images cannot appear in both training and testing; "
+    "he also tested the German-sign (GTSRB) model on the 12,630-image GTSRB test set, where it reached 95.8% accuracy. "
+    "Alexis Perez researched and presented the vehicle navigation options the team can use to follow the course, and completed an OpenCV course in preparation for the camera and image-processing pipeline. "
+    "Ethan Bishop finished testing the Raspberry Pi HAT motor controllers for operational accuracy, running both HATs over I2C on the 40-pin GPIO header, and finished implementing the IMU, the sensor that reports the vehicle's heading and turns, over I2C and verified its measurements and directions; research on 3D-printable chassis files carries over to next week. "
+    "Abigail Duran connected and communicated with the LCD status display and the camera from the Raspberry Pi Compute Module 5, and integrated both with the machine-learning model so detected signs and their corresponding commands are shown on the display.")
 
 plan = [
-    ("Ethan Wells", "Prepare the LISA dataset (US traffic signs) for training and test the trained German-sign (GTSRB) model."),
-    ("Alexis Perez", "Select replacement motors and motor controller if the tested parts do not meet requirements, and narrow down the battery and power-supply options."),
-    ("Ethan Bishop", "Finish testing the Pi HAT motor controllers, finish the IMU implementation on the Raspberry Pi, and research 3D-printable STL files for the chassis."),
-    ("Abigail Duran", "Continue hardware testing and verify communication between the Raspberry Pi and all connected components, determine which components and connections go on the final PCB, and begin the PCB layout including component placement, board dimensions, power distribution, and signal routing."),
+    ("Ethan Wells", "Train a CNN on the prepared 12-class LISA dataset (US traffic signs) and test it on the LISA test split."),
+    ("Alexis Perez", "Research and purchase any components still missing for the selected navigation option, and continue learning OpenCV for the camera pipeline."),
+    ("Ethan Bishop", "Research 3D-printable STL files for the chassis and research a possible ROS implementation for the vehicle."),
+    ("Abigail Duran", "Begin planning the PCB layout, including component placement and board dimensions, and begin planning power distribution and signal routing."),
 ]
 
 contributions = [
-    ("Ethan Wells", [("9/19/2026", "Assembled the CM5 on the Compute Module 5 IO Board with the heatsink and PWM fan, CR2032 RTC battery, and 27 W USB-C power supply, then flashed Raspberry Pi OS Lite (64-bit) to the 128 GB NVMe SSD and booted the board from M.2", 3),
-                     ("9/21/2026", "Brought up headless SSH over the USB Wi-Fi dongle and, after tracing very slow SSH throughput to the dongle's stock driver, replaced it with a working driver", 2),
-                     ("9/23/2026", "Wrote setup.sh, a one-command install of the shared software prerequisites (git, python3, pip, venv), and updated the parts list with the remaining compute purchases", 2)]),
-    ("Alexis Perez", [("", "Finalized the ultrasonic sensor implementation on the Raspberry Pi, including additional distance-reading and range testing", None),
-                      ("", "Tested the TT-style drive motors and L298N motor controller for performance and identified issues with the current components", None),
-                      ("", "Determined the hardware power requirements to guide battery and power-supply selection", None)]),
-    ("Ethan Bishop", [("", "Ordered 2WD and 4WD Raspberry Pi HAT motor controllers and wrote code to test them for operational accuracy", None),
-                      ("", "Continued implementing the IMU on the Raspberry Pi and verified its measurements and directions", None)]),
-    ("Abigail Duran", [("", "Prepared the necessary libraries and software for the LCD1602 RGB display module", None),
-                       ("", "Researched camera setup and configuration for the Raspberry Pi Compute Module 5", None),
-                       ("", "Identified the steps needed to integrate the camera and LCD with the machine-learning model", None)]),
+    ("Ethan Wells", [("9/26/2026", "Downloaded the LISA Traffic Signs dataset from the Kaggle mirror after the UCSD download host was unavailable, and began the dataset preparation script", 2),
+                     ("9/28/2026", "Finished prepare_lisa.py, which validates the dataset, crops each annotated sign, narrows the 47 classes to the 12 the car needs, and splits the 6,097 crops by sign track into training, validation, and test sets; documented the steps in LISA_PREPARATION.md", 2),
+                     ("9/29/2026", "Tested the German-sign (GTSRB) model on the 12,630-image GTSRB test set, reaching 95.8% accuracy, and saved the results to gtsrb_test_results.json", 3)]),
+    ("Alexis Perez", [("", "Researched, finalized, and presented the vehicle navigation options", None),
+                      ("", "Completed an OpenCV course in preparation for the camera and image-processing pipeline", None)]),
+    ("Ethan Bishop", [("", "Tested the Raspberry Pi HAT motor controllers for operational accuracy, running both HATs over I2C on the 40-pin GPIO header", None),
+                      ("", "Implemented the IMU on the Raspberry Pi over I2C and verified its measurements and directions", None)]),
+    ("Abigail Duran", [("", "Connected and communicated with the LCD and camera using the Raspberry Pi Compute Module 5", None),
+                       ("", "Integrated the LCD and camera with the machine-learning model to display detected signs and their corresponding commands", None)]),
 ]
 
-hours = [("Ethan Wells", "7", "19"), ("Alexis Perez", "7", "16"),
-         ("Ethan Bishop", "6", "15"), ("Abigail Duran", "6", "17")]
+hours = [("Ethan Wells", "7", "26"), ("Alexis Perez", "7", "23"),
+         ("Ethan Bishop", "7", "22"), ("Abigail Duran", "6", "23")]
 
 d = Document("project_name.docx")
 

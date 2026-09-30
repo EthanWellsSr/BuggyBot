@@ -20,3 +20,7 @@ Proposal/EEG_Signal_Processing_Project Proposal_v2-1.pdf
 # Python
 __pycache__/
 *.pyc
+
+# Codex temporary work directories
+.codex/
+.codex-*/
