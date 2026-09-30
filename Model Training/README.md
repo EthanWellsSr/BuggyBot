@@ -2,8 +2,17 @@
 
 Training code for the traffic-sign classifier (Self-Driving RC Car).
 
-Current status: a CNN trained on GTSRB (German signs) reaching **~95% validation
-accuracy**. Trained model committed as `gtsrb_model.keras`.
+Current status: `training.py` trains and saves the GTSRB model. It uses a
+physical-sign-track split so neighboring frames of the same sign cannot appear in
+both training and validation. `evaluate_gtsrb.py` independently tests the saved
+model and writes the results to `gtsrb_test_results.json`.
+
+Latest verified fresh-training result:
+
+- Track-separated validation: **97.09% top-1**.
+- Independent GTSRB test set: **95.79% top-1**, **98.45% top-3**.
+- Test macro class accuracy: **93.83%**.
+- Test predictions: **12,098 correct / 532 incorrect** across 12,630 images.
 
 The LISA source dataset contains 47 US traffic-sign classes. The current
 model-specific dataset retains 12 selected classes. Download and preparation
@@ -27,12 +36,26 @@ pip install tensorflow
 python training.py
 ```
 
-Loads `GTSRB/Train/` (80/20 train/validation split), trains a small CNN for 10
-epochs, and saves the result to `gtsrb_model.keras`. Runs on CPU in a couple of
-minutes.
+Loads `GTSRB/Train.csv`, creates a class-stratified 80/20 split by physical sign
+track, trains for up to 40 epochs, and saves the best model to
+`gtsrb_model.keras`. Early stopping may finish sooner.
 
-The model: `Rescaling → Conv2D(32) → MaxPool → Conv2D(64) → MaxPool → Flatten →
-Dense(128) → Dense(43, softmax)`, 32×32 input, Adam optimizer.
+The model uses 32×32 RGB input, realistic geometric and lighting augmentation,
+class balancing, two convolutional blocks, batch normalization, dropout, global
+average pooling, and a 43-class softmax output. Training stops when validation
+loss stops improving, restores the best weights, and saves only
+`gtsrb_model.keras`.
+
+## Test
+
+```
+python evaluate_gtsrb.py
+```
+
+This evaluates the saved model on all 12,630 labeled images in `GTSRB/Test.csv`
+and writes top-1, top-3, macro class accuracy, per-class accuracy, and common
+confusions to `gtsrb_test_results.json`. Use the track-separated validation set
+for model selection; reserve this independent test set for final evaluation.
 
 
 ## Dataset: GTSRB (German Traffic Sign Recognition Benchmark)
@@ -49,7 +72,7 @@ To set it up:
    ```
    Model Training/GTSRB/
        Train/       43 class folders (0-42), images inside  <- used for training
-       Test/        12,631 flat images; labels in Test.csv  <- final testing later
+       Test/        12,630 flat images; labels in Test.csv  <- final testing later
        Meta/        one reference image per sign class
        Train.csv  Test.csv  Meta.csv
    ```
