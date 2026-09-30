@@ -1,0 +1,122 @@
+{
+  "images": 584,
+  "top1_accuracy": 0.898972602739726,
+  "top3_accuracy": 0.9914383561643836,
+  "macro_class_accuracy": 0.8492838356341729,
+  "correct": 525,
+  "incorrect": 59,
+  "per_class": {
+    "addedLane": {
+      "correct": 26,
+      "total": 26,
+      "accuracy": 1.0
+    },
+    "keepRight": {
+      "correct": 18,
+      "total": 18,
+      "accuracy": 1.0
+    },
+    "merge": {
+      "correct": 10,
+      "total": 19,
+      "accuracy": 0.5263157894736842
+    },
+    "pedestrianCrossing": {
+      "correct": 75,
+      "total": 95,
+      "accuracy": 0.7894736842105263
+    },
+    "school": {
+      "correct": 7,
+      "total": 11,
+      "accuracy": 0.6363636363636364
+    },
+    "signalAhead": {
+      "correct": 141,
+      "total": 151,
+      "accuracy": 0.9337748344370861
+    },
+    "speedLimit25": {
+      "correct": 39,
+      "total": 39,
+      "accuracy": 1.0
+    },
+    "speedLimit30": {
+      "correct": 15,
+      "total": 21,
+      "accuracy": 0.7142857142857143
+    },
+    "speedLimit35": {
+      "correct": 13,
+      "total": 17,
+      "accuracy": 0.7647058823529411
+    },
+    "speedLimit45": {
+      "correct": 21,
+      "total": 25,
+      "accuracy": 0.84
+    },
+    "speedLimit65": {
+      "correct": 14,
+      "total": 14,
+      "accuracy": 1.0
+    },
+    "stop": {
+      "correct": 146,
+      "total": 148,
+      "accuracy": 0.9864864864864865
+    }
+  },
+  "common_confusions": [
+    {
+      "actual": "pedestrianCrossing",
+      "predicted": "signalAhead",
+      "count": 20
+    },
+    {
+      "actual": "signalAhead",
+      "predicted": "addedLane",
+      "count": 8
+    },
+    {
+      "actual": "merge",
+      "predicted": "addedLane",
+      "count": 7
+    },
+    {
+      "actual": "speedLimit30",
+      "predicted": "speedLimit35",
+      "count": 4
+    },
+    {
+      "actual": "speedLimit35",
+      "predicted": "speedLimit25",
+      "count": 4
+    },
+    {
+      "actual": "speedLimit45",
+      "predicted": "speedLimit25",
+      "count": 4
+    },
+    {
+      "actual": "school",
+      "predicted": "pedestrianCrossing",
+      "count": 3
+    },
+    {
+      "actual": "merge",
+      "predicted": "signalAhead",
+      "count": 2
+    },
+    {
+      "actual": "signalAhead",
+      "predicted": "pedestrianCrossing",
+      "count": 2
+    },
+    {
+      "actual": "speedLimit30",
+      "predicted": "speedLimit25",
+      "count": 2
+    }
+  ]
+}
