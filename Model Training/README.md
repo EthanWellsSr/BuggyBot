@@ -50,6 +50,21 @@ first local Mapillary run completed 49 epochs and scored **92.59% top-1**
 Speed-limit-65 had only two test examples and neither was classified
 correctly. The Mapillary trainer, model, and report are included in this repo.
 
+## Combined: LISA and Mapillary US signs
+
+Run `python3 prepare_combined.py` after preparing both source datasets. It
+creates the Git-ignored `LISA/Combined/` folder with 7,601 train, 929
+validation, and 1,016 test crops. The 12 class indices and each source image's
+existing split are preserved. See
+[`COMBINED_PREPARATION.md`](COMBINED_PREPARATION.md) for the layout, reproducible
+steps, and split limitations.
+
+Run `./.venv/bin/python train_combined.py` to train with the same architecture
+and settings as the separate models. It saves `combined_model.keras` and
+`combined_training_report.json`. The report includes results on the combined
+validation and test sets and a breakdown for LISA and Mapillary images.
+This combined model has not been trained yet.
+
 ## GTSRB: German signs
 
 Run `python train_gtsrb.py` to train and save `gtsrb_model.keras`. The script
