@@ -65,6 +65,7 @@ for the scripts, dataset preparation, and detailed reports.
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
 | `Hardware/` | Parts list, wiring references, integration prototype, and hardware test scripts |
 | `Model Training/` | GTSRB, LISA, and Mapillary preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
+| `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes and a US Letter print sheet |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
 | `setup.sh` | Installs basic Git and Python prerequisites on a Debian-based board |
 | `CLAUDE.md` | Working agreement for AI assistants used on this repo |
