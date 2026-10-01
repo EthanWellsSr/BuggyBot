@@ -1,11 +1,12 @@
 # Model Training
 
-Training code for the traffic-sign classifier (Self-Driving RC Car).
+Training code for BuggyBot's traffic-sign classifiers.
 
-There are separate classifiers for German (GTSRB) and US (LISA) signs. The
+GTSRB supplies German signs. LISA and Mapillary supply separate experiments
+using the same 12 selected US-sign class names and numeric indices. LISA's
 dataset preparation keeps neighboring frames of the same physical sign in one
-split, so validation and test images come from different sign tracks than the
-training images.
+split. Mapillary provides image IDs but not physical sign track IDs; its splits
+keep source images separate without proving physical-sign independence.
 
 ## LISA: US signs
 
@@ -35,11 +36,19 @@ road-scene crops, not printed signs viewed by the car's camera.
 The fully annotated Mapillary archives are stored locally under
 `LISA/mapillary_raw/`. Run `prepare_mapillary.py` to create a separate
 12-class crop dataset under `LISA/mapillary_prepared/` and open its
-`review/index.html` to inspect the images. The class names and metadata layout
-match LISA, but Mapillary's source split and sign-identity information differ.
-See [`MAPILLARY_PREPARATION.md`](MAPILLARY_PREPARATION.md) for the exact inputs,
-filtering, split method, review workflow, and limitations. These images have
-not been merged with LISA or used to train a model.
+`review/index.html` to inspect the images. It contains 2,655 train, 362
+validation, and 432 test crops. See
+[`MAPILLARY_PREPARATION.md`](MAPILLARY_PREPARATION.md) for the exact inputs,
+filtering, split method, review workflow, and limitations.
+
+Run `./.venv/bin/python train_mapillary.py` from this folder to train a model
+with the same architecture and settings as the LISA run. It saves
+`mapillary_model.keras` and `mapillary_training_report.json`, including epoch
+history, per-class metrics, confusion matrices, and individual errors. The
+first local Mapillary run completed 49 epochs and scored **92.59% top-1**
+(400/432), **98.84% top-3**, and **77.98% macro F1** on its test crops.
+Speed-limit-65 had only two test examples and neither was classified
+correctly. The Mapillary trainer, model, and report are included in this repo.
 
 ## GTSRB: German signs
 

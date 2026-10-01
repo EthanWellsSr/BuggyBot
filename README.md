@@ -1,27 +1,52 @@
-# Self-Driving RC Car
+# BuggyBot
 
-Senior Project (CENG 4265) — University of Houston–Clear Lake (UHCL)
+University of Houston–Clear Lake (UHCL) Senior Project, CENG 4265. The course
+deliverables use the project title **Self Driving RC Car**; BuggyBot is the
+repository and vehicle name.
 
-A self-driving RC car that follows a controlled course and obeys traffic signs.
+BuggyBot is an RC car project intended to follow a controlled course and obey
+traffic signs. The fall scope is a stationary sign-recognition system; the
+spring scope is the autonomous vehicle.
 
-- **Fall semester:** stationary traffic-sign recognition system.
-- **Spring semester:** full autonomous vehicle.
+## Current state
+
+- The bench platform uses a Raspberry Pi Compute Module 5 (CM5) on its IO Board,
+  booting Raspberry Pi OS Lite from an M.2 NVMe SSD. USB Wi-Fi supplies network
+  access because this CM5 Lite has no onboard wireless.
+- [`Hardware/buggybot_integration.py`](Hardware/buggybot_integration.py) captures
+  camera images and drives an LCD using **simulated** sign predictions. It does
+  not yet run a trained model or control the vehicle from model output.
+- Separate TensorFlow classifiers have been trained on GTSRB, LISA, and
+  Mapillary. The Mapillary model, training script, and report are in this repo.
 
 ## Hardware
 
-- **Compute:** Raspberry Pi Compute Module 5 (4 GB Lite) on the CM5 IO Board (custom carrier PCB planned for spring)
-- **Storage:** M.2 NVMe SSD — boots the CM5 with Raspberry Pi OS Lite (64-bit)
-- **Networking:** USB Wi-Fi dongle for headless SSH (the CM5 has no onboard wireless)
-- **Sensors:** camera (reads signs), ultrasonic (obstacle/wall distance), IMU (heading/turns)
-- **Display:** 16×2 I²C LCD
+- **Compute and storage:** Raspberry Pi CM5 (4 GB Lite), CM5 IO Board, M.2 NVMe
+- **Networking:** USB Wi-Fi dongle for headless SSH
+- **Vision and sensing:** Camera Module 3, HC-SR04 ultrasonic sensor, ICM-20948 IMU
+- **Output and motion:** I²C LCD; motor-control hardware is being developed
 
-Full parts list, prices, and wiring: [`Hardware/partslist.md`](Hardware/partslist.md) and the schematic in `Hardware/`.
+The [parts list](Hardware/partslist.md) records purchase and availability
+status. Wiring references and hardware test scripts are in [`Hardware/`](Hardware/).
 
-## Software
+## Traffic-sign models
 
-- Traffic-sign **classifier** trained in **TensorFlow**, later deployed to the CM5 via **TensorFlow Lite**
-- Training data: **GTSRB** (German signs) first to prove out the pipeline, then **LISA** (US signs)
-- **OpenCV** finds/crops the sign in the frame and hands it to the classifier
+The image classifiers use 32×32 sign crops. The intended CM5 pipeline will
+locate signs in camera frames and run a compact model on-device; that inference
+pipeline is not yet implemented in this repository.
+
+| Dataset and model | Classes | Prepared crops | Held-out result | Status |
+| --- | ---: | ---: | --- | --- |
+| GTSRB, German signs | 43 | See [training guide](Model%20Training/README.md) | 95.79% top-1 on 12,630 test images | Model and evaluation committed |
+| LISA, selected US signs | 12 | 6,097 | 89.90% top-1 on 584 test crops | First model archived; training report committed |
+| Mapillary, mapped to the same 12 classes | 12 | 3,449 | 92.59% top-1 on 432 test crops | Model and report committed |
+
+These percentages use **different test sets** and do not rank the models against
+each other. The Mapillary report also shows 77.98% macro F1 and only two
+speed-limit-65 test crops. Model comparisons and any future combined-data
+model need evaluation on the same independent sign set, ideally including
+images captured by BuggyBot's camera. See the [model training guide](Model%20Training/README.md)
+for the scripts, dataset preparation, and detailed reports.
 
 ## Team
 
@@ -37,11 +62,11 @@ Full parts list, prices, and wiring: [`Hardware/partslist.md`](Hardware/partslis
 | Path | Contents |
 | --- | --- |
 | `Proposal/` | Project proposal and Gantt charts |
-| `Weekly Reports/` | Rolling working report + presentation, the TA's template, the report generator, and a `Week N/` folder of frozen deliverables per week |
-| `Hardware/` | Parts list (`partslist.md`) and wiring schematics |
-| `Model Training/` | Traffic-sign classifier training code (GTSRB dataset is gitignored — see its README) |
+| `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
+| `Hardware/` | Parts list, wiring references, integration prototype, and hardware test scripts |
+| `Model Training/` | GTSRB, LISA, and Mapillary preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
-| `setup.sh` | Installs the shared software prerequisites (git, python3, pip, venv) on a fresh board |
+| `setup.sh` | Installs basic Git and Python prerequisites on a Debian-based board |
 | `CLAUDE.md` | Working agreement for AI assistants used on this repo |
 
 ### Weekly reports
@@ -69,7 +94,7 @@ Weekly Reports/
   Self_Driving_RC_Car.docx / .pdf                      ← rolling report (working)
   Self-Driving-RC-Car.pptx                             ← rolling deck (generated)
   Week 1/ … Week 3/   frozen report .pdf + .docx
-  Week 4/             frozen report + frozen .pptx
+  Week 4/ … Week 6/   frozen report + frozen .pptx
 ```
 
 See `Weekly Reports/context.md` for the full build/format guide.

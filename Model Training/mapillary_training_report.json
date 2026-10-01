@@ -1,0 +1,5730 @@
+{
+  "model_file": "mapillary_model.keras",
+  "dataset": "Mapillary prepared 12-class subset",
+  "dataset_summary": {
+    "source": "Mapillary Traffic Sign Dataset v2 fully annotated",
+    "source_archives": {
+      "annotations": "mtsd_v2_fully_annotated_annotation.zip",
+      "train.0": "mtsd_v2_fully_annotated_images.train.0.zip",
+      "train.1": "mtsd_v2_fully_annotated_images.train.1.zip",
+      "train.2": "mtsd_v2_fully_annotated_images.train.2.zip",
+      "val": "mtsd_v2_fully_annotated_images.val.zip"
+    },
+    "seed": 123,
+    "selection": {
+      "labels": {
+        "warning--added-lane-right--g1": "addedLane",
+        "regulatory--keep-right--g4": "keepRight",
+        "warning--traffic-merges-right--g1": "merge",
+        "warning--pedestrians-crossing--g4": "pedestrianCrossing",
+        "warning--school-zone--g2": "school",
+        "warning--traffic-signals--g3": "signalAhead",
+        "regulatory--maximum-speed-limit-25--g2": "speedLimit25",
+        "regulatory--maximum-speed-limit-30--g3": "speedLimit30",
+        "regulatory--maximum-speed-limit-35--g2": "speedLimit35",
+        "regulatory--maximum-speed-limit-45--g3": "speedLimit45",
+        "regulatory--maximum-speed-limit-65--g2": "speedLimit65",
+        "regulatory--stop--g1": "stop"
+      },
+      "minimum_box_side": 24,
+      "minimum_crop_side": 32,
+      "excluded_properties": [
+        "ambiguous",
+        "dummy",
+        "out-of-frame",
+        "included"
+      ],
+      "exclude_panoramas": true,
+      "occluded_retained": true
+    },
+    "split_method": "Official Mapillary val -> test; official train -> train/validation by stable image-key hash. All signs from one source image stay together; physical sign tracks are unavailable.",
+    "validation_fraction_of_original_train": 0.12,
+    "filtered": {
+      "mapped_annotations": 4516,
+      "small_or_wrapped_box": 778,
+      "bad_property": 181,
+      "panorama": 108
+    },
+    "exclusions": 0,
+    "source_images_used": 2825,
+    "crops": 3449,
+    "classes": 12,
+    "split_totals": {
+      "train": 2655,
+      "validation": 362,
+      "test": 432
+    },
+    "classes_missing_from_validation": [],
+    "classes_missing_from_test": [],
+    "review_required": "Stop g1 includes non-English wording and speed-limit classes can include truck-specific signs; inspect all class galleries and add unwanted IDs to exclusions.csv before training."
+  },
+  "class_labels": [
+    "addedLane",
+    "keepRight",
+    "merge",
+    "pedestrianCrossing",
+    "school",
+    "signalAhead",
+    "speedLimit25",
+    "speedLimit30",
+    "speedLimit35",
+    "speedLimit45",
+    "speedLimit65",
+    "stop"
+  ],
+  "training_config": {
+    "seed": 123,
+    "image_size": [
+      32,
+      32
+    ],
+    "batch_size": 64,
+    "max_epochs": 60,
+    "optimizer": "Adam",
+    "initial_learning_rate": 0.001,
+    "loss": "sparse_categorical_crossentropy",
+    "training_loss_uses_class_weights": true,
+    "validation_and_test_loss_use_class_weights": false,
+    "class_weights": {
+      "addedLane": 2.6294604959953287,
+      "keepRight": 0.960143218483576,
+      "merge": 1.1544831420602055,
+      "pedestrianCrossing": 0.5456915550168329,
+      "school": 1.1650587810021364,
+      "signalAhead": 1.1759304826391737,
+      "speedLimit25": 1.346671671256188,
+      "speedLimit30": 2.0056737702645644,
+      "speedLimit35": 1.6326857170326472,
+      "speedLimit45": 2.217355782608345,
+      "speedLimit65": 3.412438547740496,
+      "stop": 0.5172361672589003
+    },
+    "early_stopping": {
+      "monitor": "val_loss",
+      "patience": 10,
+      "restore_best_weights": true
+    },
+    "reduce_lr_on_plateau": {
+      "monitor": "val_loss",
+      "factor": 0.5,
+      "patience": 3,
+      "min_lr": 1e-05
+    },
+    "model_parameters": 158444,
+    "model_architecture": {
+      "module": "keras.src.models.functional",
+      "class_name": "Functional",
+      "config": {
+        "name": "functional_1",
+        "trainable": true,
+        "layers": [
+          {
+            "module": "keras.layers",
+            "class_name": "InputLayer",
+            "config": {
+              "batch_shape": [
+                null,
+                32,
+                32,
+                3
+              ],
+              "dtype": "float32",
+              "sparse": false,
+              "ragged": false,
+              "name": "input_layer",
+              "optional": false
+            },
+            "registered_name": null,
+            "name": "input_layer",
+            "inbound_nodes": []
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Rescaling",
+            "config": {
+              "name": "rescaling",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "scale": 0.00392156862745098,
+              "offset": 0.0
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                32,
+                32,
+                3
+              ]
+            },
+            "name": "rescaling",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        3
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "input_layer",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras",
+            "class_name": "Sequential",
+            "config": {
+              "name": "sequential",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "layers": [
+                {
+                  "module": "keras.layers",
+                  "class_name": "InputLayer",
+                  "config": {
+                    "batch_shape": [
+                      null,
+                      32,
+                      32,
+                      3
+                    ],
+                    "dtype": "float32",
+                    "sparse": false,
+                    "ragged": false,
+                    "name": "input_layer_1",
+                    "optional": false
+                  },
+                  "registered_name": null
+                },
+                {
+                  "module": "keras.layers",
+                  "class_name": "RandomRotation",
+                  "config": {
+                    "name": "random_rotation",
+                    "trainable": true,
+                    "dtype": {
+                      "module": "keras",
+                      "class_name": "DTypePolicy",
+                      "config": {
+                        "name": "float32"
+                      },
+                      "registered_name": null
+                    },
+                    "data_format": "channels_last",
+                    "factor": [
+                      -0.06,
+                      0.06
+                    ],
+                    "fill_mode": "nearest",
+                    "fill_value": 0.0,
+                    "interpolation": "bilinear",
+                    "seed": null
+                  },
+                  "registered_name": null,
+                  "build_config": {
+                    "input_shape": [
+                      null,
+                      32,
+                      32,
+                      3
+                    ]
+                  }
+                },
+                {
+                  "module": "keras.layers",
+                  "class_name": "RandomTranslation",
+                  "config": {
+                    "name": "random_translation",
+                    "trainable": true,
+                    "dtype": {
+                      "module": "keras",
+                      "class_name": "DTypePolicy",
+                      "config": {
+                        "name": "float32"
+                      },
+                      "registered_name": null
+                    },
+                    "data_format": "channels_last",
+                    "height_factor": 0.08,
+                    "width_factor": 0.08,
+                    "fill_mode": "nearest",
+                    "interpolation": "bilinear",
+                    "seed": null,
+                    "fill_value": 0.0
+                  },
+                  "registered_name": null,
+                  "build_config": {
+                    "input_shape": [
+                      null,
+                      32,
+                      32,
+                      3
+                    ]
+                  }
+                },
+                {
+                  "module": "keras.layers",
+                  "class_name": "RandomZoom",
+                  "config": {
+                    "name": "random_zoom",
+                    "trainable": true,
+                    "dtype": {
+                      "module": "keras",
+                      "class_name": "DTypePolicy",
+                      "config": {
+                        "name": "float32"
+                      },
+                      "registered_name": null
+                    },
+                    "data_format": "channels_last",
+                    "height_factor": 0.1,
+                    "width_factor": null,
+                    "fill_mode": "nearest",
+                    "interpolation": "bilinear",
+                    "seed": null,
+                    "fill_value": 0.0
+                  },
+                  "registered_name": null,
+                  "build_config": {
+                    "input_shape": [
+                      null,
+                      32,
+                      32,
+                      3
+                    ]
+                  }
+                },
+                {
+                  "module": "keras.layers",
+                  "class_name": "RandomContrast",
+                  "config": {
+                    "name": "random_contrast",
+                    "trainable": true,
+                    "dtype": {
+                      "module": "keras",
+                      "class_name": "DTypePolicy",
+                      "config": {
+                        "name": "float32"
+                      },
+                      "registered_name": null
+                    },
+                    "data_format": "channels_last",
+                    "factor": [
+                      0,
+                      0.15
+                    ],
+                    "value_range": [
+                      0,
+                      255
+                    ],
+                    "seed": null
+                  },
+                  "registered_name": null,
+                  "build_config": {
+                    "input_shape": [
+                      null,
+                      32,
+                      32,
+                      3
+                    ]
+                  }
+                },
+                {
+                  "module": "keras.layers",
+                  "class_name": "RandomBrightness",
+                  "config": {
+                    "name": "random_brightness",
+                    "trainable": true,
+                    "dtype": {
+                      "module": "keras",
+                      "class_name": "DTypePolicy",
+                      "config": {
+                        "name": "float32"
+                      },
+                      "registered_name": null
+                    },
+                    "data_format": "channels_last",
+                    "factor": [
+                      -0.12,
+                      0.12
+                    ],
+                    "value_range": [
+                      0.0,
+                      1.0
+                    ],
+                    "seed": null
+                  },
+                  "registered_name": null,
+                  "build_config": {
+                    "input_shape": [
+                      null,
+                      32,
+                      32,
+                      3
+                    ]
+                  }
+                }
+              ],
+              "build_input_shape": [
+                null,
+                32,
+                32,
+                3
+              ]
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                32,
+                32,
+                3
+              ]
+            },
+            "compile_config": {},
+            "name": "sequential",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        3
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "rescaling",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "mask": null
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Conv2D",
+            "config": {
+              "name": "conv2d",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "filters": 32,
+              "kernel_size": [
+                3,
+                3
+              ],
+              "strides": [
+                1,
+                1
+              ],
+              "padding": "same",
+              "data_format": "channels_last",
+              "dilation_rate": [
+                1,
+                1
+              ],
+              "groups": 1,
+              "activation": "linear",
+              "use_bias": false,
+              "kernel_initializer": {
+                "module": "keras.initializers",
+                "class_name": "GlorotUniform",
+                "config": {
+                  "seed": null,
+                  "input_axes": null,
+                  "output_axes": null
+                },
+                "registered_name": null
+              },
+              "bias_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "kernel_regularizer": null,
+              "bias_regularizer": null,
+              "activity_regularizer": null,
+              "kernel_constraint": null,
+              "bias_constraint": null
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                32,
+                32,
+                3
+              ]
+            },
+            "name": "conv2d",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        3
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "sequential",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "BatchNormalization",
+            "config": {
+              "name": "batch_normalization",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "axis": -1,
+              "momentum": 0.99,
+              "epsilon": 0.001,
+              "center": true,
+              "scale": true,
+              "beta_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "gamma_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_mean_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_variance_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "beta_regularizer": null,
+              "gamma_regularizer": null,
+              "beta_constraint": null,
+              "gamma_constraint": null,
+              "synchronized": false,
+              "renorm": false,
+              "renorm_clipping": null,
+              "renorm_momentum": 0.99
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                32,
+                32,
+                32
+              ]
+            },
+            "name": "batch_normalization",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        32
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "conv2d",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "mask": null
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Activation",
+            "config": {
+              "name": "activation",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "activation": "relu"
+            },
+            "registered_name": null,
+            "name": "activation",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        32
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "batch_normalization",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Conv2D",
+            "config": {
+              "name": "conv2d_1",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "filters": 32,
+              "kernel_size": [
+                3,
+                3
+              ],
+              "strides": [
+                1,
+                1
+              ],
+              "padding": "same",
+              "data_format": "channels_last",
+              "dilation_rate": [
+                1,
+                1
+              ],
+              "groups": 1,
+              "activation": "linear",
+              "use_bias": false,
+              "kernel_initializer": {
+                "module": "keras.initializers",
+                "class_name": "GlorotUniform",
+                "config": {
+                  "seed": null,
+                  "input_axes": null,
+                  "output_axes": null
+                },
+                "registered_name": null
+              },
+              "bias_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "kernel_regularizer": null,
+              "bias_regularizer": null,
+              "activity_regularizer": null,
+              "kernel_constraint": null,
+              "bias_constraint": null
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                32,
+                32,
+                32
+              ]
+            },
+            "name": "conv2d_1",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        32
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "activation",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "BatchNormalization",
+            "config": {
+              "name": "batch_normalization_1",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "axis": -1,
+              "momentum": 0.99,
+              "epsilon": 0.001,
+              "center": true,
+              "scale": true,
+              "beta_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "gamma_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_mean_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_variance_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "beta_regularizer": null,
+              "gamma_regularizer": null,
+              "beta_constraint": null,
+              "gamma_constraint": null,
+              "synchronized": false,
+              "renorm": false,
+              "renorm_clipping": null,
+              "renorm_momentum": 0.99
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                32,
+                32,
+                32
+              ]
+            },
+            "name": "batch_normalization_1",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        32
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "conv2d_1",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "mask": null
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Activation",
+            "config": {
+              "name": "activation_1",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "activation": "relu"
+            },
+            "registered_name": null,
+            "name": "activation_1",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        32
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "batch_normalization_1",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "MaxPooling2D",
+            "config": {
+              "name": "max_pooling2d",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "pool_size": [
+                2,
+                2
+              ],
+              "padding": "valid",
+              "strides": [
+                2,
+                2
+              ],
+              "data_format": "channels_last"
+            },
+            "registered_name": null,
+            "name": "max_pooling2d",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        32,
+                        32,
+                        32
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "activation_1",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Dropout",
+            "config": {
+              "name": "dropout",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "rate": 0.1,
+              "seed": null,
+              "noise_shape": null
+            },
+            "registered_name": null,
+            "name": "dropout",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        16,
+                        16,
+                        32
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "max_pooling2d",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "training": false
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Conv2D",
+            "config": {
+              "name": "conv2d_2",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "filters": 64,
+              "kernel_size": [
+                3,
+                3
+              ],
+              "strides": [
+                1,
+                1
+              ],
+              "padding": "same",
+              "data_format": "channels_last",
+              "dilation_rate": [
+                1,
+                1
+              ],
+              "groups": 1,
+              "activation": "linear",
+              "use_bias": false,
+              "kernel_initializer": {
+                "module": "keras.initializers",
+                "class_name": "GlorotUniform",
+                "config": {
+                  "seed": null,
+                  "input_axes": null,
+                  "output_axes": null
+                },
+                "registered_name": null
+              },
+              "bias_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "kernel_regularizer": null,
+              "bias_regularizer": null,
+              "activity_regularizer": null,
+              "kernel_constraint": null,
+              "bias_constraint": null
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                16,
+                16,
+                32
+              ]
+            },
+            "name": "conv2d_2",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        16,
+                        16,
+                        32
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "dropout",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "BatchNormalization",
+            "config": {
+              "name": "batch_normalization_2",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "axis": -1,
+              "momentum": 0.99,
+              "epsilon": 0.001,
+              "center": true,
+              "scale": true,
+              "beta_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "gamma_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_mean_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_variance_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "beta_regularizer": null,
+              "gamma_regularizer": null,
+              "beta_constraint": null,
+              "gamma_constraint": null,
+              "synchronized": false,
+              "renorm": false,
+              "renorm_clipping": null,
+              "renorm_momentum": 0.99
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                16,
+                16,
+                64
+              ]
+            },
+            "name": "batch_normalization_2",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        16,
+                        16,
+                        64
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "conv2d_2",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "mask": null
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Activation",
+            "config": {
+              "name": "activation_2",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "activation": "relu"
+            },
+            "registered_name": null,
+            "name": "activation_2",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        16,
+                        16,
+                        64
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "batch_normalization_2",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Conv2D",
+            "config": {
+              "name": "conv2d_3",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "filters": 64,
+              "kernel_size": [
+                3,
+                3
+              ],
+              "strides": [
+                1,
+                1
+              ],
+              "padding": "same",
+              "data_format": "channels_last",
+              "dilation_rate": [
+                1,
+                1
+              ],
+              "groups": 1,
+              "activation": "linear",
+              "use_bias": false,
+              "kernel_initializer": {
+                "module": "keras.initializers",
+                "class_name": "GlorotUniform",
+                "config": {
+                  "seed": null,
+                  "input_axes": null,
+                  "output_axes": null
+                },
+                "registered_name": null
+              },
+              "bias_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "kernel_regularizer": null,
+              "bias_regularizer": null,
+              "activity_regularizer": null,
+              "kernel_constraint": null,
+              "bias_constraint": null
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                16,
+                16,
+                64
+              ]
+            },
+            "name": "conv2d_3",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        16,
+                        16,
+                        64
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "activation_2",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "BatchNormalization",
+            "config": {
+              "name": "batch_normalization_3",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "axis": -1,
+              "momentum": 0.99,
+              "epsilon": 0.001,
+              "center": true,
+              "scale": true,
+              "beta_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "gamma_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_mean_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_variance_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "beta_regularizer": null,
+              "gamma_regularizer": null,
+              "beta_constraint": null,
+              "gamma_constraint": null,
+              "synchronized": false,
+              "renorm": false,
+              "renorm_clipping": null,
+              "renorm_momentum": 0.99
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                16,
+                16,
+                64
+              ]
+            },
+            "name": "batch_normalization_3",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        16,
+                        16,
+                        64
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "conv2d_3",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "mask": null
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Activation",
+            "config": {
+              "name": "activation_3",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "activation": "relu"
+            },
+            "registered_name": null,
+            "name": "activation_3",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        16,
+                        16,
+                        64
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "batch_normalization_3",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "MaxPooling2D",
+            "config": {
+              "name": "max_pooling2d_1",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "pool_size": [
+                2,
+                2
+              ],
+              "padding": "valid",
+              "strides": [
+                2,
+                2
+              ],
+              "data_format": "channels_last"
+            },
+            "registered_name": null,
+            "name": "max_pooling2d_1",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        16,
+                        16,
+                        64
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "activation_3",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Dropout",
+            "config": {
+              "name": "dropout_1",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "rate": 0.2,
+              "seed": null,
+              "noise_shape": null
+            },
+            "registered_name": null,
+            "name": "dropout_1",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        8,
+                        8,
+                        64
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "max_pooling2d_1",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "training": false
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Conv2D",
+            "config": {
+              "name": "conv2d_4",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "filters": 128,
+              "kernel_size": [
+                3,
+                3
+              ],
+              "strides": [
+                1,
+                1
+              ],
+              "padding": "same",
+              "data_format": "channels_last",
+              "dilation_rate": [
+                1,
+                1
+              ],
+              "groups": 1,
+              "activation": "linear",
+              "use_bias": false,
+              "kernel_initializer": {
+                "module": "keras.initializers",
+                "class_name": "GlorotUniform",
+                "config": {
+                  "seed": null,
+                  "input_axes": null,
+                  "output_axes": null
+                },
+                "registered_name": null
+              },
+              "bias_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "kernel_regularizer": null,
+              "bias_regularizer": null,
+              "activity_regularizer": null,
+              "kernel_constraint": null,
+              "bias_constraint": null
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                8,
+                8,
+                64
+              ]
+            },
+            "name": "conv2d_4",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        8,
+                        8,
+                        64
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "dropout_1",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "BatchNormalization",
+            "config": {
+              "name": "batch_normalization_4",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "axis": -1,
+              "momentum": 0.99,
+              "epsilon": 0.001,
+              "center": true,
+              "scale": true,
+              "beta_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "gamma_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_mean_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "moving_variance_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Ones",
+                "config": {},
+                "registered_name": null
+              },
+              "beta_regularizer": null,
+              "gamma_regularizer": null,
+              "beta_constraint": null,
+              "gamma_constraint": null,
+              "synchronized": false,
+              "renorm": false,
+              "renorm_clipping": null,
+              "renorm_momentum": 0.99
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                8,
+                8,
+                128
+              ]
+            },
+            "name": "batch_normalization_4",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        8,
+                        8,
+                        128
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "conv2d_4",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "mask": null
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Activation",
+            "config": {
+              "name": "activation_4",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "activation": "relu"
+            },
+            "registered_name": null,
+            "name": "activation_4",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        8,
+                        8,
+                        128
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "batch_normalization_4",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "GlobalAveragePooling2D",
+            "config": {
+              "name": "global_average_pooling2d",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "data_format": "channels_last",
+              "keepdims": false
+            },
+            "registered_name": null,
+            "name": "global_average_pooling2d",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        8,
+                        8,
+                        128
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "activation_4",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Dense",
+            "config": {
+              "name": "dense",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "units": 128,
+              "activation": "relu",
+              "use_bias": true,
+              "kernel_initializer": {
+                "module": "keras.initializers",
+                "class_name": "GlorotUniform",
+                "config": {
+                  "seed": null,
+                  "input_axes": null,
+                  "output_axes": null
+                },
+                "registered_name": null
+              },
+              "bias_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "kernel_regularizer": null,
+              "bias_regularizer": null,
+              "kernel_constraint": null,
+              "bias_constraint": null,
+              "quantization_config": null
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                128
+              ]
+            },
+            "name": "dense",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        128
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "global_average_pooling2d",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Dropout",
+            "config": {
+              "name": "dropout_2",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "rate": 0.4,
+              "seed": null,
+              "noise_shape": null
+            },
+            "registered_name": null,
+            "name": "dropout_2",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        128
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "dense",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {
+                  "training": false
+                }
+              }
+            ]
+          },
+          {
+            "module": "keras.layers",
+            "class_name": "Dense",
+            "config": {
+              "name": "dense_1",
+              "trainable": true,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "units": 12,
+              "activation": "softmax",
+              "use_bias": true,
+              "kernel_initializer": {
+                "module": "keras.initializers",
+                "class_name": "GlorotUniform",
+                "config": {
+                  "seed": null,
+                  "input_axes": null,
+                  "output_axes": null
+                },
+                "registered_name": null
+              },
+              "bias_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "kernel_regularizer": null,
+              "bias_regularizer": null,
+              "kernel_constraint": null,
+              "bias_constraint": null,
+              "quantization_config": null
+            },
+            "registered_name": null,
+            "build_config": {
+              "input_shape": [
+                null,
+                128
+              ]
+            },
+            "name": "dense_1",
+            "inbound_nodes": [
+              {
+                "args": [
+                  {
+                    "class_name": "__keras_tensor__",
+                    "config": {
+                      "shape": [
+                        null,
+                        128
+                      ],
+                      "dtype": "float32",
+                      "keras_history": [
+                        "dropout_2",
+                        0,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "kwargs": {}
+              }
+            ]
+          }
+        ],
+        "input_layers": [
+          "input_layer",
+          0,
+          0
+        ],
+        "output_layers": [
+          "dense_1",
+          0,
+          0
+        ]
+      },
+      "registered_name": "Functional",
+      "build_config": {
+        "input_shape": null
+      },
+      "compile_config": {
+        "optimizer": {
+          "module": "keras.optimizers",
+          "class_name": "Adam",
+          "config": {
+            "name": "adam",
+            "learning_rate": 9.999999747378752e-06,
+            "weight_decay": null,
+            "clipnorm": null,
+            "global_clipnorm": null,
+            "clipvalue": null,
+            "use_ema": false,
+            "ema_momentum": 0.99,
+            "ema_overwrite_frequency": null,
+            "loss_scale_factor": null,
+            "gradient_accumulation_steps": null,
+            "beta_1": 0.9,
+            "beta_2": 0.999,
+            "epsilon": 1e-07,
+            "amsgrad": false
+          },
+          "registered_name": null
+        },
+        "loss": "sparse_categorical_crossentropy",
+        "loss_weights": null,
+        "metrics": [
+          "accuracy"
+        ],
+        "weighted_metrics": null,
+        "run_eagerly": false,
+        "steps_per_execution": 1,
+        "jit_compile": false
+      }
+    }
+  },
+  "splits": {
+    "train": {
+      "crops": 2655,
+      "source_images": 2188,
+      "per_class": {
+        "addedLane": {
+          "crops": 32,
+          "source_images": 32
+        },
+        "keepRight": {
+          "crops": 240,
+          "source_images": 224
+        },
+        "merge": {
+          "crops": 166,
+          "source_images": 163
+        },
+        "pedestrianCrossing": {
+          "crops": 743,
+          "source_images": 588
+        },
+        "school": {
+          "crops": 163,
+          "source_images": 144
+        },
+        "signalAhead": {
+          "crops": 160,
+          "source_images": 133
+        },
+        "speedLimit25": {
+          "crops": 122,
+          "source_images": 116
+        },
+        "speedLimit30": {
+          "crops": 55,
+          "source_images": 55
+        },
+        "speedLimit35": {
+          "crops": 83,
+          "source_images": 83
+        },
+        "speedLimit45": {
+          "crops": 45,
+          "source_images": 44
+        },
+        "speedLimit65": {
+          "crops": 19,
+          "source_images": 17
+        },
+        "stop": {
+          "crops": 827,
+          "source_images": 730
+        }
+      }
+    },
+    "validation": {
+      "crops": 362,
+      "source_images": 287,
+      "per_class": {
+        "addedLane": {
+          "crops": 5,
+          "source_images": 5
+        },
+        "keepRight": {
+          "crops": 29,
+          "source_images": 28
+        },
+        "merge": {
+          "crops": 26,
+          "source_images": 26
+        },
+        "pedestrianCrossing": {
+          "crops": 86,
+          "source_images": 71
+        },
+        "school": {
+          "crops": 18,
+          "source_images": 16
+        },
+        "signalAhead": {
+          "crops": 22,
+          "source_images": 18
+        },
+        "speedLimit25": {
+          "crops": 22,
+          "source_images": 21
+        },
+        "speedLimit30": {
+          "crops": 10,
+          "source_images": 9
+        },
+        "speedLimit35": {
+          "crops": 15,
+          "source_images": 14
+        },
+        "speedLimit45": {
+          "crops": 8,
+          "source_images": 7
+        },
+        "speedLimit65": {
+          "crops": 2,
+          "source_images": 2
+        },
+        "stop": {
+          "crops": 119,
+          "source_images": 100
+        }
+      }
+    },
+    "test": {
+      "crops": 432,
+      "source_images": 350,
+      "per_class": {
+        "addedLane": {
+          "crops": 5,
+          "source_images": 5
+        },
+        "keepRight": {
+          "crops": 42,
+          "source_images": 42
+        },
+        "merge": {
+          "crops": 26,
+          "source_images": 24
+        },
+        "pedestrianCrossing": {
+          "crops": 107,
+          "source_images": 90
+        },
+        "school": {
+          "crops": 25,
+          "source_images": 19
+        },
+        "signalAhead": {
+          "crops": 25,
+          "source_images": 22
+        },
+        "speedLimit25": {
+          "crops": 21,
+          "source_images": 20
+        },
+        "speedLimit30": {
+          "crops": 12,
+          "source_images": 12
+        },
+        "speedLimit35": {
+          "crops": 16,
+          "source_images": 16
+        },
+        "speedLimit45": {
+          "crops": 9,
+          "source_images": 8
+        },
+        "speedLimit65": {
+          "crops": 2,
+          "source_images": 2
+        },
+        "stop": {
+          "crops": 142,
+          "source_images": 123
+        }
+      }
+    }
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "seconds": 5.86,
+      "learning_rate": 0.0010000000474974513,
+      "accuracy": 0.5141242742538452,
+      "loss": 1.575770616531372,
+      "val_accuracy": 0.2900552451610565,
+      "val_loss": 2.1936936378479004
+    },
+    {
+      "epoch": 2,
+      "seconds": 3.97,
+      "learning_rate": 0.0010000000474974513,
+      "accuracy": 0.5962335467338562,
+      "loss": 1.24733567237854,
+      "val_accuracy": 0.4309392273426056,
+      "val_loss": 1.8325679302215576
+    },
+    {
+      "epoch": 3,
+      "seconds": 3.44,
+      "learning_rate": 0.0010000000474974513,
+      "accuracy": 0.625235378742218,
+      "loss": 1.1365396976470947,
+      "val_accuracy": 0.35082873702049255,
+      "val_loss": 2.0982725620269775
+    },
+    {
+      "epoch": 4,
+      "seconds": 3.19,
+      "learning_rate": 0.0010000000474974513,
+      "accuracy": 0.6282485723495483,
+      "loss": 1.0883792638778687,
+      "val_accuracy": 0.30662983655929565,
+      "val_loss": 2.286189079284668
+    },
+    {
+      "epoch": 5,
+      "seconds": 3.29,
+      "learning_rate": 0.0010000000474974513,
+      "accuracy": 0.6527307033538818,
+      "loss": 1.062888741493225,
+      "val_accuracy": 0.3342541456222534,
+      "val_loss": 2.0923235416412354
+    },
+    {
+      "epoch": 6,
+      "seconds": 3.62,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.6798493266105652,
+      "loss": 0.9879631996154785,
+      "val_accuracy": 0.5248618721961975,
+      "val_loss": 1.4281184673309326
+    },
+    {
+      "epoch": 7,
+      "seconds": 3.72,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.6715630888938904,
+      "loss": 0.9773577451705933,
+      "val_accuracy": 0.5966851115226746,
+      "val_loss": 1.1688628196716309
+    },
+    {
+      "epoch": 8,
+      "seconds": 3.35,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.7009416222572327,
+      "loss": 0.9128607511520386,
+      "val_accuracy": 0.6325966715812683,
+      "val_loss": 1.0623971223831177
+    },
+    {
+      "epoch": 9,
+      "seconds": 3.26,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.694915235042572,
+      "loss": 0.9159696698188782,
+      "val_accuracy": 0.6408839821815491,
+      "val_loss": 1.0460398197174072
+    },
+    {
+      "epoch": 10,
+      "seconds": 3.15,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.7047080993652344,
+      "loss": 0.9068511724472046,
+      "val_accuracy": 0.6270717978477478,
+      "val_loss": 1.0978320837020874
+    },
+    {
+      "epoch": 11,
+      "seconds": 3.16,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.7325800657272339,
+      "loss": 0.8612061142921448,
+      "val_accuracy": 0.6574585437774658,
+      "val_loss": 0.9597330093383789
+    },
+    {
+      "epoch": 12,
+      "seconds": 3.18,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.7242937684059143,
+      "loss": 0.8480829000473022,
+      "val_accuracy": 0.6574585437774658,
+      "val_loss": 0.968644380569458
+    },
+    {
+      "epoch": 13,
+      "seconds": 3.16,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.7397363185882568,
+      "loss": 0.8102513551712036,
+      "val_accuracy": 0.7375690340995789,
+      "val_loss": 0.7079498767852783
+    },
+    {
+      "epoch": 14,
+      "seconds": 3.17,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.7510358095169067,
+      "loss": 0.8098466396331787,
+      "val_accuracy": 0.6961326003074646,
+      "val_loss": 0.8648844361305237
+    },
+    {
+      "epoch": 15,
+      "seconds": 3.19,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.7822975516319275,
+      "loss": 0.7507478594779968,
+      "val_accuracy": 0.7596685290336609,
+      "val_loss": 0.6512150764465332
+    },
+    {
+      "epoch": 16,
+      "seconds": 3.41,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.7838041186332703,
+      "loss": 0.7313086986541748,
+      "val_accuracy": 0.7762430906295776,
+      "val_loss": 0.6695980429649353
+    },
+    {
+      "epoch": 17,
+      "seconds": 3.19,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.8116760849952698,
+      "loss": 0.6806798577308655,
+      "val_accuracy": 0.7983425259590149,
+      "val_loss": 0.5368994474411011
+    },
+    {
+      "epoch": 18,
+      "seconds": 3.25,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.8112994432449341,
+      "loss": 0.6615896224975586,
+      "val_accuracy": 0.7596685290336609,
+      "val_loss": 0.6752099990844727
+    },
+    {
+      "epoch": 19,
+      "seconds": 3.23,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.8320150375366211,
+      "loss": 0.6232603192329407,
+      "val_accuracy": 0.7596685290336609,
+      "val_loss": 0.8542885780334473
+    },
+    {
+      "epoch": 20,
+      "seconds": 3.22,
+      "learning_rate": 0.0005000000237487257,
+      "accuracy": 0.8482109308242798,
+      "loss": 0.5713973045349121,
+      "val_accuracy": 0.7872928380966187,
+      "val_loss": 0.5466471910476685
+    },
+    {
+      "epoch": 21,
+      "seconds": 3.24,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.8546139597892761,
+      "loss": 0.5367586016654968,
+      "val_accuracy": 0.8342541456222534,
+      "val_loss": 0.43414509296417236
+    },
+    {
+      "epoch": 22,
+      "seconds": 4.23,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.8726930022239685,
+      "loss": 0.49983370304107666,
+      "val_accuracy": 0.8121547102928162,
+      "val_loss": 0.4861323833465576
+    },
+    {
+      "epoch": 23,
+      "seconds": 3.91,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.8768361806869507,
+      "loss": 0.4762822687625885,
+      "val_accuracy": 0.8701657652854919,
+      "val_loss": 0.3766651749610901
+    },
+    {
+      "epoch": 24,
+      "seconds": 3.58,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.873069703578949,
+      "loss": 0.4724370241165161,
+      "val_accuracy": 0.8038673996925354,
+      "val_loss": 0.48780182003974915
+    },
+    {
+      "epoch": 25,
+      "seconds": 3.59,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.8704331517219543,
+      "loss": 0.4773259460926056,
+      "val_accuracy": 0.8204419612884521,
+      "val_loss": 0.46022260189056396
+    },
+    {
+      "epoch": 26,
+      "seconds": 3.41,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.8892655372619629,
+      "loss": 0.45948755741119385,
+      "val_accuracy": 0.8618784546852112,
+      "val_loss": 0.3554958999156952
+    },
+    {
+      "epoch": 27,
+      "seconds": 3.41,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.8888888955116272,
+      "loss": 0.4439893960952759,
+      "val_accuracy": 0.7265193462371826,
+      "val_loss": 0.7968809008598328
+    },
+    {
+      "epoch": 28,
+      "seconds": 3.39,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.8934086561203003,
+      "loss": 0.42679068446159363,
+      "val_accuracy": 0.8646408915519714,
+      "val_loss": 0.36370617151260376
+    },
+    {
+      "epoch": 29,
+      "seconds": 3.38,
+      "learning_rate": 0.0002500000118743628,
+      "accuracy": 0.8952919244766235,
+      "loss": 0.4085787534713745,
+      "val_accuracy": 0.8646408915519714,
+      "val_loss": 0.38501474261283875
+    },
+    {
+      "epoch": 30,
+      "seconds": 3.9,
+      "learning_rate": 0.0001250000059371814,
+      "accuracy": 0.900564968585968,
+      "loss": 0.3981340825557709,
+      "val_accuracy": 0.8701657652854919,
+      "val_loss": 0.33692115545272827
+    },
+    {
+      "epoch": 31,
+      "seconds": 3.91,
+      "learning_rate": 0.0001250000059371814,
+      "accuracy": 0.9118643999099731,
+      "loss": 0.3759113848209381,
+      "val_accuracy": 0.9171270728111267,
+      "val_loss": 0.2763728201389313
+    },
+    {
+      "epoch": 32,
+      "seconds": 3.51,
+      "learning_rate": 0.0001250000059371814,
+      "accuracy": 0.8994350433349609,
+      "loss": 0.3853408992290497,
+      "val_accuracy": 0.8839778900146484,
+      "val_loss": 0.2742804288864136
+    },
+    {
+      "epoch": 33,
+      "seconds": 3.67,
+      "learning_rate": 0.0001250000059371814,
+      "accuracy": 0.9069679975509644,
+      "loss": 0.3646935522556305,
+      "val_accuracy": 0.8867403268814087,
+      "val_loss": 0.2781989574432373
+    },
+    {
+      "epoch": 34,
+      "seconds": 3.72,
+      "learning_rate": 0.0001250000059371814,
+      "accuracy": 0.9175141453742981,
+      "loss": 0.3536388874053955,
+      "val_accuracy": 0.8646408915519714,
+      "val_loss": 0.35497820377349854
+    },
+    {
+      "epoch": 35,
+      "seconds": 3.98,
+      "learning_rate": 0.0001250000059371814,
+      "accuracy": 0.9145009517669678,
+      "loss": 0.3543775975704193,
+      "val_accuracy": 0.889502763748169,
+      "val_loss": 0.29201555252075195
+    },
+    {
+      "epoch": 36,
+      "seconds": 4.18,
+      "learning_rate": 6.25000029685907e-05,
+      "accuracy": 0.9246704578399658,
+      "loss": 0.32266053557395935,
+      "val_accuracy": 0.8839778900146484,
+      "val_loss": 0.27544745802879333
+    },
+    {
+      "epoch": 37,
+      "seconds": 4.31,
+      "learning_rate": 6.25000029685907e-05,
+      "accuracy": 0.9227871894836426,
+      "loss": 0.32652485370635986,
+      "val_accuracy": 0.889502763748169,
+      "val_loss": 0.30352041125297546
+    },
+    {
+      "epoch": 38,
+      "seconds": 4.24,
+      "learning_rate": 6.25000029685907e-05,
+      "accuracy": 0.9186440706253052,
+      "loss": 0.33132296800613403,
+      "val_accuracy": 0.8950276374816895,
+      "val_loss": 0.28619667887687683
+    },
+    {
+      "epoch": 39,
+      "seconds": 4.7,
+      "learning_rate": 3.125000148429535e-05,
+      "accuracy": 0.9171375036239624,
+      "loss": 0.31415030360221863,
+      "val_accuracy": 0.8950276374816895,
+      "val_loss": 0.24780376255512238
+    },
+    {
+      "epoch": 40,
+      "seconds": 5.08,
+      "learning_rate": 3.125000148429535e-05,
+      "accuracy": 0.9250470995903015,
+      "loss": 0.31602779030799866,
+      "val_accuracy": 0.9060773253440857,
+      "val_loss": 0.2574310898780823
+    },
+    {
+      "epoch": 41,
+      "seconds": 5.81,
+      "learning_rate": 3.125000148429535e-05,
+      "accuracy": 0.9224105477333069,
+      "loss": 0.31818678975105286,
+      "val_accuracy": 0.8867403268814087,
+      "val_loss": 0.2707100510597229
+    },
+    {
+      "epoch": 42,
+      "seconds": 10.02,
+      "learning_rate": 3.125000148429535e-05,
+      "accuracy": 0.9209039807319641,
+      "loss": 0.319169819355011,
+      "val_accuracy": 0.8867403268814087,
+      "val_loss": 0.26173135638237
+    },
+    {
+      "epoch": 43,
+      "seconds": 9.71,
+      "learning_rate": 1.5625000742147677e-05,
+      "accuracy": 0.9258003830909729,
+      "loss": 0.31266623735427856,
+      "val_accuracy": 0.8950276374816895,
+      "val_loss": 0.2537105083465576
+    },
+    {
+      "epoch": 44,
+      "seconds": 9.17,
+      "learning_rate": 1.5625000742147677e-05,
+      "accuracy": 0.9227871894836426,
+      "loss": 0.304475873708725,
+      "val_accuracy": 0.8950276374816895,
+      "val_loss": 0.2577407658100128
+    },
+    {
+      "epoch": 45,
+      "seconds": 8.7,
+      "learning_rate": 1.5625000742147677e-05,
+      "accuracy": 0.9224105477333069,
+      "loss": 0.31790655851364136,
+      "val_accuracy": 0.8867403268814087,
+      "val_loss": 0.2655642032623291
+    },
+    {
+      "epoch": 46,
+      "seconds": 8.1,
+      "learning_rate": 9.999999747378752e-06,
+      "accuracy": 0.9242937564849854,
+      "loss": 0.3052676022052765,
+      "val_accuracy": 0.8867403268814087,
+      "val_loss": 0.26382914185523987
+    },
+    {
+      "epoch": 47,
+      "seconds": 6.92,
+      "learning_rate": 9.999999747378752e-06,
+      "accuracy": 0.92693030834198,
+      "loss": 0.30606696009635925,
+      "val_accuracy": 0.889502763748169,
+      "val_loss": 0.26099705696105957
+    },
+    {
+      "epoch": 48,
+      "seconds": 7.32,
+      "learning_rate": 9.999999747378752e-06,
+      "accuracy": 0.9333333373069763,
+      "loss": 0.2955951392650604,
+      "val_accuracy": 0.8867403268814087,
+      "val_loss": 0.25655823945999146
+    },
+    {
+      "epoch": 49,
+      "seconds": 6.77,
+      "learning_rate": 9.999999747378752e-06,
+      "accuracy": 0.9261770248413086,
+      "loss": 0.30420956015586853,
+      "val_accuracy": 0.8922652006149292,
+      "val_loss": 0.2596553862094879
+    }
+  ],
+  "best_epoch_by_validation_loss": 39,
+  "epochs_completed": 49,
+  "validation": {
+    "images": 362,
+    "loss": 0.24780376255512238,
+    "top1_accuracy": 0.8950276243093923,
+    "top3_accuracy": 0.9779005524861878,
+    "macro_precision": 0.681942906841487,
+    "macro_recall": 0.7140287032215896,
+    "macro_class_accuracy": 0.7140287032215896,
+    "macro_f1": 0.6884360349487192,
+    "correct": 324,
+    "incorrect": 38,
+    "per_class": {
+      "addedLane": {
+        "support": 5,
+        "correct": 5,
+        "precision": 0.7142857142857143,
+        "recall": 1.0,
+        "f1": 0.8333333333333333
+      },
+      "keepRight": {
+        "support": 29,
+        "correct": 29,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "merge": {
+        "support": 26,
+        "correct": 20,
+        "precision": 0.9523809523809523,
+        "recall": 0.7692307692307693,
+        "f1": 0.8510638297872339
+      },
+      "pedestrianCrossing": {
+        "support": 86,
+        "correct": 81,
+        "precision": 0.9310344827586207,
+        "recall": 0.9418604651162791,
+        "f1": 0.9364161849710984
+      },
+      "school": {
+        "support": 18,
+        "correct": 17,
+        "precision": 1.0,
+        "recall": 0.9444444444444444,
+        "f1": 0.9714285714285714
+      },
+      "signalAhead": {
+        "support": 22,
+        "correct": 21,
+        "precision": 1.0,
+        "recall": 0.9545454545454546,
+        "f1": 0.9767441860465117
+      },
+      "speedLimit25": {
+        "support": 22,
+        "correct": 22,
+        "precision": 0.6111111111111112,
+        "recall": 1.0,
+        "f1": 0.7586206896551725
+      },
+      "speedLimit30": {
+        "support": 10,
+        "correct": 7,
+        "precision": 0.5384615384615384,
+        "recall": 0.7,
+        "f1": 0.608695652173913
+      },
+      "speedLimit35": {
+        "support": 15,
+        "correct": 4,
+        "precision": 0.4444444444444444,
+        "recall": 0.26666666666666666,
+        "f1": 0.33333333333333337
+      },
+      "speedLimit45": {
+        "support": 8,
+        "correct": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "speedLimit65": {
+        "support": 2,
+        "correct": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "stop": {
+        "support": 119,
+        "correct": 118,
+        "precision": 0.9915966386554622,
+        "recall": 0.9915966386554622,
+        "f1": 0.9915966386554622
+      }
+    },
+    "confusion_matrix": [
+      [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        29,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        20,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        81,
+        0,
+        0,
+        1,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        17,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        21,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        7,
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        3,
+        4,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        1,
+        4,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        118
+      ]
+    ],
+    "common_confusions": [
+      {
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "count": 7
+      },
+      {
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "count": 5
+      },
+      {
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "count": 4
+      },
+      {
+        "actual": "speedLimit35",
+        "predicted": "speedLimit30",
+        "count": 3
+      },
+      {
+        "actual": "speedLimit45",
+        "predicted": "speedLimit25",
+        "count": 3
+      },
+      {
+        "actual": "pedestrianCrossing",
+        "predicted": "speedLimit30",
+        "count": 2
+      },
+      {
+        "actual": "speedLimit65",
+        "predicted": "speedLimit25",
+        "count": 2
+      },
+      {
+        "actual": "merge",
+        "predicted": "addedLane",
+        "count": 1
+      },
+      {
+        "actual": "pedestrianCrossing",
+        "predicted": "addedLane",
+        "count": 1
+      },
+      {
+        "actual": "pedestrianCrossing",
+        "predicted": "merge",
+        "count": 1
+      },
+      {
+        "actual": "pedestrianCrossing",
+        "predicted": "speedLimit25",
+        "count": 1
+      },
+      {
+        "actual": "school",
+        "predicted": "pedestrianCrossing",
+        "count": 1
+      },
+      {
+        "actual": "signalAhead",
+        "predicted": "stop",
+        "count": 1
+      },
+      {
+        "actual": "speedLimit30",
+        "predicted": "speedLimit25",
+        "count": 1
+      },
+      {
+        "actual": "speedLimit30",
+        "predicted": "speedLimit35",
+        "count": 1
+      },
+      {
+        "actual": "speedLimit30",
+        "predicted": "speedLimit45",
+        "count": 1
+      },
+      {
+        "actual": "speedLimit35",
+        "predicted": "speedLimit65",
+        "count": 1
+      },
+      {
+        "actual": "speedLimit45",
+        "predicted": "speedLimit30",
+        "count": 1
+      },
+      {
+        "actual": "stop",
+        "predicted": "speedLimit45",
+        "count": 1
+      }
+    ],
+    "error_source_images": [
+      {
+        "image_key": "Sh-YiFURwcJBzPdQSwwdqA",
+        "incorrect": 2,
+        "total": 2
+      },
+      {
+        "image_key": "aVuSPwmImhhe01o_hJm7IA",
+        "incorrect": 1,
+        "total": 2
+      },
+      {
+        "image_key": "YdGYGtzwJl_r1k6i3RmUog",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "JgMrdYA19uMYjZVNhKIgDg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "jw_P5csyGdAIPjoxKFXR5Q",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "-H3LglL88z-bp-2K-vK7jw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "7rIbTYmDThnRGL8LPZxzBQ",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "BfSFeW3uEcLv1zFKs8Kxjg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "Z0D1xtILVkBKLVu1HT9jPg",
+        "incorrect": 1,
+        "total": 2
+      },
+      {
+        "image_key": "6F8SVw0H3XYzq3GxAxZ70w",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "WksW5VhTS5Sk8Io86dzjGg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "V8XOC8XVIRhRa9OWeERaOw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "RcjL0EPr_Jy4JvITsBS8IA",
+        "incorrect": 1,
+        "total": 4
+      },
+      {
+        "image_key": "DtTwTzxhCV7yjRXlHfzAxQ",
+        "incorrect": 1,
+        "total": 3
+      },
+      {
+        "image_key": "STw8jbaiKJHgTt7clHYX7w",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "5qm7CY1qevLObB-Nv9XyTA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "FZ6Xt-0Gy5EpQXSOzg5lQw",
+        "incorrect": 1,
+        "total": 2
+      },
+      {
+        "image_key": "BcCyWd2pcbqpKiAPOou2kg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "AghV_AYl76OLAq6k8jehEA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "D9Yspc5xY-XQr4qSM8OH4g",
+        "incorrect": 1,
+        "total": 2
+      },
+      {
+        "image_key": "uDTriPC2U0t_bXTYt66prA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "blR2rj0Yt1junXNWgQMSew",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "aExbenOg8tsn7tOSKkl4cQ",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "SarWfLQq2vCBCdHmVlCgHg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "96Hn9rrDNEKQruVp_BmONQ",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "gTUhY0WmgRvHfomTqBpYzw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "EuQxW2D85lk7G56FGD7IDw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "yviH5Ve4B6_rNXdFthhJtA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "Ql7TYeAYXcDwyDLwCon77Q",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "agYIFMucHMR8hZn51nzThA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "CsyOL5MeidAOap8AS8hy3A",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "moY7WdgcrbmEgygoPIOb1A",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "d-oDx26H1yJmC6iHnPJiVw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "Bw924xjR0Zx0AdlE9qhMQw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "fo-WMqP_7XenRikGAFSveA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "1ypGmmFo4ECO2dftpIpDCw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "DOqYtisvTF632A6riu39Bg",
+        "incorrect": 1,
+        "total": 1
+      }
+    ],
+    "errors": [
+      {
+        "image": "validation/speedlimit35/mapillary_d89cba30c39189e6.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/EuQxW2D85lk7G56FGD7IDw.jpg",
+        "image_key": "EuQxW2D85lk7G56FGD7IDw",
+        "object_key": "sGEFz4GWTiG-vu3XsTCReA",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 31.40625,
+        "source_box_height": 39.0234375,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.8661004900932312,
+        "actual_probability": 0.037208836525678635,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.8661004900932312
+          },
+          {
+            "label": "speedLimit65",
+            "probability": 0.07745003700256348
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.037208836525678635
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_0ef1c77d476c772d.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/BcCyWd2pcbqpKiAPOou2kg.jpg",
+        "image_key": "BcCyWd2pcbqpKiAPOou2kg",
+        "object_key": "vvvokppugmnhojqx4jju0f",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": true,
+        "source_box_width": 73.828125,
+        "source_box_height": 94.5,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.8640846610069275,
+        "actual_probability": 0.06967546045780182,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.8640846610069275
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.06967546045780182
+          },
+          {
+            "label": "speedLimit65",
+            "probability": 0.046655286103487015
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit45/mapillary_71c0ec47f27ee665.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/Ql7TYeAYXcDwyDLwCon77Q.jpg",
+        "image_key": "Ql7TYeAYXcDwyDLwCon77Q",
+        "object_key": "0vp6kkfbjcu9b14h6g90wd",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 37.40625,
+        "source_box_height": 45.03515625,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.7046358585357666,
+        "actual_probability": 0.04156079888343811,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.7046358585357666
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.22184482216835022
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.04156079888343811
+          }
+        ]
+      },
+      {
+        "image": "validation/merge/mapillary_8745b8f5f798947c.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/-H3LglL88z-bp-2K-vK7jw.jpg",
+        "image_key": "-H3LglL88z-bp-2K-vK7jw",
+        "object_key": "0ocmuwqa3m6a8c251x6r7x",
+        "original_split": "train",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 42.8125,
+        "source_box_height": 43.76953125,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.6707143187522888,
+        "actual_probability": 0.21761950850486755,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.6707143187522888
+          },
+          {
+            "label": "merge",
+            "probability": 0.21761950850486755
+          },
+          {
+            "label": "signalAhead",
+            "probability": 0.09971507638692856
+          }
+        ]
+      },
+      {
+        "image": "validation/merge/mapillary_0fe6cc133d1a06a5.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/aVuSPwmImhhe01o_hJm7IA.jpg",
+        "image_key": "aVuSPwmImhhe01o_hJm7IA",
+        "object_key": "hxig5ilovzu3c48e4rg5cy",
+        "original_split": "train",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 73.3125,
+        "source_box_height": 74.70703125,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.6691030263900757,
+        "actual_probability": 0.2816949784755707,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.6691030263900757
+          },
+          {
+            "label": "merge",
+            "probability": 0.2816949784755707
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.02328299917280674
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_d5aaa641627ef1d8.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/96Hn9rrDNEKQruVp_BmONQ.jpg",
+        "image_key": "96Hn9rrDNEKQruVp_BmONQ",
+        "object_key": "c5tpbv9wu4ep6xjdz2c7fc",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 40.359375,
+        "source_box_height": 43.55859375,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.6597989201545715,
+        "actual_probability": 0.29780450463294983,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.6597989201545715
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.29780450463294983
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.026363134384155273
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_eab3db7fd1878487.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.2.zip::images/yviH5Ve4B6_rNXdFthhJtA.jpg",
+        "image_key": "yviH5Ve4B6_rNXdFthhJtA",
+        "object_key": "cgd3l07q2hsldp4dh53981ul1q",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": true,
+        "source_box_width": 36.56640625,
+        "source_box_height": 44.47265625,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.6583346724510193,
+        "actual_probability": 0.298961341381073,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.6583346724510193
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.298961341381073
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.02396409958600998
+          }
+        ]
+      },
+      {
+        "image": "validation/school/mapillary_deb791b23a007caa.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/RcjL0EPr_Jy4JvITsBS8IA.jpg",
+        "image_key": "RcjL0EPr_Jy4JvITsBS8IA",
+        "object_key": "v83zd0wn19lumaeju6m1fy",
+        "original_split": "train",
+        "mapillary_label": "warning--school-zone--g2",
+        "occluded": false,
+        "source_box_width": 30.515625,
+        "source_box_height": 29.53125,
+        "actual": "school",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.6441324949264526,
+        "actual_probability": 0.34966111183166504,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.6441324949264526
+          },
+          {
+            "label": "school",
+            "probability": 0.34966111183166504
+          },
+          {
+            "label": "merge",
+            "probability": 0.0016315716784447432
+          }
+        ]
+      },
+      {
+        "image": "validation/pedestriancrossing/mapillary_f4d73de67ec9a158.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/V8XOC8XVIRhRa9OWeERaOw.jpg",
+        "image_key": "V8XOC8XVIRhRa9OWeERaOw",
+        "object_key": "rwkdp1si285lk6c11h1l73hncw",
+        "original_split": "train",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": false,
+        "source_box_width": 29.484375,
+        "source_box_height": 43.03125,
+        "actual": "pedestrianCrossing",
+        "predicted": "merge",
+        "predicted_probability": 0.6408963203430176,
+        "actual_probability": 0.13533958792686462,
+        "top_predictions": [
+          {
+            "label": "merge",
+            "probability": 0.6408963203430176
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.13533958792686462
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.13210196793079376
+          }
+        ]
+      },
+      {
+        "image": "validation/pedestriancrossing/mapillary_556830fae7d84ac6.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/BfSFeW3uEcLv1zFKs8Kxjg.jpg",
+        "image_key": "BfSFeW3uEcLv1zFKs8Kxjg",
+        "object_key": "xy1mfaojube4tbc5le4ptb",
+        "original_split": "train",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": true,
+        "source_box_width": 53.125,
+        "source_box_height": 55.3125,
+        "actual": "pedestrianCrossing",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.6014919877052307,
+        "actual_probability": 0.06266091018915176,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.6014919877052307
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.18449196219444275
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.0794643759727478
+          }
+        ]
+      },
+      {
+        "image": "validation/pedestriancrossing/mapillary_c68222ae312d7c46.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/6F8SVw0H3XYzq3GxAxZ70w.jpg",
+        "image_key": "6F8SVw0H3XYzq3GxAxZ70w",
+        "object_key": "ldjxqqn8tr30xic8hrqvvh",
+        "original_split": "train",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": false,
+        "source_box_width": 90.4921875,
+        "source_box_height": 92.90478515625,
+        "actual": "pedestrianCrossing",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.5991455316543579,
+        "actual_probability": 0.3334214389324188,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.5991455316543579
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.3334214389324188
+          },
+          {
+            "label": "school",
+            "probability": 0.04910540580749512
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit30/mapillary_deb01a73e5c9424f.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/FZ6Xt-0Gy5EpQXSOzg5lQw.jpg",
+        "image_key": "FZ6Xt-0Gy5EpQXSOzg5lQw",
+        "object_key": "9kqpg344xu3x405uakjlhw",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-30--g3",
+        "occluded": false,
+        "source_box_width": 58.30859375,
+        "source_box_height": 72.638671875,
+        "actual": "speedLimit30",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.5829480886459351,
+        "actual_probability": 0.25820374488830566,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.5829480886459351
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.25820374488830566
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.10930008441209793
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_39adf6d4e840e2ab.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/D9Yspc5xY-XQr4qSM8OH4g.jpg",
+        "image_key": "D9Yspc5xY-XQr4qSM8OH4g",
+        "object_key": "1oyaopyvn3icdjmj3gj3q9",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 174.8046875,
+        "source_box_height": 246.09375,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.576964259147644,
+        "actual_probability": 0.1419849544763565,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.576964259147644
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.1419849544763565
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.11979807913303375
+          }
+        ]
+      },
+      {
+        "image": "validation/pedestriancrossing/mapillary_d8d7fc6a1fefbb2c.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/WksW5VhTS5Sk8Io86dzjGg.jpg",
+        "image_key": "WksW5VhTS5Sk8Io86dzjGg",
+        "object_key": "x7kx60ek6pe7kbfe2hb09o",
+        "original_split": "train",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": false,
+        "source_box_width": 82.6875,
+        "source_box_height": 104.8359375,
+        "actual": "pedestrianCrossing",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.5684769153594971,
+        "actual_probability": 0.22544871270656586,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.5684769153594971
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.22544871270656586
+          },
+          {
+            "label": "school",
+            "probability": 0.15654219686985016
+          }
+        ]
+      },
+      {
+        "image": "validation/pedestriancrossing/mapillary_a003613c37949962.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/Z0D1xtILVkBKLVu1HT9jPg.jpg",
+        "image_key": "Z0D1xtILVkBKLVu1HT9jPg",
+        "object_key": "3duglql4tasi83jid4vbjnt1dx",
+        "original_split": "train",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": false,
+        "source_box_width": 31.875,
+        "source_box_height": 64.546875,
+        "actual": "pedestrianCrossing",
+        "predicted": "addedLane",
+        "predicted_probability": 0.562488853931427,
+        "actual_probability": 0.15676890313625336,
+        "top_predictions": [
+          {
+            "label": "addedLane",
+            "probability": 0.562488853931427
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.15676890313625336
+          },
+          {
+            "label": "school",
+            "probability": 0.07582149654626846
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_87dd378537c31878.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/aExbenOg8tsn7tOSKkl4cQ.jpg",
+        "image_key": "aExbenOg8tsn7tOSKkl4cQ",
+        "object_key": "o6b2zmr7f2gok1std5vy4k",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 24.609375,
+        "source_box_height": 33.22265625,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.5429063439369202,
+        "actual_probability": 0.4020084738731384,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.5429063439369202
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.4020084738731384
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.032353177666664124
+          }
+        ]
+      },
+      {
+        "image": "validation/merge/mapillary_d6a40435e900b0b0.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/7rIbTYmDThnRGL8LPZxzBQ.jpg",
+        "image_key": "7rIbTYmDThnRGL8LPZxzBQ",
+        "object_key": "91j1na9dmao1dobx3y8lop",
+        "original_split": "train",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 45.28125,
+        "source_box_height": 46.51171875,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.5280370116233826,
+        "actual_probability": 0.3819904327392578,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.5280370116233826
+          },
+          {
+            "label": "merge",
+            "probability": 0.3819904327392578
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.048198871314525604
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_665720ed4532862c.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/blR2rj0Yt1junXNWgQMSew.jpg",
+        "image_key": "blR2rj0Yt1junXNWgQMSew",
+        "object_key": "n953cwc20nje5z8ie23hxq",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 62.6484375,
+        "source_box_height": 77.515625,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.5159766674041748,
+        "actual_probability": 0.42684951424598694,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.5159766674041748
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.42684951424598694
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.021162880584597588
+          }
+        ]
+      },
+      {
+        "image": "validation/merge/mapillary_5c295d33babec3de.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/JgMrdYA19uMYjZVNhKIgDg.jpg",
+        "image_key": "JgMrdYA19uMYjZVNhKIgDg",
+        "object_key": "4vbo3gei351qufvdpnj46w",
+        "original_split": "train",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 27.09375,
+        "source_box_height": 26.296875,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.49843844771385193,
+        "actual_probability": 0.36975347995758057,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.49843844771385193
+          },
+          {
+            "label": "merge",
+            "probability": 0.36975347995758057
+          },
+          {
+            "label": "signalAhead",
+            "probability": 0.0669732391834259
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit45/mapillary_c85ffbcaaa086697.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.2.zip::images/moY7WdgcrbmEgygoPIOb1A.jpg",
+        "image_key": "moY7WdgcrbmEgygoPIOb1A",
+        "object_key": "8cfkotudrdu1xmjyt1jjmf",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 44.53125,
+        "source_box_height": 81.474609375,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.4869169294834137,
+        "actual_probability": 0.11624295264482498,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.4869169294834137
+          },
+          {
+            "label": "keepRight",
+            "probability": 0.2035037726163864
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.11624295264482498
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit45/mapillary_ca1b29c000d33b60.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/d-oDx26H1yJmC6iHnPJiVw.jpg",
+        "image_key": "d-oDx26H1yJmC6iHnPJiVw",
+        "object_key": "odesujbpdn1bkddlecsoa6",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 29.0625,
+        "source_box_height": 36.38671875,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.4747151732444763,
+        "actual_probability": 0.09344629943370819,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.4747151732444763
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.24042728543281555
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.16083236038684845
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit30/mapillary_44722b3bbc9bbd58.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/STw8jbaiKJHgTt7clHYX7w.jpg",
+        "image_key": "STw8jbaiKJHgTt7clHYX7w",
+        "object_key": "esazlmwjdr4h2ms089zbka",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-30--g3",
+        "occluded": false,
+        "source_box_width": 231.328125,
+        "source_box_height": 245.2939453125,
+        "actual": "speedLimit30",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.4700125455856323,
+        "actual_probability": 0.024191951379179955,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.4700125455856323
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.36538660526275635
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.11381636559963226
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_3f3b61d0051f642b.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.2.zip::images/uDTriPC2U0t_bXTYt66prA.jpg",
+        "image_key": "uDTriPC2U0t_bXTYt66prA",
+        "object_key": "aygbhq317mvoexte2lbve4",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 191.953125,
+        "source_box_height": 264.1201171875,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.46651002764701843,
+        "actual_probability": 0.4346131682395935,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.46651002764701843
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.4346131682395935
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.04210283234715462
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit45/mapillary_16c6c7eea0e9aa58.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/Sh-YiFURwcJBzPdQSwwdqA.jpg",
+        "image_key": "Sh-YiFURwcJBzPdQSwwdqA",
+        "object_key": "s0sd3au6ju3y8ujsmkyp4c",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 81.5625,
+        "source_box_height": 95.44921875,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.4565429389476776,
+        "actual_probability": 0.17179687321186066,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.4565429389476776
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.18268084526062012
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.17179687321186066
+          }
+        ]
+      },
+      {
+        "image": "validation/merge/mapillary_2bdf8d01ee6dc3b4.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/YdGYGtzwJl_r1k6i3RmUog.jpg",
+        "image_key": "YdGYGtzwJl_r1k6i3RmUog",
+        "object_key": "nup9fsawzyckm18hvo2cxd",
+        "original_split": "train",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 76.40625,
+        "source_box_height": 87.01171875,
+        "actual": "merge",
+        "predicted": "addedLane",
+        "predicted_probability": 0.4561306834220886,
+        "actual_probability": 0.3669811189174652,
+        "top_predictions": [
+          {
+            "label": "addedLane",
+            "probability": 0.4561306834220886
+          },
+          {
+            "label": "merge",
+            "probability": 0.3669811189174652
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.14220885932445526
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit30/mapillary_bbd08276fc47cb9a.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/5qm7CY1qevLObB-Nv9XyTA.jpg",
+        "image_key": "5qm7CY1qevLObB-Nv9XyTA",
+        "object_key": "3oxpkd7j1k53udi0bdco1q",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-30--g3",
+        "occluded": false,
+        "source_box_width": 37.96875,
+        "source_box_height": 76.46484375,
+        "actual": "speedLimit30",
+        "predicted": "speedLimit45",
+        "predicted_probability": 0.44218042492866516,
+        "actual_probability": 0.2107362151145935,
+        "top_predictions": [
+          {
+            "label": "speedLimit45",
+            "probability": 0.44218042492866516
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.2107362151145935
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.1115470826625824
+          }
+        ]
+      },
+      {
+        "image": "validation/stop/mapillary_e4c08cd7232f2795.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/DOqYtisvTF632A6riu39Bg.jpg",
+        "image_key": "DOqYtisvTF632A6riu39Bg",
+        "object_key": "eeodoi7cd3i23s6uy5bxo3",
+        "original_split": "train",
+        "mapillary_label": "regulatory--stop--g1",
+        "occluded": false,
+        "source_box_width": 31.078125,
+        "source_box_height": 75.7529296875,
+        "actual": "stop",
+        "predicted": "speedLimit45",
+        "predicted_probability": 0.44103193283081055,
+        "actual_probability": 0.0782967284321785,
+        "top_predictions": [
+          {
+            "label": "speedLimit45",
+            "probability": 0.44103193283081055
+          },
+          {
+            "label": "speedLimit65",
+            "probability": 0.2123020589351654
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.09877946972846985
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit45/mapillary_7b076b25196caa14.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/agYIFMucHMR8hZn51nzThA.jpg",
+        "image_key": "agYIFMucHMR8hZn51nzThA",
+        "object_key": "xpwdxcs0jyzbmnvqbtxj1e",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 32.5,
+        "source_box_height": 32.75390625,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.43653732538223267,
+        "actual_probability": 0.1296290159225464,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.43653732538223267
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.38820138573646545
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.1296290159225464
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit45/mapillary_5fdf0d13f98fd0dc.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/Sh-YiFURwcJBzPdQSwwdqA.jpg",
+        "image_key": "Sh-YiFURwcJBzPdQSwwdqA",
+        "object_key": "fb7h51ig3iq3f9dosyjz92",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 70.3125,
+        "source_box_height": 92.28515625,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.4137169420719147,
+        "actual_probability": 0.12845709919929504,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.4137169420719147
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.27759242057800293
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.14433172345161438
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit45/mapillary_8f9177ff89cb9051.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/CsyOL5MeidAOap8AS8hy3A.jpg",
+        "image_key": "CsyOL5MeidAOap8AS8hy3A",
+        "object_key": "jjixov55m1hqzbojfuvfsf",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 49.21875,
+        "source_box_height": 63.4921875,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.4128689765930176,
+        "actual_probability": 0.128774955868721,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.4128689765930176
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.3769960403442383
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.128774955868721
+          }
+        ]
+      },
+      {
+        "image": "validation/merge/mapillary_70ad2395e6bcbe28.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.2.zip::images/jw_P5csyGdAIPjoxKFXR5Q.jpg",
+        "image_key": "jw_P5csyGdAIPjoxKFXR5Q",
+        "object_key": "cd58x1sg60afnsor68gv7r",
+        "original_split": "train",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": true,
+        "source_box_width": 33.46875,
+        "source_box_height": 32.484375,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.40430930256843567,
+        "actual_probability": 0.38021770119667053,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.40430930256843567
+          },
+          {
+            "label": "merge",
+            "probability": 0.38021770119667053
+          },
+          {
+            "label": "signalAhead",
+            "probability": 0.09363868832588196
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_16174e90f6ee78a9.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/AghV_AYl76OLAq6k8jehEA.jpg",
+        "image_key": "AghV_AYl76OLAq6k8jehEA",
+        "object_key": "zz1ukpegpyda24s11ix3co",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 37.5,
+        "source_box_height": 42.65625,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.3930150270462036,
+        "actual_probability": 0.32864224910736084,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.3930150270462036
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.32864224910736084
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.17679361999034882
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit65/mapillary_b34af0a0c6ffa22e.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.2.zip::images/fo-WMqP_7XenRikGAFSveA.jpg",
+        "image_key": "fo-WMqP_7XenRikGAFSveA",
+        "object_key": "e6iyg2pe9y1t7854bwuyst",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-65--g2",
+        "occluded": false,
+        "source_box_width": 47.25,
+        "source_box_height": 64.96875,
+        "actual": "speedLimit65",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.3450373113155365,
+        "actual_probability": 0.08791360259056091,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.3450373113155365
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.2457004189491272
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.20912523567676544
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_907ca16abda5d512.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.1.zip::images/SarWfLQq2vCBCdHmVlCgHg.jpg",
+        "image_key": "SarWfLQq2vCBCdHmVlCgHg",
+        "object_key": "9yvvdrxjnne9wee7qd0b9k",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": true,
+        "source_box_width": 24.31640625,
+        "source_box_height": 32.8271484375,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.34371185302734375,
+        "actual_probability": 0.24486467242240906,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.34371185302734375
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.24486467242240906
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.19853352010250092
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit65/mapillary_e5a9f3b33402a0df.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/1ypGmmFo4ECO2dftpIpDCw.jpg",
+        "image_key": "1ypGmmFo4ECO2dftpIpDCw",
+        "object_key": "p1kzjeaqhtat8pqmbegkov",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-65--g2",
+        "occluded": false,
+        "source_box_width": 29.828125,
+        "source_box_height": 42.310546875,
+        "actual": "speedLimit65",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.340114027261734,
+        "actual_probability": 0.1286456435918808,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.340114027261734
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.24585941433906555
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.21471165120601654
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit45/mapillary_d6b75e32a9439996.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/Bw924xjR0Zx0AdlE9qhMQw.jpg",
+        "image_key": "Bw924xjR0Zx0AdlE9qhMQw",
+        "object_key": "xlhr0evukxcj4uiwzjii4c",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 24.609375,
+        "source_box_height": 34.69921875,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.3354661464691162,
+        "actual_probability": 0.2471841424703598,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.3354661464691162
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.2579061686992645
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.2471841424703598
+          }
+        ]
+      },
+      {
+        "image": "validation/speedlimit35/mapillary_d786c3b0e076752c.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.2.zip::images/gTUhY0WmgRvHfomTqBpYzw.jpg",
+        "image_key": "gTUhY0WmgRvHfomTqBpYzw",
+        "object_key": "hjsp4ou3zyoq0ltld5bl9y",
+        "original_split": "train",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 42.328125,
+        "source_box_height": 54.6328125,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit65",
+        "predicted_probability": 0.3178689479827881,
+        "actual_probability": 0.27766433358192444,
+        "top_predictions": [
+          {
+            "label": "speedLimit65",
+            "probability": 0.3178689479827881
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.27766433358192444
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.2643789052963257
+          }
+        ]
+      },
+      {
+        "image": "validation/signalahead/mapillary_a97eaa48da4dca5f.png",
+        "source_image": "mtsd_v2_fully_annotated_images.train.0.zip::images/DtTwTzxhCV7yjRXlHfzAxQ.jpg",
+        "image_key": "DtTwTzxhCV7yjRXlHfzAxQ",
+        "object_key": "e7h1tzmauxvmwdl1jd0knq",
+        "original_split": "train",
+        "mapillary_label": "warning--traffic-signals--g3",
+        "occluded": false,
+        "source_box_width": 27.0,
+        "source_box_height": 27.0,
+        "actual": "signalAhead",
+        "predicted": "stop",
+        "predicted_probability": 0.2514824867248535,
+        "actual_probability": 0.11847185343503952,
+        "top_predictions": [
+          {
+            "label": "stop",
+            "probability": 0.2514824867248535
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.2147083580493927
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.17970140278339386
+          }
+        ]
+      }
+    ]
+  },
+  "test": {
+    "images": 432,
+    "loss": 0.21769991517066956,
+    "top1_accuracy": 0.9259259259259259,
+    "top3_accuracy": 0.9884259259259259,
+    "macro_precision": 0.788422658359707,
+    "macro_recall": 0.7909436060943235,
+    "macro_class_accuracy": 0.7909436060943235,
+    "macro_f1": 0.7797990641116788,
+    "correct": 400,
+    "incorrect": 32,
+    "per_class": {
+      "addedLane": {
+        "support": 5,
+        "correct": 5,
+        "precision": 0.8333333333333334,
+        "recall": 1.0,
+        "f1": 0.9090909090909091
+      },
+      "keepRight": {
+        "support": 42,
+        "correct": 42,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "merge": {
+        "support": 26,
+        "correct": 21,
+        "precision": 0.9545454545454546,
+        "recall": 0.8076923076923077,
+        "f1": 0.875
+      },
+      "pedestrianCrossing": {
+        "support": 107,
+        "correct": 102,
+        "precision": 0.9357798165137615,
+        "recall": 0.9532710280373832,
+        "f1": 0.9444444444444445
+      },
+      "school": {
+        "support": 25,
+        "correct": 21,
+        "precision": 1.0,
+        "recall": 0.84,
+        "f1": 0.9130434782608696
+      },
+      "signalAhead": {
+        "support": 25,
+        "correct": 24,
+        "precision": 0.9230769230769231,
+        "recall": 0.96,
+        "f1": 0.9411764705882353
+      },
+      "speedLimit25": {
+        "support": 21,
+        "correct": 21,
+        "precision": 0.7,
+        "recall": 1.0,
+        "f1": 0.8235294117647058
+      },
+      "speedLimit30": {
+        "support": 12,
+        "correct": 12,
+        "precision": 0.75,
+        "recall": 1.0,
+        "f1": 0.8571428571428571
+      },
+      "speedLimit35": {
+        "support": 16,
+        "correct": 8,
+        "precision": 0.5714285714285714,
+        "recall": 0.5,
+        "f1": 0.5333333333333333
+      },
+      "speedLimit45": {
+        "support": 9,
+        "correct": 4,
+        "precision": 0.8,
+        "recall": 0.4444444444444444,
+        "f1": 0.5714285714285714
+      },
+      "speedLimit65": {
+        "support": 2,
+        "correct": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "stop": {
+        "support": 142,
+        "correct": 140,
+        "precision": 0.9929078014184397,
+        "recall": 0.9859154929577465,
+        "f1": 0.9893992932862191
+      }
+    },
+    "confusion_matrix": [
+      [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        42,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        21,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        102,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        21,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        24,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        21,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        12,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7,
+        0,
+        8,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        3,
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        140
+      ]
+    ],
+    "common_confusions": [
+      {
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "count": 7
+      },
+      {
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "count": 5
+      },
+      {
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "count": 3
+      },
+      {
+        "actual": "pedestrianCrossing",
+        "predicted": "signalAhead",
+        "count": 2
+      },
+      {
+        "actual": "school",
+        "predicted": "pedestrianCrossing",
+        "count": 2
+      },
+      {
+        "actual": "speedLimit45",
+        "predicted": "speedLimit25",
+        "count": 2
+      },
+      {
+        "actual": "pedestrianCrossing",
+        "predicted": "addedLane",
+        "count": 1
+      },
+      {
+        "actual": "pedestrianCrossing",
+        "predicted": "merge",
+        "count": 1
+      },
+      {
+        "actual": "pedestrianCrossing",
+        "predicted": "stop",
+        "count": 1
+      },
+      {
+        "actual": "school",
+        "predicted": "speedLimit30",
+        "count": 1
+      },
+      {
+        "actual": "school",
+        "predicted": "speedLimit35",
+        "count": 1
+      },
+      {
+        "actual": "signalAhead",
+        "predicted": "speedLimit30",
+        "count": 1
+      },
+      {
+        "actual": "speedLimit35",
+        "predicted": "speedLimit45",
+        "count": 1
+      },
+      {
+        "actual": "speedLimit65",
+        "predicted": "speedLimit30",
+        "count": 1
+      },
+      {
+        "actual": "speedLimit65",
+        "predicted": "speedLimit35",
+        "count": 1
+      },
+      {
+        "actual": "stop",
+        "predicted": "speedLimit30",
+        "count": 1
+      },
+      {
+        "actual": "stop",
+        "predicted": "speedLimit35",
+        "count": 1
+      }
+    ],
+    "error_source_images": [
+      {
+        "image_key": "ApcHkhfXzZoUlcFR7pRdFg",
+        "incorrect": 2,
+        "total": 6
+      },
+      {
+        "image_key": "SmsQjzrTjqZQjJfQ2GdbOQ",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "SRNUZSNN3xxe-eMmkHJpOg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "m4Ww07SytFJZiJuyCPnKNw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "qatu34oW1xeZXk3qTj6ZuQ",
+        "incorrect": 1,
+        "total": 2
+      },
+      {
+        "image_key": "cUUeIBze4EapDg7rBOzeGA",
+        "incorrect": 1,
+        "total": 3
+      },
+      {
+        "image_key": "d54GUs40HoKkWWE1l41LQw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "EmWzXrGkW5QnVfiEPI-6EA",
+        "incorrect": 1,
+        "total": 3
+      },
+      {
+        "image_key": "HxqQXtpVgIA2G-LfNIkbvQ",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "bQqpbUDBP1cDN56f2EgeTA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "L3T-orjynGp1fcUfNzXn0A",
+        "incorrect": 1,
+        "total": 2
+      },
+      {
+        "image_key": "8ieAY5oqGtKL-h82QIu7pA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "ramyAlmTL5gElCnE62IJ4w",
+        "incorrect": 1,
+        "total": 2
+      },
+      {
+        "image_key": "TfM7c8dE03Pt9GyhIT-AsQ",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "Ow9OKghxcT-OEGmErdUeXQ",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "0QVWSpopXAKm_KqytMIBVg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "X1e0RiYpeb1T_CZNlttA7Q",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "Uo42N1ggAqE7gW1qyKSw1w",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "eeDHU63eGHjxdMXe84WlOg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "NrdPG62Tm7C9XNhq32vzZg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "BWXWjmQsW1VO-cKcSrwOfw",
+        "incorrect": 1,
+        "total": 3
+      },
+      {
+        "image_key": "MO1hF2xCy56-SMEzgTp9qA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "ulX7tKFfchUTw3LaW5TAfA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "fec76sP1H5JeyiDuc057OA",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "Mg-9ICukKi1y8Qlw6vZyAQ",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "iTsmVG1cdQ6Big9NHt5_vg",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "Yde0TBo9XEk9KUnExpQf6Q",
+        "incorrect": 1,
+        "total": 2
+      },
+      {
+        "image_key": "HVDCHeGkPgvbAhW2kf-oIw",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "eGFzVfmmVHOgS6KqUndW_g",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "iass8-CPlVjgd4Ee1Fok0Q",
+        "incorrect": 1,
+        "total": 1
+      },
+      {
+        "image_key": "LPBnGiw7ZEUTb20Dc3HH9A",
+        "incorrect": 1,
+        "total": 2
+      }
+    ],
+    "errors": [
+      {
+        "image": "test/school/mapillary_b4e9e6b64058b75e.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/ramyAlmTL5gElCnE62IJ4w.jpg",
+        "image_key": "ramyAlmTL5gElCnE62IJ4w",
+        "object_key": "gi3n1mxuhsi63lymr4ow0o",
+        "original_split": "val",
+        "mapillary_label": "warning--school-zone--g2",
+        "occluded": false,
+        "source_box_width": 160.15625,
+        "source_box_height": 153.80859375,
+        "actual": "school",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.8658788204193115,
+        "actual_probability": 0.12865810096263885,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.8658788204193115
+          },
+          {
+            "label": "school",
+            "probability": 0.12865810096263885
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.003984111361205578
+          }
+        ]
+      },
+      {
+        "image": "test/pedestriancrossing/mapillary_bb4ff64d11719fd0.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/EmWzXrGkW5QnVfiEPI-6EA.jpg",
+        "image_key": "EmWzXrGkW5QnVfiEPI-6EA",
+        "object_key": "i4YT8cnhT4eHRGOka-iJTA",
+        "original_split": "val",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": true,
+        "source_box_width": 154.21875,
+        "source_box_height": 175.52734375,
+        "actual": "pedestrianCrossing",
+        "predicted": "stop",
+        "predicted_probability": 0.8536940217018127,
+        "actual_probability": 0.09485583752393723,
+        "top_predictions": [
+          {
+            "label": "stop",
+            "probability": 0.8536940217018127
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.09485583752393723
+          },
+          {
+            "label": "signalAhead",
+            "probability": 0.031111421063542366
+          }
+        ]
+      },
+      {
+        "image": "test/merge/mapillary_854f6889aaf92c7b.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/m4Ww07SytFJZiJuyCPnKNw.jpg",
+        "image_key": "m4Ww07SytFJZiJuyCPnKNw",
+        "object_key": "rj6bh26hofago2yu3sg1ls",
+        "original_split": "val",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 151.875,
+        "source_box_height": 201.4453125,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.8029779195785522,
+        "actual_probability": 0.13422319293022156,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.8029779195785522
+          },
+          {
+            "label": "merge",
+            "probability": 0.13422319293022156
+          },
+          {
+            "label": "signalAhead",
+            "probability": 0.03157559037208557
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit65/mapillary_c6b0f0692e838cd8.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/eGFzVfmmVHOgS6KqUndW_g.jpg",
+        "image_key": "eGFzVfmmVHOgS6KqUndW_g",
+        "object_key": "ph4r2oxhnp56vbi9hz3o6y",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-65--g2",
+        "occluded": false,
+        "source_box_width": 115.171875,
+        "source_box_height": 146.91796875,
+        "actual": "speedLimit65",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.7676241993904114,
+        "actual_probability": 0.019809752702713013,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.7676241993904114
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.11642560362815857
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.06559242308139801
+          }
+        ]
+      },
+      {
+        "image": "test/pedestriancrossing/mapillary_9e1d50652a2f1b20.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/d54GUs40HoKkWWE1l41LQw.jpg",
+        "image_key": "d54GUs40HoKkWWE1l41LQw",
+        "object_key": "tsxwnno01m19e1cgh1evu1",
+        "original_split": "val",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": false,
+        "source_box_width": 77.296875,
+        "source_box_height": 89.05078125,
+        "actual": "pedestrianCrossing",
+        "predicted": "merge",
+        "predicted_probability": 0.7417279481887817,
+        "actual_probability": 0.24785704910755157,
+        "top_predictions": [
+          {
+            "label": "merge",
+            "probability": 0.7417279481887817
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.24785704910755157
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.00854484736919403
+          }
+        ]
+      },
+      {
+        "image": "test/merge/mapillary_783109b03287ee52.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/SRNUZSNN3xxe-eMmkHJpOg.jpg",
+        "image_key": "SRNUZSNN3xxe-eMmkHJpOg",
+        "object_key": "ltp5xnqs413s2qenshxops",
+        "original_split": "val",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 193.640625,
+        "source_box_height": 197.912109375,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.705869197845459,
+        "actual_probability": 0.12543176114559174,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.705869197845459
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.14481867849826813
+          },
+          {
+            "label": "merge",
+            "probability": 0.12543176114559174
+          }
+        ]
+      },
+      {
+        "image": "test/pedestriancrossing/mapillary_bed2269641adb6bd.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/HxqQXtpVgIA2G-LfNIkbvQ.jpg",
+        "image_key": "HxqQXtpVgIA2G-LfNIkbvQ",
+        "object_key": "hee64kr2ho2woa2oxfduzn",
+        "original_split": "val",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": false,
+        "source_box_width": 417.421875,
+        "source_box_height": 386.671875,
+        "actual": "pedestrianCrossing",
+        "predicted": "signalAhead",
+        "predicted_probability": 0.643815815448761,
+        "actual_probability": 0.29324495792388916,
+        "top_predictions": [
+          {
+            "label": "signalAhead",
+            "probability": 0.643815815448761
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.29324495792388916
+          },
+          {
+            "label": "merge",
+            "probability": 0.03507832810282707
+          }
+        ]
+      },
+      {
+        "image": "test/merge/mapillary_8098a45d64536626.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/ApcHkhfXzZoUlcFR7pRdFg.jpg",
+        "image_key": "ApcHkhfXzZoUlcFR7pRdFg",
+        "object_key": "vr99jlg72pggzim24ngsh9",
+        "original_split": "val",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 38.90625,
+        "source_box_height": 36.474609375,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.6179236769676208,
+        "actual_probability": 0.3189835250377655,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.6179236769676208
+          },
+          {
+            "label": "merge",
+            "probability": 0.3189835250377655
+          },
+          {
+            "label": "signalAhead",
+            "probability": 0.031685762107372284
+          }
+        ]
+      },
+      {
+        "image": "test/merge/mapillary_f1ebc69a25f44732.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/ApcHkhfXzZoUlcFR7pRdFg.jpg",
+        "image_key": "ApcHkhfXzZoUlcFR7pRdFg",
+        "object_key": "xt8j3xp7oejo41tp6sgaix",
+        "original_split": "val",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": true,
+        "source_box_width": 55.765625,
+        "source_box_height": 65.654296875,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.6176561713218689,
+        "actual_probability": 0.1292436122894287,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.6176561713218689
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.1301685869693756
+          },
+          {
+            "label": "merge",
+            "probability": 0.1292436122894287
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit35/mapillary_76fec8491b1755dc.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/BWXWjmQsW1VO-cKcSrwOfw.jpg",
+        "image_key": "BWXWjmQsW1VO-cKcSrwOfw",
+        "object_key": "cl9zbh8llk8h50izej6t08",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 210.65625,
+        "source_box_height": 235.51171875,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.6160280704498291,
+        "actual_probability": 0.2924736738204956,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.6160280704498291
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.2924736738204956
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.03755272552371025
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit35/mapillary_10a84f6952663945.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/Ow9OKghxcT-OEGmErdUeXQ.jpg",
+        "image_key": "Ow9OKghxcT-OEGmErdUeXQ",
+        "object_key": "iuo1smb6cdzg4pyaptvhzg",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 48.6328125,
+        "source_box_height": 56.1708984375,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.615882933139801,
+        "actual_probability": 0.34320080280303955,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.615882933139801
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.34320080280303955
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.021388443186879158
+          }
+        ]
+      },
+      {
+        "image": "test/merge/mapillary_73c73a011a91d376.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/SmsQjzrTjqZQjJfQ2GdbOQ.jpg",
+        "image_key": "SmsQjzrTjqZQjJfQ2GdbOQ",
+        "object_key": "gyio5nvouh5qhs6oizsqt7",
+        "original_split": "val",
+        "mapillary_label": "warning--traffic-merges-right--g1",
+        "occluded": false,
+        "source_box_width": 106.25,
+        "source_box_height": 95.25,
+        "actual": "merge",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.6127832531929016,
+        "actual_probability": 0.28229013085365295,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.6127832531929016
+          },
+          {
+            "label": "merge",
+            "probability": 0.28229013085365295
+          },
+          {
+            "label": "signalAhead",
+            "probability": 0.09259054809808731
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit35/mapillary_262f9e90d52eb427.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/0QVWSpopXAKm_KqytMIBVg.jpg",
+        "image_key": "0QVWSpopXAKm_KqytMIBVg",
+        "object_key": "dv0bqjhpo4et5lv72oey7o",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 35.98828125,
+        "source_box_height": 44.4990234375,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.5828064680099487,
+        "actual_probability": 0.3356180787086487,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.5828064680099487
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.3356180787086487
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.04001910239458084
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit35/mapillary_d0437ca8e80b14be.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/MO1hF2xCy56-SMEzgTp9qA.jpg",
+        "image_key": "MO1hF2xCy56-SMEzgTp9qA",
+        "object_key": "t5kpd5b1s7dgh0ot1flu5i",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 97.21875,
+        "source_box_height": 120.7265625,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit45",
+        "predicted_probability": 0.5685260891914368,
+        "actual_probability": 0.19280189275741577,
+        "top_predictions": [
+          {
+            "label": "speedLimit45",
+            "probability": 0.5685260891914368
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.19280189275741577
+          },
+          {
+            "label": "speedLimit65",
+            "probability": 0.08081645518541336
+          }
+        ]
+      },
+      {
+        "image": "test/school/mapillary_71e882fe8ecd2a7f.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/L3T-orjynGp1fcUfNzXn0A.jpg",
+        "image_key": "L3T-orjynGp1fcUfNzXn0A",
+        "object_key": "wn3cxavgsjlem7ozp4qoft",
+        "original_split": "val",
+        "mapillary_label": "warning--school-zone--g2",
+        "occluded": false,
+        "source_box_width": 25.59375,
+        "source_box_height": 25.1015625,
+        "actual": "school",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.5474576950073242,
+        "actual_probability": 0.12716278433799744,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.5474576950073242
+          },
+          {
+            "label": "school",
+            "probability": 0.12716278433799744
+          },
+          {
+            "label": "keepRight",
+            "probability": 0.11227859556674957
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit35/mapillary_3e25730c96b6be2c.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/Uo42N1ggAqE7gW1qyKSw1w.jpg",
+        "image_key": "Uo42N1ggAqE7gW1qyKSw1w",
+        "object_key": "GK0-zG9FS6C7f0cylGgeSA",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 43.76953125,
+        "source_box_height": 51.7939453125,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.5315514802932739,
+        "actual_probability": 0.3692469000816345,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.5315514802932739
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.3692469000816345
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.040569763630628586
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit45/mapillary_ba8d7302d9276e37.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/iTsmVG1cdQ6Big9NHt5_vg.jpg",
+        "image_key": "iTsmVG1cdQ6Big9NHt5_vg",
+        "object_key": "4yw5ebm1ist9t4v2tqdn80",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 32.671875,
+        "source_box_height": 39.4453125,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.5108084082603455,
+        "actual_probability": 0.14150066673755646,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.5108084082603455
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.28460848331451416
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.14150066673755646
+          }
+        ]
+      },
+      {
+        "image": "test/pedestriancrossing/mapillary_49a8de67b05b79ad.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/qatu34oW1xeZXk3qTj6ZuQ.jpg",
+        "image_key": "qatu34oW1xeZXk3qTj6ZuQ",
+        "object_key": "4ixmcwxd0z77mlewryxkwr",
+        "original_split": "val",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": false,
+        "source_box_width": 38.59375,
+        "source_box_height": 84.55078125,
+        "actual": "pedestrianCrossing",
+        "predicted": "addedLane",
+        "predicted_probability": 0.49809035658836365,
+        "actual_probability": 0.05574580654501915,
+        "top_predictions": [
+          {
+            "label": "addedLane",
+            "probability": 0.49809035658836365
+          },
+          {
+            "label": "merge",
+            "probability": 0.2770672142505646
+          },
+          {
+            "label": "school",
+            "probability": 0.0913921445608139
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit35/mapillary_63f96a41246ef1da.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/eeDHU63eGHjxdMXe84WlOg.jpg",
+        "image_key": "eeDHU63eGHjxdMXe84WlOg",
+        "object_key": "s4aql7cyhu08l0pbhy3d0y",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 26.578125,
+        "source_box_height": 35.4375,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.49297288060188293,
+        "actual_probability": 0.3598759174346924,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.49297288060188293
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.3598759174346924
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.09967175871133804
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit35/mapillary_295dc30277f8a66d.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/X1e0RiYpeb1T_CZNlttA7Q.jpg",
+        "image_key": "X1e0RiYpeb1T_CZNlttA7Q",
+        "object_key": "4ra8c5rh4si7ic31ylc63g",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 43.3125,
+        "source_box_height": 56.109375,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.4828220307826996,
+        "actual_probability": 0.4269571900367737,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.4828220307826996
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.4269571900367737
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.044360559433698654
+          }
+        ]
+      },
+      {
+        "image": "test/school/mapillary_a81e83ad1baa165d.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/8ieAY5oqGtKL-h82QIu7pA.jpg",
+        "image_key": "8ieAY5oqGtKL-h82QIu7pA",
+        "object_key": "l9ujy7h4ht15cyfh4cwcds",
+        "original_split": "val",
+        "mapillary_label": "warning--school-zone--g2",
+        "occluded": false,
+        "source_box_width": 39.0625,
+        "source_box_height": 37.6171875,
+        "actual": "school",
+        "predicted": "pedestrianCrossing",
+        "predicted_probability": 0.48013952374458313,
+        "actual_probability": 0.30217239260673523,
+        "top_predictions": [
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.48013952374458313
+          },
+          {
+            "label": "school",
+            "probability": 0.30217239260673523
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.1853187531232834
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit35/mapillary_64649fa161358187.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/NrdPG62Tm7C9XNhq32vzZg.jpg",
+        "image_key": "NrdPG62Tm7C9XNhq32vzZg",
+        "object_key": "yjhqeu3x8csq1ynl7qpiwh",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-35--g2",
+        "occluded": false,
+        "source_box_width": 49.21875,
+        "source_box_height": 62.015625,
+        "actual": "speedLimit35",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.4743635952472687,
+        "actual_probability": 0.35555291175842285,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.4743635952472687
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.35555291175842285
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.09687653928995132
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit45/mapillary_5f78cfc8c024b880.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/fec76sP1H5JeyiDuc057OA.jpg",
+        "image_key": "fec76sP1H5JeyiDuc057OA",
+        "object_key": "hp7r1f05skst14r6lyexx5",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 71.859375,
+        "source_box_height": 97.453125,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.4674948453903198,
+        "actual_probability": 0.2522957921028137,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.4674948453903198
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.2522957921028137
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.12464849650859833
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit45/mapillary_f60c7cd4099f924a.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/Yde0TBo9XEk9KUnExpQf6Q.jpg",
+        "image_key": "Yde0TBo9XEk9KUnExpQf6Q",
+        "object_key": "re8et4aarg3lgevqsoc4o6",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 31.5,
+        "source_box_height": 39.12890625,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.4089060425758362,
+        "actual_probability": 0.2968156337738037,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.4089060425758362
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.2968156337738037
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.19662049412727356
+          }
+        ]
+      },
+      {
+        "image": "test/pedestriancrossing/mapillary_546ba2d04cd14e45.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/cUUeIBze4EapDg7rBOzeGA.jpg",
+        "image_key": "cUUeIBze4EapDg7rBOzeGA",
+        "object_key": "l0s6r8omf794fcqehq6mqu",
+        "original_split": "val",
+        "mapillary_label": "warning--pedestrians-crossing--g4",
+        "occluded": false,
+        "source_box_width": 34.125,
+        "source_box_height": 65.037109375,
+        "actual": "pedestrianCrossing",
+        "predicted": "signalAhead",
+        "predicted_probability": 0.3873014748096466,
+        "actual_probability": 0.3708612024784088,
+        "top_predictions": [
+          {
+            "label": "signalAhead",
+            "probability": 0.3873014748096466
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.3708612024784088
+          },
+          {
+            "label": "addedLane",
+            "probability": 0.12063203006982803
+          }
+        ]
+      },
+      {
+        "image": "test/stop/mapillary_0d47b88b08ea95a8.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/iass8-CPlVjgd4Ee1Fok0Q.jpg",
+        "image_key": "iass8-CPlVjgd4Ee1Fok0Q",
+        "object_key": "i2sjnplewkvrf90fsu8moe",
+        "original_split": "val",
+        "mapillary_label": "regulatory--stop--g1",
+        "occluded": false,
+        "source_box_width": 28.546875,
+        "source_box_height": 29.53125,
+        "actual": "stop",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.35620298981666565,
+        "actual_probability": 0.3417796194553375,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.35620298981666565
+          },
+          {
+            "label": "stop",
+            "probability": 0.3417796194553375
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.13231664896011353
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit65/mapillary_aefffbb4f87ad27a.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/HVDCHeGkPgvbAhW2kf-oIw.jpg",
+        "image_key": "HVDCHeGkPgvbAhW2kf-oIw",
+        "object_key": "e30jl75hvbnssz4sr1xbqb",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-65--g2",
+        "occluded": false,
+        "source_box_width": 28.6875,
+        "source_box_height": 38.84765625,
+        "actual": "speedLimit65",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.34315890073776245,
+        "actual_probability": 0.1775950938463211,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.34315890073776245
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.23564568161964417
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.18203134834766388
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit45/mapillary_b560d6e16b1f09c3.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/Mg-9ICukKi1y8Qlw6vZyAQ.jpg",
+        "image_key": "Mg-9ICukKi1y8Qlw6vZyAQ",
+        "object_key": "n5vhlvs1v9vsz3zecj8jbh",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 24.609375,
+        "source_box_height": 30.26953125,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit25",
+        "predicted_probability": 0.3173377513885498,
+        "actual_probability": 0.2782664895057678,
+        "top_predictions": [
+          {
+            "label": "speedLimit25",
+            "probability": 0.3173377513885498
+          },
+          {
+            "label": "speedLimit45",
+            "probability": 0.2782664895057678
+          },
+          {
+            "label": "speedLimit35",
+            "probability": 0.27454113960266113
+          }
+        ]
+      },
+      {
+        "image": "test/stop/mapillary_a564df51add6b1e8.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/LPBnGiw7ZEUTb20Dc3HH9A.jpg",
+        "image_key": "LPBnGiw7ZEUTb20Dc3HH9A",
+        "object_key": "aivmy0972osvbf7tjmlos8",
+        "original_split": "val",
+        "mapillary_label": "regulatory--stop--g1",
+        "occluded": true,
+        "source_box_width": 38.390625,
+        "source_box_height": 36.17578125,
+        "actual": "stop",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.3138764500617981,
+        "actual_probability": 0.0037545638624578714,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.3138764500617981
+          },
+          {
+            "label": "speedLimit25",
+            "probability": 0.30955177545547485
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.27859818935394287
+          }
+        ]
+      },
+      {
+        "image": "test/signalahead/mapillary_8b0fa7a622cdef04.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/TfM7c8dE03Pt9GyhIT-AsQ.jpg",
+        "image_key": "TfM7c8dE03Pt9GyhIT-AsQ",
+        "object_key": "kx1vsk2mzevvb6o54fgmyp",
+        "original_split": "val",
+        "mapillary_label": "warning--traffic-signals--g3",
+        "occluded": false,
+        "source_box_width": 35.625,
+        "source_box_height": 36.38671875,
+        "actual": "signalAhead",
+        "predicted": "speedLimit30",
+        "predicted_probability": 0.2707729935646057,
+        "actual_probability": 0.23572438955307007,
+        "top_predictions": [
+          {
+            "label": "speedLimit30",
+            "probability": 0.2707729935646057
+          },
+          {
+            "label": "signalAhead",
+            "probability": 0.23572438955307007
+          },
+          {
+            "label": "pedestrianCrossing",
+            "probability": 0.10923263430595398
+          }
+        ]
+      },
+      {
+        "image": "test/speedlimit45/mapillary_072514f17342db2d.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/ulX7tKFfchUTw3LaW5TAfA.jpg",
+        "image_key": "ulX7tKFfchUTw3LaW5TAfA",
+        "object_key": "ty5knb30gl8znrfvbieq1j",
+        "original_split": "val",
+        "mapillary_label": "regulatory--maximum-speed-limit-45--g3",
+        "occluded": false,
+        "source_box_width": 256.921875,
+        "source_box_height": 331.119140625,
+        "actual": "speedLimit45",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.23895834386348724,
+        "actual_probability": 0.1887207329273224,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.23895834386348724
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.1975957304239273
+          },
+          {
+            "label": "speedLimit65",
+            "probability": 0.19462133944034576
+          }
+        ]
+      },
+      {
+        "image": "test/school/mapillary_016e2d29600174d5.png",
+        "source_image": "mtsd_v2_fully_annotated_images.val.zip::images/bQqpbUDBP1cDN56f2EgeTA.jpg",
+        "image_key": "bQqpbUDBP1cDN56f2EgeTA",
+        "object_key": "dzj4lcu9t3tca5iuinw97h",
+        "original_split": "val",
+        "mapillary_label": "warning--school-zone--g2",
+        "occluded": false,
+        "source_box_width": 60.0,
+        "source_box_height": 69.1875,
+        "actual": "school",
+        "predicted": "speedLimit35",
+        "predicted_probability": 0.1800784170627594,
+        "actual_probability": 0.1295831948518753,
+        "top_predictions": [
+          {
+            "label": "speedLimit35",
+            "probability": 0.1800784170627594
+          },
+          {
+            "label": "school",
+            "probability": 0.1295831948518753
+          },
+          {
+            "label": "speedLimit30",
+            "probability": 0.12601925432682037
+          }
+        ]
+      }
+    ]
+  }
+}
