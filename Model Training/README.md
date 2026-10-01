@@ -63,7 +63,17 @@ Run `./.venv/bin/python train_combined.py` to train with the same architecture
 and settings as the separate models. It saves `combined_model.keras` and
 `combined_training_report.json`. The report includes results on the combined
 validation and test sets and a breakdown for LISA and Mapillary images.
-This combined model has not been trained yet.
+The first combined run completed 51 epochs and scored **99.31% top-1**
+(1,009/1,016) and **98.55% macro F1** on its test crops.
+
+To compare all three saved models on exactly the same held-out images, run
+`./.venv/bin/python evaluate_combined_models.py`. It loads
+`lisa_model_v1.keras`, `mapillary_model.keras`, and `combined_model.keras`,
+checks that their class labels and original test scores match the training
+reports, then writes `combined_model_comparison_report.json` and a readable
+`combined_model_comparison.md`. These give overall and per-source accuracy,
+per-class recall, macro F1, confusion matrices, and individual errors. The
+comparison uses only `LISA/Combined/test` (1,016 crops), not training images.
 
 ## GTSRB: German signs
 

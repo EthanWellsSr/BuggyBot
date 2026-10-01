@@ -45,3 +45,8 @@ test results, results by source dataset, per-class metrics, confusion matrices,
 and individual errors. The trainer uses the same architecture and training
 settings as the separate LISA and Mapillary trainers. Training can take longer
 because it uses all 7,601 training crops.
+
+After training, run `./.venv/bin/python evaluate_combined_models.py` to score
+the LISA, Mapillary, and combined models on the same 1,016 test crops. The
+script writes `combined_model_comparison_report.json` and
+`combined_model_comparison.md`.
