@@ -1,30 +1,34 @@
-"""Train and save the LISA (US traffic-sign) classifier."""
+"""Train the LISA classifier and save one diagnostic report for each run."""
 
 import csv
+import json
 import math
+import time
 from collections import Counter
 from pathlib import Path
 
+import numpy as np
 import tensorflow as tf
 
 
 HERE = Path(__file__).resolve().parent
 DATASET_ROOT = HERE / "LISA" / "prepared"
 MODEL_PATH = HERE / "lisa_model.keras"
+REPORT_PATH = HERE / "lisa_training_report.json"
 IMAGE_SIZE = (32, 32)
 BATCH_SIZE = 64
+MAX_EPOCHS = 60
 SEED = 123
 
 
-def load_classes() -> list[str]:
-    """Return class directory names ordered by class index (from classes.csv)."""
-    with (DATASET_ROOT / "classes.csv").open(newline="", encoding="utf-8") as handle:
-        rows = sorted(csv.DictReader(handle), key=lambda row: int(row["class_index"]))
-    return [row["class_directory"] for row in rows]
-
-
-CLASSES = load_classes()
+with (DATASET_ROOT / "classes.csv").open(newline="", encoding="utf-8") as handle:
+    class_rows = sorted(csv.DictReader(handle), key=lambda row: int(row["class_index"]))
+CLASSES = [row["class_directory"] for row in class_rows]
+LABELS = [row["label"] for row in class_rows]
 NUM_CLASSES = len(CLASSES)
+
+with (DATASET_ROOT / "manifest.csv").open(newline="", encoding="utf-8") as handle:
+    manifest = {row["output_file"]: row for row in csv.DictReader(handle)}
 
 
 def load_split(split: str) -> list[tuple[str, int]]:
@@ -101,30 +105,157 @@ def build_model():
     return model
 
 
+class EpochRecorder(tf.keras.callbacks.Callback):
+    """Record the numeric epoch output, learning rate, and duration."""
+
+    def __init__(self):
+        super().__init__()
+        self.epochs = []
+
+    def on_epoch_begin(self, epoch, logs=None):
+        self.started = time.perf_counter()
+        self.learning_rate = float(tf.keras.backend.get_value(self.model.optimizer.learning_rate))
+
+    def on_epoch_end(self, epoch, logs=None):
+        self.epochs.append({
+            "epoch": epoch + 1,
+            "seconds": round(time.perf_counter() - self.started, 2),
+            "learning_rate": self.learning_rate,
+            **{name: float(value) for name, value in (logs or {}).items()},
+        })
+
+
+def split_summary(samples):
+    counts = Counter(class_id for _, class_id in samples)
+    tracks = {label: set() for label in LABELS}
+    for path, class_id in samples:
+        relative_path = Path(path).relative_to(DATASET_ROOT).as_posix()
+        tracks[LABELS[class_id]].add(manifest[relative_path]["group_id"])
+    return {
+        "crops": len(samples),
+        "tracks": sum(len(group_ids) for group_ids in tracks.values()),
+        "per_class": {
+            label: {"crops": counts[class_id], "tracks": len(tracks[label])}
+            for class_id, label in enumerate(LABELS)
+        },
+    }
+
+
+def evaluate_split(model, samples):
+    probabilities = model.predict(make_dataset(samples, training=False), verbose=0)
+    actual = np.asarray([class_id for _, class_id in samples])
+    predicted = probabilities.argmax(axis=1)
+    correct = actual == predicted
+    top_k = min(3, NUM_CLASSES)
+    top_predictions = np.argsort(probabilities, axis=1)[:, -top_k:]
+    top_correct = np.any(top_predictions == actual[:, None], axis=1)
+
+    # Confusion matrix rows are actual classes; columns are predicted classes.
+    confusion = np.zeros((NUM_CLASSES, NUM_CLASSES), dtype=int)
+    np.add.at(confusion, (actual, predicted), 1)
+    per_class = {}
+    for class_id, label in enumerate(LABELS):
+        true_positive = int(confusion[class_id, class_id])
+        support = int(confusion[class_id].sum())
+        predicted_count = int(confusion[:, class_id].sum())
+        precision = true_positive / predicted_count if predicted_count else 0.0
+        recall = true_positive / support if support else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+        per_class[label] = {
+            "support": support,
+            "correct": true_positive,
+            "precision": precision,
+            "recall": recall,
+            "f1": f1,
+        }
+
+    errors = []
+    track_errors = Counter()
+    track_totals = Counter()
+    for index, (path, class_id) in enumerate(samples):
+        relative_path = Path(path).relative_to(DATASET_ROOT).as_posix()
+        source = manifest[relative_path]
+        group_id = source["group_id"]
+        track_totals[group_id] += 1
+        if correct[index]:
+            continue
+        track_errors[group_id] += 1
+        top_ids = np.argsort(probabilities[index])[-top_k:][::-1]
+        errors.append({
+            "image": relative_path,
+            "source_image": source["source_image"],
+            "group_id": group_id,
+            "occluded": source["occluded"] == "1",
+            "on_another_road": source["on_another_road"] == "1",
+            "source_box_width": int(source["source_x_max"]) - int(source["source_x_min"]),
+            "source_box_height": int(source["source_y_max"]) - int(source["source_y_min"]),
+            "actual": LABELS[class_id],
+            "predicted": LABELS[int(predicted[index])],
+            "predicted_probability": float(probabilities[index, predicted[index]]),
+            "actual_probability": float(probabilities[index, class_id]),
+            "top_predictions": [
+                {"label": LABELS[int(candidate)], "probability": float(probabilities[index, candidate])}
+                for candidate in top_ids
+            ],
+        })
+
+    confusion_pairs = [
+        {"actual": LABELS[row], "predicted": LABELS[column], "count": int(confusion[row, column])}
+        for row in range(NUM_CLASSES)
+        for column in range(NUM_CLASSES)
+        if row != column and confusion[row, column]
+    ]
+    confusion_pairs.sort(key=lambda item: item["count"], reverse=True)
+    errors.sort(key=lambda item: item["predicted_probability"], reverse=True)
+    return {
+        "images": len(samples),
+        "loss": float(np.mean(-np.log(np.clip(probabilities[np.arange(len(actual)), actual], 1e-7, 1.0)))),
+        "top1_accuracy": float(correct.mean()),
+        "top3_accuracy": float(top_correct.mean()),
+        "macro_precision": float(np.mean([row["precision"] for row in per_class.values()])),
+        "macro_recall": float(np.mean([row["recall"] for row in per_class.values()])),
+        "macro_class_accuracy": float(np.mean([row["recall"] for row in per_class.values()])),
+        "macro_f1": float(np.mean([row["f1"] for row in per_class.values()])),
+        "correct": int(correct.sum()),
+        "incorrect": int((~correct).sum()),
+        "per_class": per_class,
+        "confusion_matrix": confusion.tolist(),
+        "common_confusions": confusion_pairs,
+        "error_tracks": [
+            {"group_id": group_id, "incorrect": count, "total": track_totals[group_id]}
+            for group_id, count in track_errors.most_common()
+        ],
+        "errors": errors,
+    }
+
+
 tf.keras.utils.set_random_seed(SEED)
-train_samples = load_split("train")
-validation_samples = load_split("validation")
-print(f"Classes: {NUM_CLASSES}  train: {len(train_samples)}  validation: {len(validation_samples)}")
-train_dataset = make_dataset(train_samples, training=True)
-validation_dataset = make_dataset(validation_samples, training=False)
+samples = {split: load_split(split) for split in ("train", "validation", "test")}
+print(
+    f"Classes: {NUM_CLASSES}  train: {len(samples['train'])}  "
+    f"validation: {len(samples['validation'])}  test: {len(samples['test'])}"
+)
+train_dataset = make_dataset(samples["train"], training=True)
+validation_dataset = make_dataset(samples["validation"], training=False)
 
 # LISA is very imbalanced (stop: 1,513 train crops, speed limit 65: 56), so
 # rarer classes get a larger loss weight. The square root softens the effect.
-counts = Counter(sample[1] for sample in train_samples)
+counts = Counter(sample[1] for sample in samples["train"])
 class_weights = {
-    class_id: math.sqrt(len(train_samples) / (NUM_CLASSES * count))
+    class_id: math.sqrt(len(samples["train"]) / (NUM_CLASSES * count))
     for class_id, count in counts.items()
 }
 
 model = build_model()
+recorder = EpochRecorder()
 model.fit(
     train_dataset,
     validation_data=validation_dataset,
-    epochs=60,
+    epochs=MAX_EPOCHS,
     class_weight=class_weights,
-    shuffle=False,
     verbose=2,
     callbacks=[
+        recorder,
         tf.keras.callbacks.EarlyStopping(
             monitor="val_loss", patience=10, restore_best_weights=True
         ),
@@ -135,3 +266,39 @@ model.fit(
 )
 model.save(MODEL_PATH)
 print(f"Saved model: {MODEL_PATH}")
+
+report = {
+    "model_file": MODEL_PATH.name,
+    "dataset": "LISA prepared 12-class subset",
+    "class_labels": LABELS,
+    "training_config": {
+        "seed": SEED,
+        "image_size": list(IMAGE_SIZE),
+        "batch_size": BATCH_SIZE,
+        "max_epochs": MAX_EPOCHS,
+        "optimizer": "Adam",
+        "initial_learning_rate": 1e-3,
+        "loss": "sparse_categorical_crossentropy",
+        "training_loss_uses_class_weights": True,
+        "validation_and_test_loss_use_class_weights": False,
+        "class_weights": {LABELS[class_id]: weight for class_id, weight in class_weights.items()},
+        "early_stopping": {"monitor": "val_loss", "patience": 10, "restore_best_weights": True},
+        "reduce_lr_on_plateau": {"monitor": "val_loss", "factor": 0.5, "patience": 3, "min_lr": 1e-5},
+        "model_parameters": model.count_params(),
+        "model_architecture": json.loads(model.to_json()),
+    },
+    "splits": {split: split_summary(rows) for split, rows in samples.items()},
+    "epochs": recorder.epochs,
+    "best_epoch_by_validation_loss": min(recorder.epochs, key=lambda row: row["val_loss"])["epoch"],
+    "epochs_completed": len(recorder.epochs),
+    "validation": evaluate_split(model, samples["validation"]),
+    "test": evaluate_split(model, samples["test"]),
+}
+REPORT_PATH.write_text(json.dumps(report, indent=2), encoding="utf-8")
+for split in ("validation", "test"):
+    result = report[split]
+    print(
+        f"{split}: top-1 {result['top1_accuracy']:.2%}, top-3 {result['top3_accuracy']:.2%}, "
+        f"macro F1 {result['macro_f1']:.2%}, {result['incorrect']} errors"
+    )
+print(f"Saved report: {REPORT_PATH}")

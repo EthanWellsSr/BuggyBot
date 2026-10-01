@@ -15,10 +15,14 @@ signal ahead, speed limits 25/30/35/45/65, and stop. The prepared subset has
 4,946 training, 567 validation, and 584 test crops. See
 [`LISA_PREPARATION.md`](LISA_PREPARATION.md) for download and preparation.
 
-From this folder, run `python train_lisa.py` to save a new `lisa_model.keras`.
-Then run `python evaluate_lisa.py` to evaluate that model on the held-out test
-split and write `lisa_test_results.json`. Keep the test split for final checks;
-use the track-separated validation split to choose training changes.
+From this folder, run `python train_lisa.py`. It trains the classifier, restores
+the weights from the epoch with the lowest validation loss, saves
+`lisa_model.keras`, and evaluates that model on both validation and held-out test
+crops. It writes one `lisa_training_report.json` with training settings, class
+weights, crop and sign-track counts, every epoch's loss/accuracy/learning rate,
+per-class precision/recall/F1, full confusion matrices, and every mistaken
+crop's source track and prediction probabilities. Use validation results to
+choose training changes; treat test results as the final check.
 
 The first trained model and its report are archived as `lisa_model_v1.keras`
 and `lisa_test_results_v1.json` for comparison with later runs. That model
@@ -43,14 +47,17 @@ Latest verified GTSRB result:
 
 ## Setup
 
-Requires **Python 3.12** (TensorFlow has no wheels for 3.13/3.14 yet). From this
-folder:
+Use **Python 3.12** in this folder's virtual environment. Install packages
+through that environment so the system Python's packages do not interfere:
 
 ```
 python3.12 -m venv .venv
-source .venv/bin/activate      # Windows: .venv\Scripts\activate
-pip install tensorflow
+./.venv/bin/python -m pip install tensorflow
+./.venv/bin/python train_lisa.py
 ```
+
+If `.venv` already has TensorFlow, run only the final command. On Windows, use
+`.venv\Scripts\python.exe` in place of `./.venv/bin/python`.
 
 ## Dataset: GTSRB (German Traffic Sign Recognition Benchmark)
 
