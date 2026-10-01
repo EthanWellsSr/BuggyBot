@@ -2,22 +2,44 @@
 
 Training code for the traffic-sign classifier (Self-Driving RC Car).
 
-Current status: `train_gtsrb.py` trains and saves the GTSRB model. It uses a
-physical-sign-track split so neighboring frames of the same sign cannot appear in
-both training and validation. `evaluate_gtsrb.py` independently tests the saved
-model and writes the results to `gtsrb_test_results.json`.
+There are separate classifiers for German (GTSRB) and US (LISA) signs. The
+dataset preparation keeps neighboring frames of the same physical sign in one
+split, so validation and test images come from different sign tracks than the
+training images.
 
-Latest verified fresh-training result:
+## LISA: US signs
+
+The source dataset has 47 classes. This project's current classifier uses 12
+selected classes: added lane, keep right, merge, pedestrian crossing, school,
+signal ahead, speed limits 25/30/35/45/65, and stop. The prepared subset has
+4,946 training, 567 validation, and 584 test crops. See
+[`LISA_PREPARATION.md`](LISA_PREPARATION.md) for download and preparation.
+
+From this folder, run `python train_lisa.py` to save a new `lisa_model.keras`.
+Then run `python evaluate_lisa.py` to evaluate that model on the held-out test
+split and write `lisa_test_results.json`. Keep the test split for final checks;
+use the track-separated validation split to choose training changes.
+
+The first trained model and its report are archived as `lisa_model_v1.keras`
+and `lisa_test_results_v1.json` for comparison with later runs. That model
+scored **89.90% top-1**, **99.14% top-3**, and **84.93% macro class accuracy**
+on the 584 test crops (525 correct, 59 incorrect). Those results cover LISA
+road-scene crops, not printed signs viewed by the car's camera.
+
+## GTSRB: German signs
+
+Run `python train_gtsrb.py` to train and save `gtsrb_model.keras`. The script
+creates a class-stratified 80/20 split by physical sign track from
+`GTSRB/Train.csv`, trains for up to 40 epochs, and restores the best validation
+weights. Run `python evaluate_gtsrb.py` to test that model on the 12,630 images
+in `GTSRB/Test.csv` and write `gtsrb_test_results.json`.
+
+Latest verified GTSRB result:
 
 - Track-separated validation: **97.09% top-1**.
 - Independent GTSRB test set: **95.79% top-1**, **98.45% top-3**.
 - Test macro class accuracy: **93.83%**.
 - Test predictions: **12,098 correct / 532 incorrect** across 12,630 images.
-
-The LISA source dataset contains 47 US traffic-sign classes. The current
-model-specific dataset retains 12 selected classes. Download and preparation
-instructions are in [`LISA_PREPARATION.md`](LISA_PREPARATION.md). The preparation
-script is `prepare_lisa.py`; model training and testing are intentionally separate.
 
 ## Setup
 
@@ -29,34 +51,6 @@ python3.12 -m venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install tensorflow
 ```
-
-## Train
-
-```
-python train_gtsrb.py
-```
-
-Loads `GTSRB/Train.csv`, creates a class-stratified 80/20 split by physical sign
-track, trains for up to 40 epochs, and saves the best model to
-`gtsrb_model.keras`. Early stopping may finish sooner.
-
-The model uses 32×32 RGB input, realistic geometric and lighting augmentation,
-class balancing, two convolutional blocks, batch normalization, dropout, global
-average pooling, and a 43-class softmax output. Training stops when validation
-loss stops improving, restores the best weights, and saves only
-`gtsrb_model.keras`.
-
-## Test
-
-```
-python evaluate_gtsrb.py
-```
-
-This evaluates the saved model on all 12,630 labeled images in `GTSRB/Test.csv`
-and writes top-1, top-3, macro class accuracy, per-class accuracy, and common
-confusions to `gtsrb_test_results.json`. Use the track-separated validation set
-for model selection; reserve this independent test set for final evaluation.
-
 
 ## Dataset: GTSRB (German Traffic Sign Recognition Benchmark)
 
