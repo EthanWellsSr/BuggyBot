@@ -68,7 +68,7 @@ for the scripts, dataset preparation, and detailed reports.
 | `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes and a US Letter print sheet |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
 | `setup.sh` | Installs basic Git and Python prerequisites on a Debian-based board |
-| `CLAUDE.md` | Working agreement for AI assistants used on this repo |
+| `AGENTS.md`, `CLAUDE.md` | Working agreements for AI assistants used on this repo |
 
 ### Weekly reports
 
