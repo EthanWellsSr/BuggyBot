@@ -30,6 +30,17 @@ scored **89.90% top-1**, **99.14% top-3**, and **84.93% macro class accuracy**
 on the 584 test crops (525 correct, 59 incorrect). Those results cover LISA
 road-scene crops, not printed signs viewed by the car's camera.
 
+## Mapillary: separate US-sign candidate set
+
+The fully annotated Mapillary archives are stored locally under
+`LISA/mapillary_raw/`. Run `prepare_mapillary.py` to create a separate
+12-class crop dataset under `LISA/mapillary_prepared/` and open its
+`review/index.html` to inspect the images. The class names and metadata layout
+match LISA, but Mapillary's source split and sign-identity information differ.
+See [`MAPILLARY_PREPARATION.md`](MAPILLARY_PREPARATION.md) for the exact inputs,
+filtering, split method, review workflow, and limitations. These images have
+not been merged with LISA or used to train a model.
+
 ## GTSRB: German signs
 
 Run `python train_gtsrb.py` to train and save `gtsrb_model.keras`. The script
