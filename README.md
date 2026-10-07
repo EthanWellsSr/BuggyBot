@@ -16,14 +16,16 @@ spring scope is the autonomous vehicle.
 - [`Hardware/buggybot_integration.py`](Hardware/buggybot_integration.py) captures
   camera images and drives an LCD using **simulated** sign predictions. It does
   not yet run a trained model or control the vehicle from model output.
-- Separate TensorFlow classifiers have been trained on GTSRB, LISA, and
-  Mapillary. The Mapillary model, training script, and report are in this repo.
+- TensorFlow classifiers have been trained on GTSRB, LISA, Mapillary, and a
+  combined LISA+Mapillary dataset. Their models and results are in this repo.
 
 ## Hardware
 
 - **Compute and storage:** Raspberry Pi CM5 (4 GB Lite), CM5 IO Board, M.2 NVMe
 - **Networking:** USB Wi-Fi dongle for headless SSH
 - **Vision and sensing:** Camera Module 3, HC-SR04 ultrasonic sensor, ICM-20948 IMU
+- **Course sensing:** line sensors have been ordered; the exact model and
+  Raspberry Pi integration are pending
 - **Output and motion:** I²C LCD; motor-control hardware is being developed
 
 The [parts list](Hardware/partslist.md) records purchase and availability
@@ -40,13 +42,16 @@ pipeline is not yet implemented in this repository.
 | GTSRB, German signs | 43 | See [training guide](Model%20Training/README.md) | 95.79% top-1 on 12,630 test images | Model and evaluation committed |
 | LISA, selected US signs | 12 | 6,097 | 89.90% top-1 on 584 test crops | First model archived; training report committed |
 | Mapillary, mapped to the same 12 classes | 12 | 3,449 | 92.59% top-1 on 432 test crops | Model and report committed |
+| Combined LISA+Mapillary | 12 | 9,546 | 99.31% top-1 on 1,016 combined test crops | Model, training report, and same-set comparison committed |
 
-These percentages use **different test sets** and do not rank the models against
-each other. The Mapillary report also shows 77.98% macro F1 and only two
-speed-limit-65 test crops. Model comparisons and any future combined-data
-model need evaluation on the same independent sign set, ideally including
-images captured by BuggyBot's camera. See the [model training guide](Model%20Training/README.md)
-for the scripts, dataset preparation, and detailed reports.
+The separate LISA and Mapillary percentages use **different test sets** and do
+not rank those models. The [same-set comparison](Model%20Training/combined_model_comparison.md)
+evaluates all three US-sign models on the 1,016 combined test crops. The
+combined set preserves each source's split but does not establish physical-sign
+independence across datasets. The Mapillary test set has only two speed-limit-65
+crops. Camera images captured by BuggyBot are still needed to measure live
+performance. See the [model training guide](Model%20Training/README.md) for the
+scripts, preparation steps, and detailed results.
 
 ## Team
 
@@ -64,7 +69,7 @@ for the scripts, dataset preparation, and detailed reports.
 | `Proposal/` | Project proposal and Gantt charts |
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
 | `Hardware/` | Parts list, wiring references, integration prototype, and hardware test scripts |
-| `Model Training/` | GTSRB, LISA, and Mapillary preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
+| `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
 | `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes and a US Letter print sheet |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
 | `setup.sh` | Installs basic Git and Python prerequisites on a Debian-based board |
@@ -95,7 +100,7 @@ Weekly Reports/
   Self_Driving_RC_Car.docx / .pdf                      ← rolling report (working)
   Self-Driving-RC-Car.pptx                             ← rolling deck (generated)
   Week 1/ … Week 3/   frozen report .pdf + .docx
-  Week 4/ … Week 6/   frozen report + frozen .pptx
+  Week 4/ … Week 7/   frozen report + frozen .pptx
 ```
 
 See `Weekly Reports/context.md` for the full build/format guide.

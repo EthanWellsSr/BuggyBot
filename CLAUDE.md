@@ -65,6 +65,11 @@ work that is safe to complete.
 - **Weekly reports.** This is admin, not learning. Produce them end-to-end per
   `Weekly Reports/context.md` (format, build script, PDF, archive). No need to
   teach this — just do it.
+- **Weekly documentation review.** Before pushing a weekly report and slideshow,
+  inspect every maintained documentation file in this repository against that
+  week's work. Update stale project, model, hardware, and workflow claims, then
+  include those edits in the diff for Ethan's review. Verify uncertain hardware
+  and purchase details instead of guessing.
 
 ## Orientation for a new instance
 
