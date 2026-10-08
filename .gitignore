@@ -24,3 +24,9 @@ __pycache__/
 # Codex temporary work directories
 .codex/
 .codex-*/
+
+# KiCAD
+*.kicad_prl
+*.bak
+*-backups/
+~*.***/.history/
