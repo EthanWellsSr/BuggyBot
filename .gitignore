@@ -30,3 +30,5 @@ __pycache__/
 *.bak
 *-backups/
 ~*.***/.history/
+**/.history/
+*.lck

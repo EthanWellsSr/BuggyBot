@@ -1433,6 +1433,18 @@
 		(uuid "e893d0b8-52a7-4c2e-afa0-d0df7578cae6")
 	)
 	(no_connect
+		(at 180.34 96.52)
+		(uuid "5529901e-fe4d-4bed-9ff0-9a6ee29ebb41")
+	)
+	(no_connect
+		(at 149.86 96.52)
+		(uuid "739b46ac-e0c3-4b65-aa6f-fd5d51d802f8")
+	)
+	(no_connect
+		(at 146.05 96.52)
+		(uuid "7a23871e-b79d-431f-a0f6-9fbec59889ea")
+	)
+	(no_connect
 		(at 62.23 74.93)
 		(uuid "c919a6fc-ea93-4c0f-a4d2-e46e6b4eb69c")
 	)
@@ -4183,26 +4195,6 @@
 				(justify left)
 			)
 		)
-		(pin "ID_SC" input
-			(at 149.86 96.52 270)
-			(uuid "181abe7a-f941-42b6-bd46-aaa3131f90fb")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "ID_SD" input
-			(at 146.05 96.52 270)
-			(uuid "ce83728b-bebd-48c2-8734-b6a50d837931")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
 		(pin "SCL0" input
 			(at 138.43 96.52 270)
 			(uuid "9340c285-5767-42d5-8b6d-63fe2a40ddf3")
@@ -4326,16 +4318,6 @@
 		(pin "USBOTG_ID" input
 			(at 170.18 96.52 270)
 			(uuid "aa14c3bd-4acc-4908-9d28-228585a22a9d")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "GPIO_VREF" input
-			(at 180.34 96.52 270)
-			(uuid "9bb20359-0f8b-45bc-9d38-6626ed3a939d")
 			(effects
 				(font
 					(size 1.27 1.27)

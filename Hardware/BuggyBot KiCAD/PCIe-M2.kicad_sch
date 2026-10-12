@@ -2834,6 +2834,121 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:PWR_FLAG"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(text "Symbol for the SSD Bus was \nmodified on 10/7/26. \nThe M2, M3, and M4 points \nwere deleted after footprint \nwas altered to only fit \nM.2 2230 Socket."
 		(exclude_from_sim no)
@@ -2896,6 +3011,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1be42cfb-c40a-40fa-bad8-fea609fec509")
+	)
+	(junction
+		(at 146.05 27.94)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "238c1b58-0bc7-49e0-87b0-4456f36f9343")
 	)
 	(junction
 		(at 173.99 128.27)
@@ -3003,7 +3124,7 @@
 		(at 152.4 27.94)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "7f1156db-d3a8-4f9f-85c3-f6126b44442d")
+		(uuid "7f5eb10f-08d6-4501-95f8-54e53896797b")
 	)
 	(junction
 		(at 148.59 128.27)
@@ -3531,6 +3652,16 @@
 	)
 	(wire
 		(pts
+			(xy 146.05 27.94) (xy 152.4 27.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c6b10f7-caf6-4983-bfb4-85fa1a9c36ed")
+	)
+	(wire
+		(pts
 			(xy 170.18 27.94) (xy 172.72 27.94)
 		)
 		(stroke
@@ -3618,16 +3749,6 @@
 			(type default)
 		)
 		(uuid "854bfa82-ce82-46db-9f14-065a43e1179e")
-	)
-	(wire
-		(pts
-			(xy 152.4 27.94) (xy 152.4 31.75)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "859c5ae3-ce01-45ab-99d8-385d7977e781")
 	)
 	(wire
 		(pts
@@ -3771,7 +3892,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 27.94) (xy 152.4 27.94)
+			(xy 144.78 27.94) (xy 146.05 27.94)
 		)
 		(stroke
 			(width 0)
@@ -3798,6 +3919,16 @@
 			(type default)
 		)
 		(uuid "bce5afc8-fc5a-4083-9859-a3f31d8b70b5")
+	)
+	(wire
+		(pts
+			(xy 152.4 27.94) (xy 152.4 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c61c0978-91f6-4709-96b2-78cc9e702186")
 	)
 	(wire
 		(pts
@@ -6842,6 +6973,83 @@
 			(project "CM5IO"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/00000000-0000-0000-0000-00005ed4bb5b"
 					(reference "#PWR020")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 146.05 27.94 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "84a66538-ad04-4f63-9603-4fa562810711")
+		(property "Reference" "#FLG02"
+			(at 146.05 29.845 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 145.796 32.004 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 146.05 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 146.05 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 146.05 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f2d7dddf-8122-446b-8d29-5a4f30ceda67")
+		)
+		(instances
+			(project "CM5IO"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/00000000-0000-0000-0000-00005ed4bb5b"
+					(reference "#FLG02")
 					(unit 1)
 				)
 			)
