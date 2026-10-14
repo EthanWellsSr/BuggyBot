@@ -4,41 +4,43 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 PROJECT = "Self Driving RC Car"
-DATE = "10/6/2026"
-SUMMARY_DATE = "10/6/2026"
+DATE = "10/13/2026"
+SUMMARY_DATE = "10/13/2026"
 
 members = ["Ethan Wells (Group Leader)", "Alexis Perez", "Ethan Bishop", "Abigail Duran"]
 
 summary = (
-    "This week the team moved from preparing US traffic-sign data to testing a model and narrowing hardware choices for the vehicle. "
-    "Ethan Wells completed last week's goal of training and testing a CNN on the prepared 12-class LISA dataset. It reached 89.90% accuracy on 584 held-out test crops. "
-    "He reviewed the classes with lower accuracy and prepared 3,449 Mapillary sign crops for the next training run. "
-    "Alexis Perez selected and ordered line sensors to help the car follow the course, and completed an OpenCV beginner course. "
-    "Ethan Bishop found 3D-printable chassis plate files and continued researching whether ROS 2 would fit the vehicle's software. "
-    "Abigail Duran organized the components and connections needed for the custom PCB and reviewed the Compute Module 5 IO Board to determine which features to keep. PCB layout work carries into next week."
+    "This week the team compared sign-recognition models, outlined a possible software structure for the vehicle, and continued the custom PCB. "
+    "Ethan Wells completed last week's goal of training and testing a CNN on the prepared Mapillary sign data. It reached 92.59% accuracy on its 432 test crops. "
+    "He then combined the LISA and Mapillary datasets and trained a model on both. On the same 1,016 held-out test crops, the combined model reached 99.31% accuracy, compared with 84.94% for the LISA model and 72.05% for the Mapillary model. "
+    "These scores use cropped road-scene images, not BuggyBot's camera, so he prepared printable cards for the 12 sign classes for camera testing. "
+    "Alexis Perez completed the OpenCV beginner course and worked on integrating the line sensors with the Raspberry Pi. TCRT5000 IR line sensors and AEDIKO TT motors with wheels were purchased on 10/13. Using OpenCV with the Raspberry Pi camera carries into next week. "
+    "Ethan Bishop continued researching ROS 2 and outlined a possible node structure for the vehicle: camera, sign detector, IMU, behavior, motor driver, LCD, and manual-control nodes. "
+    "Abigail Duran added the BuggyBot KiCad project files to the repository and removed unnecessary components from the schematic and PCB layout. Component placement, power distribution, and signal routing carry into next week."
 )
 
 plan = [
-    ("Ethan Wells", "Train and test a CNN on the prepared Mapillary sign data; if time allows, combine the LISA and Mapillary datasets and test a model trained on both."),
-    ("Alexis Perez", "Connect the line sensors to the Raspberry Pi and begin using OpenCV with the Raspberry Pi camera."),
-    ("Ethan Bishop", "Continue researching ROS 2 and assess the proposed camera, sign detector, behavior, and motor driver nodes for the vehicle."),
-    ("Abigail Duran", "Begin the PCB layout, including component placement, board dimensions, power distribution, and signal routing; transfer the selected components into the design."),
+    ("Ethan Wells", "Print the sign cards and capture images of them with the CM5 camera at set distances and angles; score the camera crops separately from the road-scene crop benchmark."),
+    ("Alexis Perez", "Implement OpenCV with the Raspberry Pi camera."),
+    ("Ethan Bishop", "Continue researching a possible ROS 2 implementation for the vehicle."),
+    ("Abigail Duran", "Continue developing the PCB design and component placement, begin planning power distribution and signal routing, and work toward finalizing the PCB design for manufacturing."),
 ]
 
 contributions = [
-    ("Ethan Wells", [("10/2/2026", "Trained the CNN on the prepared 12-class LISA sign dataset", 2),
-                     ("10/5/2026", "Tested the LISA model on the held-out test set and reviewed the per-class results", 2),
-                     ("10/6/2026", "Prepared 3,449 Mapillary sign crops for the same 12 classes", 3)]),
-    ("Alexis Perez", [("", "Selected and ordered line sensors for course following", None),
-                      ("", "Completed an OpenCV beginner course", None)]),
-    ("Ethan Bishop", [("", "Researched 3D-printable chassis plate files", None),
-                      ("", "Continued researching a possible ROS 2 implementation for the vehicle", None)]),
-    ("Abigail Duran", [("", "Organized the components and connections needed for the custom PCB", None),
-                       ("", "Reviewed the Compute Module 5 IO Board to determine which features to keep in the custom design", None)]),
+    ("Ethan Wells", [("", "Trained and tested the CNN on the Mapillary sign data, reviewed the results, and combined the LISA and Mapillary datasets into 7,601 training, 929 validation, and 1,016 test crops", None),
+                     ("", "Trained the combined model (99.31% accuracy on 1,016 test crops) and compared the LISA, Mapillary, and combined models on the same test crops", None),
+                     ("", "Prepared printable cards for the 12 sign classes, and prepared the weekly slides and report", None)]),
+    ("Alexis Perez", [("", "Completed the OpenCV beginner course", None),
+                      ("", "Worked on integrating the line sensors with the Raspberry Pi", None)]),
+    ("Ethan Bishop", [("", "Continued researching a possible ROS 2 implementation for the vehicle", None),
+                      ("", "Outlined a preliminary ROS 2 node structure for the camera, sign detector, IMU, behavior, motor driver, LCD, and manual control", None)]),
+    ("Abigail Duran", [("", "Added the BuggyBot KiCad project files to the repository", None),
+                       ("", "Created a component checklist for the PCB design", None),
+                       ("", "Removed unnecessary components from the schematic and PCB layout", None)]),
 ]
 
-hours = [("Ethan Wells", "7", "33"), ("Alexis Perez", "6", "29"),
-         ("Ethan Bishop", "6", "28"), ("Abigail Duran", "6", "29")]
+hours = [("Ethan Wells", "8", "41"), ("Alexis Perez", "6", "35"),
+         ("Ethan Bishop", "6", "34"), ("Abigail Duran", "6", "35")]
 
 d = Document("project_name.docx")
 

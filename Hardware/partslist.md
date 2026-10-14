@@ -24,18 +24,19 @@ Wiring: current [Autonomous Car Schematic.png](Autonomous%20Car%20Schematic.png)
 | DIANN drive set (2× 3–6 V TT motors, 2× wheels, L298N motor driver) | 1 | Propulsion, wheels, and dual-channel motor control | Ordered | 7.99 | 9/16 | Alexis Perez | [amazon](https://www.amazon.com/dp/B0BR7S1DQZ) |
 | Waveshare Motor Driver HAT (PCA9685 + TB6612FNG, two DC motors) | 1 | Motor-control prototype | Have | 22.10 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B07K7NP7C9) |
 | LK COKOINO 4WD Robot HAT (DRV8833) | 1 | Motor-control prototype | Have | 9.99 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B0D4VYW1PX) |
-| Line sensors (model and quantity pending) | TBD | Detect the course line | Ordered | — | — | Alexis Perez | — |
+| HiLetgo TCRT5000 IR line sensor modules (10-pack) | 1 | Detect the course line | Ordered | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B00LZV1V10) |
+| AEDIKO TT motor kit (4 sets: 3–6 V dual-shaft 1:48 TT motors with wheels) | 1 | Propulsion and wheels | Ordered | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B099Z85573) |
 | Steering servo | 1 | Steering | TBD | — | — | — | |
 | Battery | 1 | Power source | TBD | — | — | — | |
 | Battery charger | 1 | Charge the battery | TBD | — | — | — | |
 | Custom carrier PCB | 1 | Final CM5 carrier board (spring) | TBD | — | — | — | |
-| **Running total (priced items only)** | | | | **339.91** | | | |
+| **Running total (priced items only)** | | | | **357.49** | | | |
 
 Pricing may vary depending on current market; prices listed were from time of purchase.
 The Week 6 report records bench tests of the camera, IMU, LCD, and both motor
-controller HATs. The Week 7 slides record Alexis selecting and ordering line
-sensors. The model, quantity, price, purchase date, and link for the line sensors
-still need confirmation. The listed camera and IMU cables have not been matched
-to the installed cables.
+controller HATs. The TCRT5000 line sensors and AEDIKO TT motor kit were
+purchased on 10/13; the TCS34725 RGB color sensor shown on the Week 8 slides was
+not purchased. The listed camera and IMU cables have not been matched to the
+installed cables.
 
 **Maybe later:** Raspberry Pi Pico as a real-time co-processor — only if the Pi 5's reaction time for the ultrasonic/motor timing isn't good enough.

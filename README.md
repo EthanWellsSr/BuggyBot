@@ -24,8 +24,8 @@ spring scope is the autonomous vehicle.
 - **Compute and storage:** Raspberry Pi CM5 (4 GB Lite), CM5 IO Board, M.2 NVMe
 - **Networking:** USB Wi-Fi dongle for headless SSH
 - **Vision and sensing:** Camera Module 3, HC-SR04 ultrasonic sensor, ICM-20948 IMU
-- **Course sensing:** line sensors have been ordered; the exact model and
-  Raspberry Pi integration are pending
+- **Course sensing:** TCRT5000 IR line sensors (ordered 10/13); Raspberry Pi
+  integration is in progress
 - **Output and motion:** I²C LCD; motor-control hardware is being developed
 
 The [parts list](Hardware/partslist.md) records purchase and availability
@@ -100,7 +100,7 @@ Weekly Reports/
   Self_Driving_RC_Car.docx / .pdf                      ← rolling report (working)
   Self-Driving-RC-Car.pptx                             ← rolling deck (generated)
   Week 1/ … Week 3/   frozen report .pdf + .docx
-  Week 4/ … Week 7/   frozen report + frozen .pptx
+  Week 4/ … Week 8/   frozen report + frozen .pptx
 ```
 
 See `Weekly Reports/context.md` for the full build/format guide.
