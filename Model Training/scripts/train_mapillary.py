@@ -1,4 +1,4 @@
-"""Train the LISA classifier and save one diagnostic report for each run."""
+"""Train a Mapillary-only classifier and save its evaluation in one report."""
 
 import csv
 import json
@@ -11,10 +11,10 @@ import numpy as np
 import tensorflow as tf
 
 
-HERE = Path(__file__).resolve().parent
-DATASET_ROOT = HERE / "LISA" / "prepared"
-MODEL_PATH = HERE / "lisa_model.keras"
-REPORT_PATH = HERE / "lisa_training_report.json"
+ROOT = Path(__file__).resolve().parents[1]
+DATASET_ROOT = ROOT / "data" / "prepared" / "mapillary"
+MODEL_PATH = ROOT / "models" / "mapillary_model.keras"
+REPORT_PATH = ROOT / "reports" / "mapillary_training_report.json"
 IMAGE_SIZE = (32, 32)
 BATCH_SIZE = 64
 MAX_EPOCHS = 60
@@ -29,13 +29,14 @@ NUM_CLASSES = len(CLASSES)
 
 with (DATASET_ROOT / "manifest.csv").open(newline="", encoding="utf-8") as handle:
     manifest = {row["output_file"]: row for row in csv.DictReader(handle)}
+dataset_summary = json.loads((DATASET_ROOT / "summary.json").read_text(encoding="utf-8"))
 
 
 def load_split(split: str) -> list[tuple[str, int]]:
     """Return (image path, class index) records for one prepared split.
 
-    prepare_lisa.py already separated the splits by physical sign track,
-    so no further splitting is needed here.
+    prepare_mapillary.py already assigned splits by source image. It cannot
+    identify the same physical sign across different source images.
     """
     samples = []
     for class_id, class_directory in enumerate(CLASSES):
@@ -127,15 +128,15 @@ class EpochRecorder(tf.keras.callbacks.Callback):
 
 def split_summary(samples):
     counts = Counter(class_id for _, class_id in samples)
-    tracks = {label: set() for label in LABELS}
+    source_images = {label: set() for label in LABELS}
     for path, class_id in samples:
         relative_path = Path(path).relative_to(DATASET_ROOT).as_posix()
-        tracks[LABELS[class_id]].add(manifest[relative_path]["group_id"])
+        source_images[LABELS[class_id]].add(manifest[relative_path]["image_key"])
     return {
         "crops": len(samples),
-        "tracks": sum(len(group_ids) for group_ids in tracks.values()),
+        "source_images": len({image for images in source_images.values() for image in images}),
         "per_class": {
-            label: {"crops": counts[class_id], "tracks": len(tracks[label])}
+            label: {"crops": counts[class_id], "source_images": len(source_images[label])}
             for class_id, label in enumerate(LABELS)
         },
     }
@@ -170,25 +171,27 @@ def evaluate_split(model, samples):
         }
 
     errors = []
-    track_errors = Counter()
-    track_totals = Counter()
+    source_image_errors = Counter()
+    source_image_totals = Counter()
     for index, (path, class_id) in enumerate(samples):
         relative_path = Path(path).relative_to(DATASET_ROOT).as_posix()
         source = manifest[relative_path]
-        group_id = source["group_id"]
-        track_totals[group_id] += 1
+        image_key = source["image_key"]
+        source_image_totals[image_key] += 1
         if correct[index]:
             continue
-        track_errors[group_id] += 1
+        source_image_errors[image_key] += 1
         top_ids = np.argsort(probabilities[index])[-top_k:][::-1]
         errors.append({
             "image": relative_path,
             "source_image": source["source_image"],
-            "group_id": group_id,
-            "occluded": source["occluded"] == "1",
-            "on_another_road": source["on_another_road"] == "1",
-            "source_box_width": int(source["source_x_max"]) - int(source["source_x_min"]),
-            "source_box_height": int(source["source_y_max"]) - int(source["source_y_min"]),
+            "image_key": image_key,
+            "object_key": source["object_key"],
+            "original_split": source["original_split"],
+            "mapillary_label": source["mapillary_label"],
+            "occluded": source["occluded"].lower() == "true",
+            "source_box_width": float(source["source_x_max"]) - float(source["source_x_min"]),
+            "source_box_height": float(source["source_y_max"]) - float(source["source_y_min"]),
             "actual": LABELS[class_id],
             "predicted": LABELS[int(predicted[index])],
             "predicted_probability": float(probabilities[index, predicted[index]]),
@@ -221,9 +224,9 @@ def evaluate_split(model, samples):
         "per_class": per_class,
         "confusion_matrix": confusion.tolist(),
         "common_confusions": confusion_pairs,
-        "error_tracks": [
-            {"group_id": group_id, "incorrect": count, "total": track_totals[group_id]}
-            for group_id, count in track_errors.most_common()
+        "error_source_images": [
+            {"image_key": image_key, "incorrect": count, "total": source_image_totals[image_key]}
+            for image_key, count in source_image_errors.most_common()
         ],
         "errors": errors,
     }
@@ -238,7 +241,7 @@ print(
 train_dataset = make_dataset(samples["train"], training=True)
 validation_dataset = make_dataset(samples["validation"], training=False)
 
-# LISA is very imbalanced (stop: 1,513 train crops, speed limit 65: 56), so
+# Mapillary is imbalanced (stop: 827 train crops, speed limit 65: 19), so
 # rarer classes get a larger loss weight. The square root softens the effect.
 counts = Counter(sample[1] for sample in samples["train"])
 class_weights = {
@@ -269,7 +272,8 @@ print(f"Saved model: {MODEL_PATH}")
 
 report = {
     "model_file": MODEL_PATH.name,
-    "dataset": "LISA prepared 12-class subset",
+    "dataset": "Mapillary prepared 12-class subset",
+    "dataset_summary": dataset_summary,
     "class_labels": LABELS,
     "training_config": {
         "seed": SEED,

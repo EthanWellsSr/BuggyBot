@@ -1,0 +1,5 @@
+# Model-training environment (Python 3.12, this folder's .venv).
+# Versions match the environment that produced the saved models and reports.
+tensorflow==2.21.0
+keras==3.15.1
+numpy==2.5.3

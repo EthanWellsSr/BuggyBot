@@ -21,9 +21,9 @@ os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
 import tensorflow as tf
 
 
-HERE = Path(__file__).resolve().parent
-RAW = HERE / "LISA" / "mapillary_raw"
-DEFAULT_OUTPUT = HERE / "LISA" / "mapillary_prepared"
+ROOT = Path(__file__).resolve().parents[1]
+RAW = ROOT / "data" / "raw" / "mapillary"
+DEFAULT_OUTPUT = ROOT / "data" / "prepared" / "mapillary"
 ARCHIVES = {
     "annotations": "mtsd_v2_fully_annotated_annotation.zip",
     "train.0": "mtsd_v2_fully_annotated_images.train.0.zip",

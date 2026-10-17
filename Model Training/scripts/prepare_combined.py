@@ -10,10 +10,10 @@ from collections import Counter
 from pathlib import Path
 
 
-HERE = Path(__file__).resolve().parent
-DATA_ROOT = HERE / "LISA"
-SOURCES = {"lisa": DATA_ROOT / "prepared", "mapillary": DATA_ROOT / "mapillary_prepared"}
-OUTPUT = DATA_ROOT / "Combined"
+ROOT = Path(__file__).resolve().parents[1]
+DATA_ROOT = ROOT / "data" / "prepared"
+SOURCES = {"lisa": DATA_ROOT / "lisa", "mapillary": DATA_ROOT / "mapillary"}
+OUTPUT = DATA_ROOT / "combined"
 SPLITS = ("train", "validation", "test")
 
 
@@ -98,7 +98,7 @@ def main():
                 })
 
         summary = {
-            "sources": {name: str(root.relative_to(HERE)) for name, root in SOURCES.items()},
+            "sources": {name: str(root.relative_to(ROOT)) for name, root in SOURCES.items()},
             "source_metadata_sha256": {
                 name: {
                     filename: hashlib.sha256((root / filename).read_bytes()).hexdigest()

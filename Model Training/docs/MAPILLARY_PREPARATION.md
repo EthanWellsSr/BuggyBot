@@ -1,10 +1,10 @@
 # Preparing Mapillary signs for the LISA classes
 
-This creates a **separate, reviewable Mapillary dataset** with the same 12 class names and file layout as `LISA/prepared`. It does not change LISA images or train a model.
+This creates a **separate, reviewable Mapillary dataset** with the same 12 class names and file layout as `data/prepared/lisa`. It does not change LISA images or train a model.
 
 ## Inputs
 
-Download the **v2 fully annotated** Mapillary Traffic Sign Dataset from [Mapillary](https://www.mapillary.com/dataset/trafficsign) after accepting its terms yourself. Place these five files in `Model Training/LISA/mapillary_raw/`:
+Download the **v2 fully annotated** Mapillary Traffic Sign Dataset from [Mapillary](https://www.mapillary.com/dataset/trafficsign) after accepting its terms yourself. Place these five files in `Model Training/data/raw/mapillary/`:
 
 ```text
 mtsd_v2_fully_annotated_annotation.zip
@@ -24,20 +24,16 @@ The ZIPs remain intact. The script reads only matched source images and writes t
 | train.2 | `48fd11f9bc1048b9ffa54a95605976b5` |
 | val | `f1be4cb09ffcbd7c2850f7ac2ed2760f` |
 
-`LISA/` is Git ignored. Keep the raw ZIPs, prepared images, galleries, and exclusions out of Git. Follow the [Mapillary dataset terms](https://www.mapillary.com/dataset/trafficsign) when sharing data with classmates.
+`data/` is Git ignored. Keep the raw ZIPs, prepared images, galleries, and exclusions out of Git. Follow the [Mapillary dataset terms](https://www.mapillary.com/dataset/trafficsign) when sharing data with classmates.
 
 ## Prepare
 
-From `Model Training/`, use the existing TensorFlow environment:
+The ZIPs were deleted locally after `data/prepared/mapillary/` was built (October 2026) to free about 35 GB. Re-download them and check the MD5 values above before re-preparing. `exclusions.csv` and the candidate audit files were kept in `data/raw/mapillary/`.
 
-```bash
-./.venv/bin/python prepare_mapillary.py
-```
+Run `scripts/prepare_mapillary.py` with the `.venv` interpreter. The default output is `data/prepared/mapillary/`. The script refuses to overwrite an existing output. To produce a reviewed revision, edit `data/raw/mapillary/exclusions.csv` and set a new output in the run configuration's parameters:
 
-The default output is `LISA/mapillary_prepared/`. The script refuses to overwrite an existing output. To produce a reviewed revision, edit `LISA/mapillary_raw/exclusions.csv` and choose a new output:
-
-```bash
-./.venv/bin/python prepare_mapillary.py --output LISA/mapillary_prepared_v2
+```text
+--output data/prepared/mapillary_v2
 ```
 
 The command also accepts `--source`, `--exclusions`, and `--seed` for other installations or repeatable split choices. It needs TensorFlow and the Python standard library; it does not require extracting the ZIPs.
@@ -53,7 +49,7 @@ The command also accepts `--source`, `--exclusions`, and `--seed` for other inst
 ## Output and review
 
 ```text
-LISA/mapillary_prepared/
+data/prepared/mapillary/
   train/<class_directory>/*.png
   validation/<class_directory>/*.png
   test/<class_directory>/*.png
@@ -63,7 +59,7 @@ LISA/mapillary_prepared/
   review/index.html
 ```
 
-Open `review/index.html` locally to inspect the crops class by class. Each caption gives `image_key,object_key`. To omit a crop in the next preparation run, add a line to `LISA/mapillary_raw/exclusions.csv`:
+Open `review/index.html` locally to inspect the crops class by class. Each caption gives `image_key,object_key`. To omit a crop in the next preparation run, add a line to `data/raw/mapillary/exclusions.csv`:
 
 ```csv
 image_key,object_key,reason
@@ -72,4 +68,4 @@ example_image_key,example_object_key,not_US_style
 
 Keep the header and replace the example with real IDs from the gallery. The script stops if an exclusion does not match a mapped annotation, so typos cannot silently pass. Check all classes before using the images for training. In particular, Mapillary's general `stop` label includes non-English words such as **PARE**, and a speed-limit sample was a truck-specific sign. Those are in the initial gallery for review, not automatically treated as equivalent to ordinary US signs.
 
-`classes.csv` uses the same class order as the current LISA dataset. `manifest.csv` records the original ZIP, source image, object ID, bounding box, flags, and split for every crop. `summary.json` records selection counts and split limits. `train_lisa.py` remains pointed at `LISA/prepared`; the separate `train_mapillary.py` reads `LISA/mapillary_prepared` and writes its own model and diagnostic report.
+`classes.csv` uses the same class order as the current LISA dataset. `manifest.csv` records the original ZIP, source image, object ID, bounding box, flags, and split for every crop. `summary.json` records selection counts and split limits. `scripts/train_lisa.py` reads `data/prepared/lisa`; the separate `scripts/train_mapillary.py` reads `data/prepared/mapillary` and writes its own model and diagnostic report.

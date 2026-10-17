@@ -9,19 +9,19 @@ import numpy as np
 import tensorflow as tf
 
 
-HERE = Path(__file__).resolve().parent
-DATA_ROOT = HERE / "LISA" / "Combined"
-REPORT_PATH = HERE / "combined_model_comparison_report.json"
-SUMMARY_PATH = HERE / "combined_model_comparison.md"
+ROOT = Path(__file__).resolve().parents[1]
+DATA_ROOT = ROOT / "data" / "prepared" / "combined"
+REPORT_PATH = ROOT / "reports" / "combined_model_comparison_report.json"
+SUMMARY_PATH = ROOT / "reports" / "combined_model_comparison.md"
 MODEL_FILES = {
-    "lisa": HERE / "lisa_model_v1.keras",
-    "mapillary": HERE / "mapillary_model.keras",
-    "combined": HERE / "combined_model.keras",
+    "lisa": ROOT / "models" / "lisa_model.keras",
+    "mapillary": ROOT / "models" / "mapillary_model.keras",
+    "combined": ROOT / "models" / "combined_model.keras",
 }
 TRAINING_REPORTS = {
-    "lisa": HERE / "lisa_training_report.json",
-    "mapillary": HERE / "mapillary_training_report.json",
-    "combined": HERE / "combined_training_report.json",
+    "lisa": ROOT / "reports" / "lisa_training_report.json",
+    "mapillary": ROOT / "reports" / "mapillary_training_report.json",
+    "combined": ROOT / "reports" / "combined_training_report.json",
 }
 BATCH_SIZE = 64
 
@@ -190,7 +190,7 @@ def main():
         raise ValueError("Combined test source counts changed")
 
     report = {
-        "evaluation_split": "LISA/Combined/test",
+        "evaluation_split": "data/prepared/combined/test",
         "class_labels": labels,
         "test_images": len(rows),
         "dataset_metadata_sha256": {

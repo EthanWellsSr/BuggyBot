@@ -1,5 +1,5 @@
 {
-  "evaluation_split": "LISA/Combined/test",
+  "evaluation_split": "data/prepared/combined/test",
   "class_labels": [
     "addedLane",
     "keepRight",
@@ -22,7 +22,7 @@
   },
   "models": {
     "lisa": {
-      "model_file": "lisa_model_v1.keras",
+      "model_file": "lisa_model.keras",
       "model_sha256": "50482a548398aa6a8d9dfe5a480492848fdf70fee6970da2758fdddd1c02793d",
       "training_report_file": "lisa_training_report.json",
       "overall": {

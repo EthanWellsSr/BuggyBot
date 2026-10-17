@@ -9,10 +9,10 @@ import numpy as np
 import tensorflow as tf
 
 
-HERE = Path(__file__).resolve().parent
-DATASET_ROOT = HERE / "GTSRB"
-MODEL_PATH = HERE / "gtsrb_model.keras"
-RESULTS_PATH = HERE / "gtsrb_test_results.json"
+ROOT = Path(__file__).resolve().parents[1]
+DATASET_ROOT = ROOT / "data" / "raw" / "gtsrb"
+MODEL_PATH = ROOT / "models" / "gtsrb_model.keras"
+RESULTS_PATH = ROOT / "reports" / "gtsrb_test_results.json"
 NUM_CLASSES = 43
 BATCH_SIZE = 128
 

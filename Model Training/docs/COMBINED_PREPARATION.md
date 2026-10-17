@@ -3,13 +3,10 @@
 The combined classifier uses the same 12 class indices as the separate LISA and
 Mapillary models. Prepare both sources first, following
 [`LISA_PREPARATION.md`](LISA_PREPARATION.md) and
-[`MAPILLARY_PREPARATION.md`](MAPILLARY_PREPARATION.md). From `Model Training/`, run:
+[`MAPILLARY_PREPARATION.md`](MAPILLARY_PREPARATION.md). Then run
+`scripts/prepare_combined.py`.
 
-```sh
-python3 prepare_combined.py
-```
-
-This creates `LISA/Combined/`, with `train/`, `validation/`, and `test/` class
+This creates `data/prepared/combined/`, with `train/`, `validation/`, and `test/` class
 folders, `classes.csv`, `manifest.csv`, and `summary.json`. The PNG files are
 copied into the combined class folders with `lisa__` or `mapillary__` filename
 prefixes. The manifest retains the original crop path, source dataset, source
@@ -29,24 +26,18 @@ distinct physical signs across splits. Physical sign overlap between the two
 datasets is also unknown. The combined test set is useful for comparing models
 on the same images, but it is not a substitute for a new camera-based test set.
 
-`LISA/` is Git ignored, including `Combined/`. To rebuild after changing either
-source, move or remove `LISA/Combined/`, then rerun the preparation script.
+`data/` is Git ignored. To rebuild after changing either source, move or remove
+`data/prepared/combined/`, then rerun the preparation script.
 The script will not overwrite an existing combined dataset.
 
-Train after preparation:
-
-```sh
-./.venv/bin/python train_combined.py
-```
-
-Training saves `combined_model.keras` and `combined_training_report.json` in
-`Model Training/`. The report includes epoch history, overall validation and
+Train after preparation with `scripts/train_combined.py`. Training saves
+`models/combined_model.keras` and `reports/combined_training_report.json`. The report includes epoch history, overall validation and
 test results, results by source dataset, per-class metrics, confusion matrices,
 and individual errors. The trainer uses the same architecture and training
 settings as the separate LISA and Mapillary trainers. Training can take longer
 because it uses all 7,601 training crops.
 
-After training, run `./.venv/bin/python evaluate_combined_models.py` to score
-the LISA, Mapillary, and combined models on the same 1,016 test crops. The
-script writes `combined_model_comparison_report.json` and
-`combined_model_comparison.md`.
+After training, run `scripts/evaluate_combined_models.py` to score the LISA,
+Mapillary, and combined models on the same 1,016 test crops. The script writes
+`reports/combined_model_comparison_report.json` and
+`reports/combined_model_comparison.md`.

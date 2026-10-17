@@ -45,7 +45,7 @@ pipeline is not yet implemented in this repository.
 | Combined LISA+Mapillary | 12 | 9,546 | 99.31% top-1 on 1,016 combined test crops | Model, training report, and same-set comparison committed |
 
 The separate LISA and Mapillary percentages use **different test sets** and do
-not rank those models. The [same-set comparison](Model%20Training/combined_model_comparison.md)
+not rank those models. The [same-set comparison](Model%20Training/reports/combined_model_comparison.md)
 evaluates all three US-sign models on the 1,016 combined test crops. The
 combined set preserves each source's split but does not establish physical-sign
 independence across datasets. The Mapillary test set has only two speed-limit-65

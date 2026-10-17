@@ -9,9 +9,9 @@ from pathlib import Path
 import tensorflow as tf
 
 
-HERE = Path(__file__).resolve().parent
-DATASET_ROOT = HERE / "GTSRB"
-MODEL_PATH = HERE / "gtsrb_model.keras"
+ROOT = Path(__file__).resolve().parents[1]
+DATASET_ROOT = ROOT / "data" / "raw" / "gtsrb"
+MODEL_PATH = ROOT / "models" / "gtsrb_model.keras"
 NUM_CLASSES = 43
 IMAGE_SIZE = (32, 32)
 BATCH_SIZE = 128

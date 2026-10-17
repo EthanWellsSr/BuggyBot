@@ -1,6 +1,5 @@
-# Dataset — download separately (see README), do not commit
-GTSRB/
-LISA/
+# Datasets — download separately (see docs/), do not commit
+data/
 
 # Python
 .venv/

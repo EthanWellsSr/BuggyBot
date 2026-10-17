@@ -24,28 +24,30 @@ Create this local layout:
 
 ```text
 Model Training/
-  LISA/
+  data/
     raw/
-      allAnnotations.csv
-      categories.txt
-      aiua120214-0/
-      ...
+      lisa/
+        allAnnotations.csv
+        categories.txt
+        aiua120214-0/
+        ...
 ```
 
-`LISA/` is ignored by Git because the original and generated images must not be committed.
+`data/` is ignored by Git because the original and generated images must not be committed.
 
 ## 3. Run the preparation script
 
-From `Model Training/`, with the existing virtual environment active:
+Run `scripts/prepare_lisa.py` with the `.venv` interpreter. It requires two arguments; in the IDE, set them as the
+run configuration's parameters (paths are relative to the working directory, shown here from `Model Training/`):
 
-```bash
-python prepare_lisa.py --source LISA/raw --output LISA/prepared
+```text
+--source data/raw/lisa --output data/prepared/lisa
 ```
 
 The script deliberately refuses to use an existing output directory. This prevents an accidental mixture of two
 runs. Rename or remove an old generated directory before rerunning.
 
-**The script modifies `LISA/raw/` in place.** After validation it deletes everything the classifier does not need
+**The script modifies `data/raw/lisa/` in place.** After validation it deletes everything the classifier does not need
 (about 4 GB): `negatives/`, `tools/`, `readme.txt`, `datasetDescription.pdf`, `videoSources.txt`, and the per-folder
 `frameAnnotations.csv`/`.bak`/`Thumbs.db` copies. What remains is `allAnnotations.csv`, `categories.txt`, and the
 6,618 annotated frames (about 5 GB). Pass `--no-strip` to keep the original download untouched.
@@ -68,7 +70,7 @@ runs. Rename or remove an old generated directory before rerunning.
 The output is compatible with TensorFlow's `image_dataset_from_directory`:
 
 ```text
-LISA/prepared/
+data/prepared/lisa/
   train/<class_directory>/*.png
   validation/<class_directory>/*.png
   test/<class_directory>/*.png
@@ -90,4 +92,4 @@ Before any model-specific class filtering, preparation is complete only when:
 - every output image is represented in `manifest.csv`;
 - any missing validation/test coverage in `summary.json` has been reviewed.
 
-Training and evaluation of a new LISA model are separate next-week tasks.
+Train with `scripts/train_lisa.py`; see the [Model Training README](../README.md).

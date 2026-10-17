@@ -1,4 +1,4 @@
-"""Train on combined LISA and Mapillary crops and save one detailed report."""
+"""Train the LISA classifier and save one diagnostic report for each run."""
 
 import csv
 import json
@@ -11,10 +11,10 @@ import numpy as np
 import tensorflow as tf
 
 
-HERE = Path(__file__).resolve().parent
-DATASET_ROOT = HERE / "LISA" / "Combined"
-MODEL_PATH = HERE / "combined_model.keras"
-REPORT_PATH = HERE / "combined_training_report.json"
+ROOT = Path(__file__).resolve().parents[1]
+DATASET_ROOT = ROOT / "data" / "prepared" / "lisa"
+MODEL_PATH = ROOT / "models" / "lisa_model.keras"
+REPORT_PATH = ROOT / "reports" / "lisa_training_report.json"
 IMAGE_SIZE = (32, 32)
 BATCH_SIZE = 64
 MAX_EPOCHS = 60
@@ -29,14 +29,13 @@ NUM_CLASSES = len(CLASSES)
 
 with (DATASET_ROOT / "manifest.csv").open(newline="", encoding="utf-8") as handle:
     manifest = {row["output_file"]: row for row in csv.DictReader(handle)}
-dataset_summary = json.loads((DATASET_ROOT / "summary.json").read_text(encoding="utf-8"))
 
 
 def load_split(split: str) -> list[tuple[str, int]]:
     """Return (image path, class index) records for one prepared split.
 
-    prepare_combined.py preserves each source's original split assignment.
-    Physical sign overlap between datasets remains unknown.
+    prepare_lisa.py already separated the splits by physical sign track,
+    so no further splitting is needed here.
     """
     samples = []
     for class_id, class_directory in enumerate(CLASSES):
@@ -128,19 +127,15 @@ class EpochRecorder(tf.keras.callbacks.Callback):
 
 def split_summary(samples):
     counts = Counter(class_id for _, class_id in samples)
-    groups = {label: set() for label in LABELS}
-    source_counts = Counter()
+    tracks = {label: set() for label in LABELS}
     for path, class_id in samples:
         relative_path = Path(path).relative_to(DATASET_ROOT).as_posix()
-        source = manifest[relative_path]
-        groups[LABELS[class_id]].add(source["group_id"])
-        source_counts[source["dataset"]] += 1
+        tracks[LABELS[class_id]].add(manifest[relative_path]["group_id"])
     return {
         "crops": len(samples),
-        "groups": len({group for class_groups in groups.values() for group in class_groups}),
-        "by_source": dict(source_counts),
+        "tracks": sum(len(group_ids) for group_ids in tracks.values()),
         "per_class": {
-            label: {"crops": counts[class_id], "groups": len(groups[label])}
+            label: {"crops": counts[class_id], "tracks": len(tracks[label])}
             for class_id, label in enumerate(LABELS)
         },
     }
@@ -175,30 +170,25 @@ def evaluate_split(model, samples):
         }
 
     errors = []
-    group_errors = Counter()
-    group_totals = Counter()
+    track_errors = Counter()
+    track_totals = Counter()
     for index, (path, class_id) in enumerate(samples):
         relative_path = Path(path).relative_to(DATASET_ROOT).as_posix()
         source = manifest[relative_path]
         group_id = source["group_id"]
-        group_totals[group_id] += 1
+        track_totals[group_id] += 1
         if correct[index]:
             continue
-        group_errors[group_id] += 1
+        track_errors[group_id] += 1
         top_ids = np.argsort(probabilities[index])[-top_k:][::-1]
         errors.append({
             "image": relative_path,
-            "dataset": source["dataset"],
-            "source_output_file": source["source_output_file"],
             "source_image": source["source_image"],
             "group_id": group_id,
-            "image_key": source.get("image_key", ""),
-            "object_key": source.get("object_key", ""),
-            "original_split": source.get("original_split", ""),
-            "mapillary_label": source.get("mapillary_label", ""),
-            "occluded": source["occluded"].lower() in ("true", "1"),
-            "source_box_width": float(source["source_x_max"]) - float(source["source_x_min"]),
-            "source_box_height": float(source["source_y_max"]) - float(source["source_y_min"]),
+            "occluded": source["occluded"] == "1",
+            "on_another_road": source["on_another_road"] == "1",
+            "source_box_width": int(source["source_x_max"]) - int(source["source_x_min"]),
+            "source_box_height": int(source["source_y_max"]) - int(source["source_y_min"]),
             "actual": LABELS[class_id],
             "predicted": LABELS[int(predicted[index])],
             "predicted_probability": float(probabilities[index, predicted[index]]),
@@ -231,9 +221,9 @@ def evaluate_split(model, samples):
         "per_class": per_class,
         "confusion_matrix": confusion.tolist(),
         "common_confusions": confusion_pairs,
-        "error_groups": [
-            {"group_id": group_id, "incorrect": count, "total": group_totals[group_id]}
-            for group_id, count in group_errors.most_common()
+        "error_tracks": [
+            {"group_id": group_id, "incorrect": count, "total": track_totals[group_id]}
+            for group_id, count in track_errors.most_common()
         ],
         "errors": errors,
     }
@@ -248,8 +238,8 @@ print(
 train_dataset = make_dataset(samples["train"], training=True)
 validation_dataset = make_dataset(samples["validation"], training=False)
 
-# Both sources are imbalanced, so rarer classes get a larger loss weight.
-# The square root softens the effect, as in the separate trainers.
+# LISA is very imbalanced (stop: 1,513 train crops, speed limit 65: 56), so
+# rarer classes get a larger loss weight. The square root softens the effect.
 counts = Counter(sample[1] for sample in samples["train"])
 class_weights = {
     class_id: math.sqrt(len(samples["train"]) / (NUM_CLASSES * count))
@@ -279,8 +269,7 @@ print(f"Saved model: {MODEL_PATH}")
 
 report = {
     "model_file": MODEL_PATH.name,
-    "dataset": "Combined LISA and Mapillary prepared 12-class subsets",
-    "dataset_summary": dataset_summary,
+    "dataset": "LISA prepared 12-class subset",
     "class_labels": LABELS,
     "training_config": {
         "seed": SEED,
@@ -305,15 +294,6 @@ report = {
     "validation": evaluate_split(model, samples["validation"]),
     "test": evaluate_split(model, samples["test"]),
 }
-for split in ("validation", "test"):
-    report[f"{split}_by_source"] = {
-        source: evaluate_split(
-            model,
-            [sample for sample in samples[split]
-             if manifest[Path(sample[0]).relative_to(DATASET_ROOT).as_posix()]["dataset"] == source],
-        )
-        for source in ("lisa", "mapillary")
-    }
 REPORT_PATH.write_text(json.dumps(report, indent=2), encoding="utf-8")
 for split in ("validation", "test"):
     result = report[split]
@@ -321,9 +301,4 @@ for split in ("validation", "test"):
         f"{split}: top-1 {result['top1_accuracy']:.2%}, top-3 {result['top3_accuracy']:.2%}, "
         f"macro F1 {result['macro_f1']:.2%}, {result['incorrect']} errors"
     )
-    for source, source_result in report[f"{split}_by_source"].items():
-        print(
-            f"  {source}: top-1 {source_result['top1_accuracy']:.2%}, "
-            f"macro F1 {source_result['macro_f1']:.2%}, {source_result['incorrect']} errors"
-        )
 print(f"Saved report: {REPORT_PATH}")
