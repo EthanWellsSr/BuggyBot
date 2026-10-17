@@ -13,7 +13,7 @@ spring scope is the autonomous vehicle.
 - The bench platform uses a Raspberry Pi Compute Module 5 (CM5) on its IO Board,
   booting Raspberry Pi OS Lite from an M.2 NVMe SSD. USB Wi-Fi supplies network
   access because this CM5 Lite has no onboard wireless.
-- [`Hardware/buggybot_integration.py`](Hardware/buggybot_integration.py) captures
+- [`Hardware/scripts/buggybot_integration.py`](Hardware/scripts/buggybot_integration.py) captures
   camera images and drives an LCD using **simulated** sign predictions. It does
   not yet run a trained model or control the vehicle from model output.
 - TensorFlow classifiers have been trained on GTSRB, LISA, Mapillary, and a

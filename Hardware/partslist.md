@@ -2,7 +2,7 @@
 
 Running list of hardware for BuggyBot, the autonomous car. Status: **Have** / **Ordered** / **Need** / **TBD**.
 
-Wiring: current [Autonomous Car Schematic.png](Autonomous%20Car%20Schematic.png) · earlier Pico version [Schematic_with_pico.jpeg](Schematic_with_pico.jpeg).
+Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Schematic.png) · earlier Pico version [Schematic_with_pico.jpeg](Schematics/Schematic_with_pico.jpeg).
 
 | Component | Qty | Purpose | Status | Price (USD) | Date Purchased | Purchased By | Link |
 |---|---|---|---|---|---|---|---|
