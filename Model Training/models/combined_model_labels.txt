@@ -1,0 +1,12 @@
+addedLane
+keepRight
+merge
+pedestrianCrossing
+school
+signalAhead
+speedLimit25
+speedLimit30
+speedLimit35
+speedLimit45
+speedLimit65
+stop

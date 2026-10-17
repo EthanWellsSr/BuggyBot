@@ -14,8 +14,10 @@ spring scope is the autonomous vehicle.
   booting Raspberry Pi OS Lite from an M.2 NVMe SSD. USB Wi-Fi supplies network
   access because this CM5 Lite has no onboard wireless.
 - [`Hardware/scripts/buggybot_integration.py`](Hardware/scripts/buggybot_integration.py) captures
-  camera images and drives an LCD using **simulated** sign predictions. It does
-  not yet run a trained model or control the vehicle from model output.
+  camera frames, crops a fixed region with OpenCV, classifies it with the
+  combined model (TensorFlow Lite), and shows the result on the LCD. It does not
+  yet locate signs automatically or control the vehicle; the first live test on
+  the Pi is pending.
 - TensorFlow classifiers have been trained on GTSRB, LISA, Mapillary, and a
   combined LISA+Mapillary dataset. Their models and results are in this repo.
 

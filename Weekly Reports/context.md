@@ -97,6 +97,7 @@ proposals and frozen weekly deliverables are reference material.
 - Training-set and test-set scores use different images. Use each model's
   measured result and state its test set. A crop-based score does not measure
   BuggyBot's live camera pipeline.
-- The fall prototype currently uses simulated sign predictions; the PCB,
+- The fall prototype classifies a fixed camera region with the combined model
+  (live test pending) and does not yet detect signs automatically; the PCB,
   ROS 2 pipeline, and vehicle autonomy remain planned or under study unless
   current code and hardware evidence establish otherwise.

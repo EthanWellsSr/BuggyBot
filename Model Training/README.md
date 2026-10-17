@@ -100,6 +100,16 @@ per-source accuracy, per-class recall, macro F1, confusion matrices, and
 individual errors. The comparison uses only `data/prepared/combined/test`
 (1,016 crops), not training images.
 
+## On-device model
+
+`scripts/convert_to_tflite.py` converts `models/combined_model.keras` to
+`models/combined_model.tflite` (621 KB, float32) and writes
+`models/combined_model_labels.txt`, one class per line in output order. It
+checks first that the TFLite model gives the same prediction as the Keras model
+on all 329 sign-card crops. The CM5 runs the `.tflite` file with the LiteRT
+runtime instead of full TensorFlow; see the
+[Hardware README](../Hardware/README.md#live-sign-test).
+
 ## Camera test: printed sign cards
 
 An independent check of the three US-sign models on BuggyBot's own camera,
