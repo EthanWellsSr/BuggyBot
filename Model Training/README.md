@@ -25,6 +25,11 @@ Model Training/
 Scripts locate everything relative to `Model Training/`, so they run from the
 IDE regardless of working directory.
 
+The `summary.json` files under `data/prepared/` were generated before the
+October 2026 folder reorganization, so the source paths they record use the
+old `LISA/...` layout. They are left unchanged because the comparison report
+stores their hashes.
+
 ## Setup
 
 Use **Python 3.12** with this folder's `.venv` as the IDE interpreter, and

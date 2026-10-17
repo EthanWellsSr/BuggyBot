@@ -83,9 +83,10 @@ work that is safe to complete.
   combined test split; separate dataset scores use different test sets and are
   not directly comparable. The combined dataset preserves source splits but does
   not establish physical-sign independence across datasets.
-- `Hardware/` — parts list, wiring references, integration prototype, and test
-  scripts. The CM5 Lite has no onboard Wi-Fi and uses a USB adapter. Treat driver
-  reliability as unresolved unless current device evidence confirms it.
+- `Hardware/` — parts list, wiring references, integration prototype, test
+  scripts, and the KiCad custom-PCB project (`BuggyBot KiCAD/`). The CM5 Lite
+  has no onboard Wi-Fi and uses a USB adapter. Treat driver reliability as
+  unresolved unless current device evidence confirms it.
 - `Sign Cards/` — printable cards and artwork for the 12 selected US sign classes.
 - `Learning/` — self-directed learning projects; follow each project's
   `MISSION.md` when working there.

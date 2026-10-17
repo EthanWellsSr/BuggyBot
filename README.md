@@ -24,12 +24,16 @@ spring scope is the autonomous vehicle.
 - **Compute and storage:** Raspberry Pi CM5 (4 GB Lite), CM5 IO Board, M.2 NVMe
 - **Networking:** USB Wi-Fi dongle for headless SSH
 - **Vision and sensing:** Camera Module 3, HC-SR04 ultrasonic sensor, ICM-20948 IMU
-- **Course sensing:** TCRT5000 IR line sensors (ordered 10/13); Raspberry Pi
+- **Course sensing:** TCRT5000 IR line sensors (received); Raspberry Pi
   integration is in progress
-- **Output and motion:** I²C LCD; motor-control hardware is being developed
+- **Output and motion:** I²C LCD; TT drive motors and two motor-controller HATs
+  are on hand, and vehicle motor control is being developed
+- **Custom PCB:** a KiCad carrier-board design, derived from the CM5 IO Board, is
+  in progress in [`Hardware/BuggyBot KiCAD/`](Hardware/BuggyBot%20KiCAD/)
 
 The [parts list](Hardware/partslist.md) records purchase and availability
-status. Wiring references and hardware test scripts are in [`Hardware/`](Hardware/).
+status. Wiring references and hardware test scripts are in [`Hardware/`](Hardware/);
+see its [README](Hardware/README.md).
 
 ## Traffic-sign models
 
@@ -40,7 +44,7 @@ pipeline is not yet implemented in this repository.
 | Dataset and model | Classes | Prepared crops | Held-out result | Status |
 | --- | ---: | ---: | --- | --- |
 | GTSRB, German signs | 43 | See [training guide](Model%20Training/README.md) | 95.79% top-1 on 12,630 test images | Model and evaluation committed |
-| LISA, selected US signs | 12 | 6,097 | 89.90% top-1 on 584 test crops | First model archived; training report committed |
+| LISA, selected US signs | 12 | 6,097 | 89.90% top-1 on 584 test crops | Model and report committed |
 | Mapillary, mapped to the same 12 classes | 12 | 3,449 | 92.59% top-1 on 432 test crops | Model and report committed |
 | Combined LISA+Mapillary | 12 | 9,546 | 99.31% top-1 on 1,016 combined test crops | Model, training report, and same-set comparison committed |
 
@@ -68,7 +72,7 @@ scripts, preparation steps, and detailed results.
 | --- | --- |
 | `Proposal/` | Project proposal and Gantt charts |
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
-| `Hardware/` | Parts list, wiring references, integration prototype, and hardware test scripts |
+| `Hardware/` | Parts list, wiring references, integration prototype, hardware test scripts, and the KiCad custom-PCB project |
 | `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
 | `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes and a US Letter print sheet |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |

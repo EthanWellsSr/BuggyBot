@@ -2,7 +2,7 @@
 
 This folder contains the KiCad design files used for the BuggyBot senior capstone project.
 
-The design is based on the Raspberry Pi Compute Module 5 IO Board and is being used as a reference for developing the custom BuggyBot PCB.
+The design started from the Raspberry Pi Compute Module 5 IO Board files and is being modified into the custom BuggyBot carrier PCB.
 
 ## Main Project Files
 
@@ -10,10 +10,10 @@ The design is based on the Raspberry Pi Compute Module 5 IO Board and is being u
   Main KiCad project file. Open this file first to load the complete project.
 
 - `CM5IO.kicad_sch`  
-  Main schematic for the CM5 IO Board.
+  Main schematic, inherited from the CM5 IO Board.
 
 - `CM5IO.kicad_pcb`  
-  PCB layout for the CM5 IO Board.
+  PCB layout, inherited from the CM5 IO Board and being updated for BuggyBot.
 
 - `CM5IO.kicad_sym`  
   Custom symbol library used by the project.
@@ -21,7 +21,8 @@ The design is based on the Raspberry Pi Compute Module 5 IO Board and is being u
 ## Additional Schematic Sheets
 
 - `CM5_GPIO.kicad_sch`  
-  GPIO-related circuitry.
+  GPIO-related circuitry, including the BuggyBot additions: 4-pin quick-connect
+  ports for the IMU (J3) and the LCD (J4).
 
 - `CM5_HighSpeed.kicad_sch`  
   High-speed interfaces and related circuitry.
@@ -64,6 +65,6 @@ Opening the `.kicad_pro` file should load the schematic, PCB, and associated pro
 
 ## Project Purpose
 
-These files are being used as a reference while developing the custom PCB for BuggyBot.
+These files are the working design for BuggyBot's custom PCB.
 
-The original CM5 IO Board contains some different hardware than BuggyBot requires. The team will use these design files to identify the CM5 support circuitry and interfaces that must be retained for the final BuggyBot PCB.
+The original CM5 IO Board contains some different hardware than BuggyBot requires. The team is identifying which CM5 support circuitry and interfaces the final board must keep, and adding connectors for BuggyBot's sensors and display. The IMU and LCD ports were added in October 2026.

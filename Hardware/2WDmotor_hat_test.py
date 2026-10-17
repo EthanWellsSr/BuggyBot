@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-motor_hat_test.py - bench test for Raspberry Pi motor controller HATs
+2WDmotor_hat_test.py - bench test for Raspberry Pi motor controller HATs
 
 Supported boards (pick with --board):
   cokoino    Cokoino 4WD Robot HAT             (GPIO direct, 2x DRV8833, motors M1-M4)
@@ -13,11 +13,11 @@ Setup (Raspberry Pi OS):
                       sudo apt install python3-smbus2 i2c-tools
 
 Usage:
-  python3 motor_hat_test.py --board cokoino              # full automatic test
-  python3 motor_hat_test.py --board waveshare --max 40   # gentler test
-  python3 motor_hat_test.py --board cokoino --motors 1 3
-  python3 motor_hat_test.py --board cokoino -i           # interactive control
-  python3 motor_hat_test.py --scan                       # scan the I2C bus (I2C boards only)
+  python3 2WDmotor_hat_test.py --board cokoino              # full automatic test
+  python3 2WDmotor_hat_test.py --board waveshare --max 40   # gentler test
+  python3 2WDmotor_hat_test.py --board cokoino --motors 1 3
+  python3 2WDmotor_hat_test.py --board cokoino -i           # interactive control
+  python3 2WDmotor_hat_test.py --scan                       # scan the I2C bus (I2C boards only)
 
 SAFETY: lift the wheels off the ground before running. Ctrl+C stops all motors.
 """
