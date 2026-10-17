@@ -4,7 +4,7 @@ University of Houston–Clear Lake (UHCL) Senior Project, CENG 4265. The course
 deliverables use the project title **Self Driving RC Car**; BuggyBot is the
 repository and vehicle name.
 
-BuggyBot is an RC car project intended to follow a controlled course and obey
+BuggyBot is an autonomous car project intended to follow a controlled course and obey
 traffic signs. The fall scope is a stationary sign-recognition system; the
 spring scope is the autonomous vehicle.
 

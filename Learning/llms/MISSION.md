@@ -15,7 +15,7 @@ can make smart build-vs-use decisions on future AI ideas.
 ## Constraints
 - Prefers short, clinical explanations grounded in real numbers — dislikes long outputs.
 - Learns by doing; wants understanding tied to things he can actually act on.
-- This is a side-quest from the senior project (Self-Driving RC Car), not the main goal.
+- This is a side-quest from the senior project (BuggyBot, an autonomous car), not the main goal.
 
 ## Out of scope
 - The low-level math of gradient descent / backprop (covered just enough, not deeply).

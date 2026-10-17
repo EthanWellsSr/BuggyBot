@@ -19,7 +19,7 @@ A file `Self_Driving_RC_Car.docx` and a matching `Self_Driving_RC_Car.pdf` in th
   - Compute: **Raspberry Pi Compute Module 5 (CM5)** on its IO Board for bench testing; the custom carrier PCB is planned — NOT "Arduino"
   - Prototyping board: **Raspberry Pi Compute Module I/O Board** — NOT "breadboard"
   - Sensors: camera (primary, reads signs) + ultrasonic (obstacle/wall distance) + IMU (heading/turns); no LiDAR
-  - Scope: self-driving RC car that follows a controlled course AND obeys traffic signs. Fall = stationary recognition system; Spring = autonomous vehicle.
+  - Scope: autonomous car that follows a controlled course AND obeys traffic signs. Fall = stationary recognition system; Spring = autonomous vehicle.
 - **Ethan's voice:** plain, concrete, sequential, honest, no embellishment. Read
   the previous weekly reports before drafting so new wording matches them.
 

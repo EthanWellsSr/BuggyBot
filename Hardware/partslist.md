@@ -1,6 +1,6 @@
 # Parts List
 
-Running list of hardware for the Self-Driving RC Car. Status: **Have** / **Ordered** / **Need** / **TBD**.
+Running list of hardware for BuggyBot, the autonomous car. Status: **Have** / **Ordered** / **Need** / **TBD**.
 
 Wiring: current [Autonomous Car Schematic.png](Autonomous%20Car%20Schematic.png) · earlier Pico version [Schematic_with_pico.jpeg](Schematic_with_pico.jpeg).
 
@@ -20,7 +20,7 @@ Wiring: current [Autonomous Car Schematic.png](Autonomous%20Car%20Schematic.png)
 | RPi 5 FPC camera cable (22-pin↔15-pin, 200 mm) | 1 | Connect Camera Module 3 to CM5 IO board | Have | 2.70 | 9/9 | Abigail Duran | [adafruit 5818](https://www.adafruit.com/product/5818) |
 | CR2032 3V lithium coin cell | 1 | RTC/CMOS battery for CM5 IO Board (J4 holder) | Have | 6.29 | 9/14 | Ethan Wells | [amazon](https://www.amazon.com/Procter-Gamble-DURDL2032B4PK-Duracell-Lithium/dp/B009108SGS) |
 | USB Wi-Fi dongle, TP-Link TL-WN725N (N150 nano, RTL8188EUS) | 1 | Wi-Fi for headless SSH on the vehicle (CM5 has no onboard wireless) | Have | 9.99 | 9/16 | Ethan Wells | [amazon](https://www.amazon.com/wifi-adapter-usb-pc-network/dp/B008IFXQFU) |
-| RC car chassis | 1 | Vehicle frame | TBD | — | — | — | |
+| Car chassis | 1 | Vehicle frame | TBD | — | — | — | |
 | DIANN drive set (2× 3–6 V TT motors, 2× wheels, L298N motor driver) | 1 | Propulsion, wheels, and dual-channel motor control | Have | 7.99 | 9/16 | Alexis Perez | [amazon](https://www.amazon.com/dp/B0BR7S1DQZ) |
 | Waveshare Motor Driver HAT (PCA9685 + TB6612FNG, two DC motors) | 1 | Motor-control prototype | Have | 22.10 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B07K7NP7C9) |
 | LK COKOINO 4WD Robot HAT (DRV8833) | 1 | Motor-control prototype | Have | 9.99 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B0D4VYW1PX) |
