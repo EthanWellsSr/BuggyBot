@@ -1,0 +1,2017 @@
+{
+  "images": 329,
+  "shuffle_seed": 123,
+  "class_labels": [
+    "addedLane",
+    "keepRight",
+    "merge",
+    "pedestrianCrossing",
+    "school",
+    "signalAhead",
+    "speedLimit25",
+    "speedLimit30",
+    "speedLimit35",
+    "speedLimit45",
+    "speedLimit65",
+    "stop"
+  ],
+  "photos_per_class": {
+    "merge": 33,
+    "pedestrianCrossing": 33,
+    "speedLimit25": 33,
+    "school": 33,
+    "speedLimit45": 33,
+    "signalAhead": 33,
+    "speedLimit65": 33,
+    "stop": 32,
+    "addedLane": 33,
+    "keepRight": 33
+  },
+  "models": {
+    "lisa": {
+      "model_file": "lisa_model.keras",
+      "overall": {
+        "images": 329,
+        "correct": 157,
+        "accuracy": 0.47720364741641336,
+        "top3_accuracy": 0.9908814589665653
+      },
+      "by_class": {
+        "addedLane": {
+          "images": 33,
+          "correct": 11,
+          "accuracy": 0.3333333333333333
+        },
+        "keepRight": {
+          "images": 33,
+          "correct": 24,
+          "accuracy": 0.7272727272727273
+        },
+        "merge": {
+          "images": 33,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "pedestrianCrossing": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "school": {
+          "images": 33,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "signalAhead": {
+          "images": 33,
+          "correct": 17,
+          "accuracy": 0.5151515151515151
+        },
+        "speedLimit25": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "speedLimit45": {
+          "images": 33,
+          "correct": 7,
+          "accuracy": 0.21212121212121213
+        },
+        "speedLimit65": {
+          "images": 33,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "stop": {
+          "images": 32,
+          "correct": 32,
+          "accuracy": 1.0
+        }
+      },
+      "by_condition": {
+        "no_light": {
+          "images": 109,
+          "correct": 34,
+          "accuracy": 0.3119266055045872
+        },
+        "sunlight": {
+          "images": 110,
+          "correct": 63,
+          "accuracy": 0.5727272727272728
+        },
+        "sunlight_and_artificial": {
+          "images": 110,
+          "correct": 60,
+          "accuracy": 0.5454545454545454
+        }
+      },
+      "common_confusions": [
+        {
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "count": 33
+        },
+        {
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "count": 33
+        },
+        {
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "count": 32
+        },
+        {
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "count": 22
+        },
+        {
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "count": 16
+        },
+        {
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "count": 10
+        },
+        {
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "count": 9
+        },
+        {
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "count": 9
+        },
+        {
+          "actual": "speedLimit45",
+          "predicted": "stop",
+          "count": 4
+        },
+        {
+          "actual": "speedLimit45",
+          "predicted": "addedLane",
+          "count": 2
+        },
+        {
+          "actual": "speedLimit65",
+          "predicted": "speedLimit35",
+          "count": 1
+        },
+        {
+          "actual": "speedLimit45",
+          "predicted": "speedLimit25",
+          "count": 1
+        }
+      ],
+      "errors": [
+        {
+          "image": "merge/sunlight_and_artificial/merge_008.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.998067319393158,
+          "actual_probability": 0.001011358224786818
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_002.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9638038873672485,
+          "actual_probability": 0.03615555539727211
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_005.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.967775285243988,
+          "actual_probability": 0.03218817338347435
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_003.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9976083636283875,
+          "actual_probability": 0.0010936356848105788
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_000.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.965681791305542,
+          "actual_probability": 0.01065754797309637
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_001.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.7802456021308899,
+          "actual_probability": 0.21876570582389832
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_008.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4740685224533081,
+          "actual_probability": 0.4062615931034088
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_008.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.9573668837547302,
+          "actual_probability": 0.01878335140645504
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_000.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9978733062744141,
+          "actual_probability": 0.0008588412893004715
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_007.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9981957077980042,
+          "actual_probability": 0.0009999044705182314
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_009.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.4591173231601715,
+          "actual_probability": 0.16000503301620483
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_009.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9622498154640198,
+          "actual_probability": 0.02217007428407669
+        },
+        {
+          "image": "addedLane/no_light/addedLane_002.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9994656443595886,
+          "actual_probability": 0.00023880477237980813
+        },
+        {
+          "image": "merge/no_light/merge_006.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997454881668091,
+          "actual_probability": 7.480609929189086e-05
+        },
+        {
+          "image": "school/sunlight/school_005.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9966692328453064,
+          "actual_probability": 0.0033195323776453733
+        },
+        {
+          "image": "merge/sunlight/merge_003.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997646808624268,
+          "actual_probability": 0.00010115697659784928
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_009.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.897641658782959,
+          "actual_probability": 0.01628255844116211
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_000.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.5727912187576294,
+          "actual_probability": 0.34954506158828735
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_004.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.6950910687446594,
+          "actual_probability": 0.3037433326244354
+        },
+        {
+          "image": "merge/sunlight/merge_010.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9998173713684082,
+          "actual_probability": 6.920158193679526e-05
+        },
+        {
+          "image": "merge/sunlight/merge_002.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.999783456325531,
+          "actual_probability": 9.706141281640157e-05
+        },
+        {
+          "image": "keepRight/no_light/keepRight_005.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.5943965911865234,
+          "actual_probability": 0.3896495997905731
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_008.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.967061460018158,
+          "actual_probability": 0.01993311196565628
+        },
+        {
+          "image": "signalAhead/sunlight/signalAhead_010.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.5434220433235168,
+          "actual_probability": 0.3924762010574341
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_005.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.8799325823783875,
+          "actual_probability": 0.06947525590658188
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_000.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9647115468978882,
+          "actual_probability": 0.035248763859272
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_006.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9701406359672546,
+          "actual_probability": 0.02982436865568161
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_005.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.6305474042892456,
+          "actual_probability": 0.36821919679641724
+        },
+        {
+          "image": "merge/no_light/merge_008.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9993764162063599,
+          "actual_probability": 9.810490882955492e-05
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_005.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.8554156422615051,
+          "actual_probability": 0.01638263463973999
+        },
+        {
+          "image": "school/sunlight/school_008.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9970345497131348,
+          "actual_probability": 0.0029546988662332296
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_005.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4238586127758026,
+          "actual_probability": 0.3247193396091461
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_009.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9734642505645752,
+          "actual_probability": 0.02650316059589386
+        },
+        {
+          "image": "merge/no_light/merge_003.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9995228052139282,
+          "actual_probability": 6.571196718141437e-05
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_006.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9638203382492065,
+          "actual_probability": 0.02162105217576027
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_000.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4254912734031677,
+          "actual_probability": 0.3037256598472595
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_007.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.9185415506362915,
+          "actual_probability": 0.03982675448060036
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_006.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9982441663742065,
+          "actual_probability": 0.0010254346998408437
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_006.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.7619060277938843,
+          "actual_probability": 0.10349205881357193
+        },
+        {
+          "image": "addedLane/no_light/addedLane_010.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9994154572486877,
+          "actual_probability": 0.0002472414053045213
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_007.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.44872385263442993,
+          "actual_probability": 0.16606061160564423
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_001.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6060527563095093,
+          "actual_probability": 0.3221927583217621
+        },
+        {
+          "image": "addedLane/no_light/addedLane_009.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9995101690292358,
+          "actual_probability": 0.00019811015226878226
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_003.png",
+          "actual": "speedLimit45",
+          "predicted": "stop",
+          "predicted_probability": 0.5658313035964966,
+          "actual_probability": 0.22213754057884216
+        },
+        {
+          "image": "keepRight/no_light/keepRight_008.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.6179035902023315,
+          "actual_probability": 0.36759015917778015
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_003.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.9318103194236755,
+          "actual_probability": 0.026133546605706215
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_003.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9687460064888,
+          "actual_probability": 0.031212806701660156
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_009.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4398375153541565,
+          "actual_probability": 0.3178512156009674
+        },
+        {
+          "image": "keepRight/no_light/keepRight_010.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.6115963459014893,
+          "actual_probability": 0.3731277585029602
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_002.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4403255581855774,
+          "actual_probability": 0.3684031069278717
+        },
+        {
+          "image": "school/no_light/school_002.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9979215860366821,
+          "actual_probability": 0.002055716933682561
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_006.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.9367086291313171,
+          "actual_probability": 0.038274552673101425
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_008.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9749298095703125,
+          "actual_probability": 0.02503741905093193
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_002.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.5422447919845581,
+          "actual_probability": 0.45663243532180786
+        },
+        {
+          "image": "school/sunlight/school_003.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9973146915435791,
+          "actual_probability": 0.0026722594629973173
+        },
+        {
+          "image": "merge/sunlight/merge_007.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997778534889221,
+          "actual_probability": 8.731059642741457e-05
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_003.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.41644346714019775,
+          "actual_probability": 0.2589147984981537
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_001.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.6330048441886902,
+          "actual_probability": 0.3486926257610321
+        },
+        {
+          "image": "keepRight/no_light/keepRight_002.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.5919929146766663,
+          "actual_probability": 0.39224472641944885
+        },
+        {
+          "image": "school/no_light/school_006.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9981024265289307,
+          "actual_probability": 0.001880356576293707
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_006.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4456273317337036,
+          "actual_probability": 0.3113355040550232
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_002.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9982901811599731,
+          "actual_probability": 0.000703180383425206
+        },
+        {
+          "image": "school/no_light/school_000.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9982844591140747,
+          "actual_probability": 0.0016983430832624435
+        },
+        {
+          "image": "keepRight/no_light/keepRight_006.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.5995776057243347,
+          "actual_probability": 0.38509634137153625
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_002.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6328087449073792,
+          "actual_probability": 0.2993610203266144
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_000.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.5277092456817627,
+          "actual_probability": 0.33603644371032715
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_003.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.44975101947784424,
+          "actual_probability": 0.3574209213256836
+        },
+        {
+          "image": "signalAhead/sunlight/signalAhead_008.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.5337390303611755,
+          "actual_probability": 0.40422409772872925
+        },
+        {
+          "image": "signalAhead/sunlight/signalAhead_006.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.4977492094039917,
+          "actual_probability": 0.452017605304718
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_003.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.5943922400474548,
+          "actual_probability": 0.20731741189956665
+        },
+        {
+          "image": "merge/sunlight/merge_008.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997740387916565,
+          "actual_probability": 8.718919707462192e-05
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_004.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.46692943572998047,
+          "actual_probability": 0.31814396381378174
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_006.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.6182975172996521,
+          "actual_probability": 0.38058653473854065
+        },
+        {
+          "image": "addedLane/no_light/addedLane_001.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9994756579399109,
+          "actual_probability": 0.00020722890621982515
+        },
+        {
+          "image": "school/no_light/school_008.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9966577291488647,
+          "actual_probability": 0.0033157116267830133
+        },
+        {
+          "image": "school/no_light/school_005.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9972866773605347,
+          "actual_probability": 0.002692955080419779
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_009.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9985839128494263,
+          "actual_probability": 0.0007415945874527097
+        },
+        {
+          "image": "merge/sunlight/merge_006.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997484683990479,
+          "actual_probability": 9.459832654101774e-05
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_007.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9658907651901245,
+          "actual_probability": 0.021049970760941505
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_007.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.6855806708335876,
+          "actual_probability": 0.31330451369285583
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_010.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.48099178075790405,
+          "actual_probability": 0.39938119053840637
+        },
+        {
+          "image": "school/sunlight/school_002.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9968207478523254,
+          "actual_probability": 0.0031651430763304234
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_007.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.7838391661643982,
+          "actual_probability": 0.08679850399494171
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_001.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4583071768283844,
+          "actual_probability": 0.2512311339378357
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_008.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4851154088973999,
+          "actual_probability": 0.18266473710536957
+        },
+        {
+          "image": "school/sunlight/school_000.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9964882135391235,
+          "actual_probability": 0.003494973061606288
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_000.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.7491540908813477,
+          "actual_probability": 0.2498689442873001
+        },
+        {
+          "image": "keepRight/no_light/keepRight_001.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.6154468655586243,
+          "actual_probability": 0.3700195252895355
+        },
+        {
+          "image": "signalAhead/sunlight/signalAhead_004.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.5065365433692932,
+          "actual_probability": 0.4633789658546448
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_007.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9684652090072632,
+          "actual_probability": 0.03150302171707153
+        },
+        {
+          "image": "merge/sunlight/merge_009.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997667074203491,
+          "actual_probability": 8.912458724807948e-05
+        },
+        {
+          "image": "merge/sunlight/merge_000.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9998289346694946,
+          "actual_probability": 7.530445873271674e-05
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_006.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.46388277411460876,
+          "actual_probability": 0.18021199107170105
+        },
+        {
+          "image": "merge/sunlight/merge_004.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997841715812683,
+          "actual_probability": 9.209581912728027e-05
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_007.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.471883624792099,
+          "actual_probability": 0.4128865897655487
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_008.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.26352575421333313,
+          "actual_probability": 0.2200184166431427
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_009.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.46435800194740295,
+          "actual_probability": 0.4131228029727936
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_007.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4562494456768036,
+          "actual_probability": 0.3067316710948944
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_010.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.7058940529823303,
+          "actual_probability": 0.29290226101875305
+        },
+        {
+          "image": "merge/no_light/merge_009.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9989562034606934,
+          "actual_probability": 0.0001262707228306681
+        },
+        {
+          "image": "addedLane/no_light/addedLane_004.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.999525785446167,
+          "actual_probability": 0.0001714188838377595
+        },
+        {
+          "image": "addedLane/no_light/addedLane_008.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9995526671409607,
+          "actual_probability": 0.00017015761113725603
+        },
+        {
+          "image": "keepRight/no_light/keepRight_004.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.5818125605583191,
+          "actual_probability": 0.402965784072876
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_004.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9978733062744141,
+          "actual_probability": 0.0009255913319066167
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_010.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.5091496109962463,
+          "actual_probability": 0.15310639142990112
+        },
+        {
+          "image": "merge/no_light/merge_010.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9991511106491089,
+          "actual_probability": 9.784315625438467e-05
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_010.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.977449357509613,
+          "actual_probability": 0.022518442943692207
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_006.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.670769453048706,
+          "actual_probability": 0.26920419931411743
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_001.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9596464037895203,
+          "actual_probability": 0.04031040892004967
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_010.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.9763683080673218,
+          "actual_probability": 0.00843795295804739
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_008.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.7762080430984497,
+          "actual_probability": 0.09185685962438583
+        },
+        {
+          "image": "school/no_light/school_010.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9975359439849854,
+          "actual_probability": 0.0024446367751806974
+        },
+        {
+          "image": "merge/no_light/merge_005.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9996054768562317,
+          "actual_probability": 8.587226329836994e-05
+        },
+        {
+          "image": "signalAhead/sunlight/signalAhead_007.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.4780932068824768,
+          "actual_probability": 0.4692109525203705
+        },
+        {
+          "image": "addedLane/no_light/addedLane_003.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9995760917663574,
+          "actual_probability": 0.0001471989817218855
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_008.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.6770973205566406,
+          "actual_probability": 0.3219696879386902
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_005.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9697969555854797,
+          "actual_probability": 0.017328709363937378
+        },
+        {
+          "image": "addedLane/no_light/addedLane_000.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9995272755622864,
+          "actual_probability": 0.00016273064829874784
+        },
+        {
+          "image": "school/no_light/school_009.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9968987703323364,
+          "actual_probability": 0.003080434165894985
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_004.png",
+          "actual": "speedLimit45",
+          "predicted": "addedLane",
+          "predicted_probability": 0.9165561199188232,
+          "actual_probability": 0.0009465222246944904
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_002.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.9656225442886353,
+          "actual_probability": 0.011197341606020927
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_009.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.6602436304092407,
+          "actual_probability": 0.3385436534881592
+        },
+        {
+          "image": "merge/no_light/merge_001.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9992681741714478,
+          "actual_probability": 9.906882769428194e-05
+        },
+        {
+          "image": "signalAhead/no_light/signalAhead_003.png",
+          "actual": "signalAhead",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.6146441698074341,
+          "actual_probability": 0.3843059539794922
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_010.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.361507385969162,
+          "actual_probability": 0.25389617681503296
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_003.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9708909392356873,
+          "actual_probability": 0.018393680453300476
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_010.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.908900797367096,
+          "actual_probability": 0.05950727313756943
+        },
+        {
+          "image": "keepRight/no_light/keepRight_003.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.6073445081710815,
+          "actual_probability": 0.3777136504650116
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_004.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6536298394203186,
+          "actual_probability": 0.2829371988773346
+        },
+        {
+          "image": "school/sunlight/school_006.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9969077706336975,
+          "actual_probability": 0.003079202026128769
+        },
+        {
+          "image": "merge/no_light/merge_004.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9996881484985352,
+          "actual_probability": 0.0001257146504940465
+        },
+        {
+          "image": "merge/no_light/merge_000.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9993289709091187,
+          "actual_probability": 0.0001053415981004946
+        },
+        {
+          "image": "addedLane/no_light/addedLane_007.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9995584487915039,
+          "actual_probability": 0.00016316634719260037
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_010.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9656477570533752,
+          "actual_probability": 0.02102060802280903
+        },
+        {
+          "image": "school/no_light/school_007.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9969840049743652,
+          "actual_probability": 0.0029941911343485117
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_000.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.5827900171279907,
+          "actual_probability": 0.39749109745025635
+        },
+        {
+          "image": "school/sunlight_and_artificial/school_004.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9705759882926941,
+          "actual_probability": 0.029385078698396683
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_002.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4243016242980957,
+          "actual_probability": 0.2960336208343506
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_010.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9993313550949097,
+          "actual_probability": 0.00039677912718616426
+        },
+        {
+          "image": "merge/sunlight/merge_005.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997362494468689,
+          "actual_probability": 0.00010179046512348577
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_005.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4508410394191742,
+          "actual_probability": 0.22854572534561157
+        },
+        {
+          "image": "school/no_light/school_003.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.998089611530304,
+          "actual_probability": 0.0018898207927122712
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_001.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9983596801757812,
+          "actual_probability": 0.0006417277618311346
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_000.png",
+          "actual": "speedLimit45",
+          "predicted": "addedLane",
+          "predicted_probability": 0.9846939444541931,
+          "actual_probability": 0.00015271830488927662
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_002.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.5892102122306824,
+          "actual_probability": 0.3886794447898865
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_001.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.5561355948448181,
+          "actual_probability": 0.3031546473503113
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_000.png",
+          "actual": "speedLimit45",
+          "predicted": "stop",
+          "predicted_probability": 0.6312052607536316,
+          "actual_probability": 0.17521636188030243
+        },
+        {
+          "image": "addedLane/sunlight_and_artificial/addedLane_004.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9678798913955688,
+          "actual_probability": 0.019396116957068443
+        },
+        {
+          "image": "school/sunlight/school_001.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9966721534729004,
+          "actual_probability": 0.003313717432320118
+        },
+        {
+          "image": "merge/sunlight/merge_001.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9997890591621399,
+          "actual_probability": 8.847676508594304e-05
+        },
+        {
+          "image": "merge/no_light/merge_002.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9994189143180847,
+          "actual_probability": 9.033475362230092e-05
+        },
+        {
+          "image": "merge/sunlight_and_artificial/merge_005.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9983614683151245,
+          "actual_probability": 0.0010052411817014217
+        },
+        {
+          "image": "school/sunlight/school_004.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9973637461662292,
+          "actual_probability": 0.0026239606086164713
+        },
+        {
+          "image": "school/no_light/school_004.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.997761070728302,
+          "actual_probability": 0.002220114693045616
+        },
+        {
+          "image": "school/sunlight/school_009.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9969446659088135,
+          "actual_probability": 0.003044664626941085
+        },
+        {
+          "image": "school/no_light/school_001.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9980758428573608,
+          "actual_probability": 0.001906492980197072
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_003.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6567274928092957,
+          "actual_probability": 0.28114283084869385
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_001.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.8731687068939209,
+          "actual_probability": 0.03066115267574787
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_010.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4490402936935425,
+          "actual_probability": 0.2764263451099396
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_008.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.45811817049980164,
+          "actual_probability": 0.28627169132232666
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_002.png",
+          "actual": "speedLimit45",
+          "predicted": "stop",
+          "predicted_probability": 0.5670691728591919,
+          "actual_probability": 0.20514817535877228
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_001.png",
+          "actual": "speedLimit45",
+          "predicted": "stop",
+          "predicted_probability": 0.7843908071517944,
+          "actual_probability": 0.10060866922140121
+        },
+        {
+          "image": "addedLane/no_light/addedLane_006.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9995434880256653,
+          "actual_probability": 0.00017199834110215306
+        },
+        {
+          "image": "keepRight/no_light/keepRight_000.png",
+          "actual": "keepRight",
+          "predicted": "addedLane",
+          "predicted_probability": 0.5626938343048096,
+          "actual_probability": 0.4213988184928894
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_004.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4651557207107544,
+          "actual_probability": 0.22148776054382324
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_002.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit35",
+          "predicted_probability": 0.9131863713264465,
+          "actual_probability": 0.02361954376101494
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_001.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.9409916400909424,
+          "actual_probability": 0.014484476298093796
+        },
+        {
+          "image": "merge/no_light/merge_007.png",
+          "actual": "merge",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9996674656867981,
+          "actual_probability": 6.968480738578364e-05
+        },
+        {
+          "image": "addedLane/no_light/addedLane_005.png",
+          "actual": "addedLane",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9993771314620972,
+          "actual_probability": 0.00027655859594233334
+        },
+        {
+          "image": "school/sunlight/school_007.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9970794916152954,
+          "actual_probability": 0.0029089979361742735
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_005.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6705184578895569,
+          "actual_probability": 0.26997727155685425
+        },
+        {
+          "image": "school/sunlight/school_010.png",
+          "actual": "school",
+          "predicted": "pedestrianCrossing",
+          "predicted_probability": 0.9966260194778442,
+          "actual_probability": 0.003361568320542574
+        }
+      ]
+    },
+    "mapillary": {
+      "model_file": "mapillary_model.keras",
+      "overall": {
+        "images": 329,
+        "correct": 263,
+        "accuracy": 0.7993920972644377,
+        "top3_accuracy": 0.9665653495440729
+      },
+      "by_class": {
+        "addedLane": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "keepRight": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "merge": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "pedestrianCrossing": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "school": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "signalAhead": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "speedLimit25": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "speedLimit45": {
+          "images": 33,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "speedLimit65": {
+          "images": 33,
+          "correct": 0,
+          "accuracy": 0.0
+        },
+        "stop": {
+          "images": 32,
+          "correct": 32,
+          "accuracy": 1.0
+        }
+      },
+      "by_condition": {
+        "no_light": {
+          "images": 109,
+          "correct": 87,
+          "accuracy": 0.7981651376146789
+        },
+        "sunlight": {
+          "images": 110,
+          "correct": 88,
+          "accuracy": 0.8
+        },
+        "sunlight_and_artificial": {
+          "images": 110,
+          "correct": 88,
+          "accuracy": 0.8
+        }
+      },
+      "common_confusions": [
+        {
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "count": 33
+        },
+        {
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "count": 29
+        },
+        {
+          "actual": "speedLimit45",
+          "predicted": "speedLimit25",
+          "count": 4
+        }
+      ],
+      "errors": [
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_000.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.8191997408866882,
+          "actual_probability": 0.09790759533643723
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_008.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4053190052509308,
+          "actual_probability": 0.2971339821815491
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_008.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.33761054277420044,
+          "actual_probability": 0.152568057179451
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_009.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7732032537460327,
+          "actual_probability": 0.07075813412666321
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_009.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.7623146176338196,
+          "actual_probability": 0.1356818825006485
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_000.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.48438042402267456,
+          "actual_probability": 0.2263776659965515
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_005.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4837748110294342,
+          "actual_probability": 0.09278552234172821
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_005.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.7634370923042297,
+          "actual_probability": 0.1158975139260292
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_005.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4709748923778534,
+          "actual_probability": 0.3006511628627777
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_007.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.6238006949424744,
+          "actual_probability": 0.0807904452085495
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_000.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7167855501174927,
+          "actual_probability": 0.09636811167001724
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_007.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.603769838809967,
+          "actual_probability": 0.14940233528614044
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_006.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.603394627571106,
+          "actual_probability": 0.061713580042123795
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_007.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7759620547294617,
+          "actual_probability": 0.0702480673789978
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_001.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.5336205959320068,
+          "actual_probability": 0.2156141847372055
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_003.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.5895001292228699,
+          "actual_probability": 0.10298068821430206
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_003.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.32625603675842285,
+          "actual_probability": 0.13404156267642975
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_009.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4658930003643036,
+          "actual_probability": 0.3150656223297119
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_002.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.44731566309928894,
+          "actual_probability": 0.3030293583869934
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_006.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.4658060371875763,
+          "actual_probability": 0.15065687894821167
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_003.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7611017823219299,
+          "actual_probability": 0.07817080616950989
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_006.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4598603844642639,
+          "actual_probability": 0.3122144937515259
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_002.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.5666195154190063,
+          "actual_probability": 0.2058633416891098
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_000.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6032644510269165,
+          "actual_probability": 0.2071678340435028
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_003.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4402930438518524,
+          "actual_probability": 0.31298068165779114
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_006.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.5843359231948853,
+          "actual_probability": 0.09418902546167374
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_003.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.5426310896873474,
+          "actual_probability": 0.07016903162002563
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_004.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4762304425239563,
+          "actual_probability": 0.2915516793727875
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_009.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.495625376701355,
+          "actual_probability": 0.16839107871055603
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_010.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.41835254430770874,
+          "actual_probability": 0.2886037826538086
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_007.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.5876674056053162,
+          "actual_probability": 0.12201115489006042
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_001.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7659209370613098,
+          "actual_probability": 0.07653995603322983
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_008.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.775367021560669,
+          "actual_probability": 0.07220172882080078
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_006.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7697808742523193,
+          "actual_probability": 0.07276934385299683
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_004.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.44342511892318726,
+          "actual_probability": 0.16158337891101837
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_007.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.40747424960136414,
+          "actual_probability": 0.3019099235534668
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_008.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.7233211398124695,
+          "actual_probability": 0.06978979706764221
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_004.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.7092998027801514,
+          "actual_probability": 0.07889670133590698
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_009.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.40365543961524963,
+          "actual_probability": 0.30239158868789673
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_007.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.44921597838401794,
+          "actual_probability": 0.32640892267227173
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_010.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7832564115524292,
+          "actual_probability": 0.06679083406925201
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_005.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.882755696773529,
+          "actual_probability": 0.042818695306777954
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_006.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6421916484832764,
+          "actual_probability": 0.16460378468036652
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_010.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.4454580545425415,
+          "actual_probability": 0.16241616010665894
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_008.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.6002299189567566,
+          "actual_probability": 0.10054922103881836
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_004.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.9209083914756775,
+          "actual_probability": 0.040542032569646835
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_002.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.507515549659729,
+          "actual_probability": 0.17580267786979675
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_010.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.4873000979423523,
+          "actual_probability": 0.09393087774515152
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_010.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.48907211422920227,
+          "actual_probability": 0.20010516047477722
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_004.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6244521141052246,
+          "actual_probability": 0.17051635682582855
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_002.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7613270878791809,
+          "actual_probability": 0.07899962365627289
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_005.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.766594409942627,
+          "actual_probability": 0.07345686852931976
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_000.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.9190855622291565,
+          "actual_probability": 0.043802980333566666
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_001.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6370061635971069,
+          "actual_probability": 0.19292956590652466
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_009.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.5083407163619995,
+          "actual_probability": 0.09784785658121109
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_000.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.5836133360862732,
+          "actual_probability": 0.09746339917182922
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_003.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.5914145708084106,
+          "actual_probability": 0.19152094423770905
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_001.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.7161991596221924,
+          "actual_probability": 0.13147804141044617
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_010.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.4791227877140045,
+          "actual_probability": 0.30314502120018005
+        },
+        {
+          "image": "speedLimit65/sunlight/speedLimit65_008.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.46254220604896545,
+          "actual_probability": 0.31162968277931213
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_002.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.5858843326568604,
+          "actual_probability": 0.10128151625394821
+        },
+        {
+          "image": "speedLimit45/sunlight_and_artificial/speedLimit45_001.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.5724276304244995,
+          "actual_probability": 0.09898141026496887
+        },
+        {
+          "image": "speedLimit65/no_light/speedLimit65_004.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.7651697397232056,
+          "actual_probability": 0.07513836026191711
+        },
+        {
+          "image": "speedLimit45/no_light/speedLimit45_002.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.6076087951660156,
+          "actual_probability": 0.15513820946216583
+        },
+        {
+          "image": "speedLimit45/sunlight/speedLimit45_001.png",
+          "actual": "speedLimit45",
+          "predicted": "speedLimit30",
+          "predicted_probability": 0.887800931930542,
+          "actual_probability": 0.07018142193555832
+        },
+        {
+          "image": "speedLimit65/sunlight_and_artificial/speedLimit65_005.png",
+          "actual": "speedLimit65",
+          "predicted": "speedLimit25",
+          "predicted_probability": 0.6376075744628906,
+          "actual_probability": 0.1659143567085266
+        }
+      ]
+    },
+    "combined": {
+      "model_file": "combined_model.keras",
+      "overall": {
+        "images": 329,
+        "correct": 329,
+        "accuracy": 1.0,
+        "top3_accuracy": 1.0
+      },
+      "by_class": {
+        "addedLane": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "keepRight": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "merge": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "pedestrianCrossing": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "school": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "signalAhead": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "speedLimit25": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "speedLimit45": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "speedLimit65": {
+          "images": 33,
+          "correct": 33,
+          "accuracy": 1.0
+        },
+        "stop": {
+          "images": 32,
+          "correct": 32,
+          "accuracy": 1.0
+        }
+      },
+      "by_condition": {
+        "no_light": {
+          "images": 109,
+          "correct": 109,
+          "accuracy": 1.0
+        },
+        "sunlight": {
+          "images": 110,
+          "correct": 110,
+          "accuracy": 1.0
+        },
+        "sunlight_and_artificial": {
+          "images": 110,
+          "correct": 110,
+          "accuracy": 1.0
+        }
+      },
+      "common_confusions": [],
+      "errors": []
+    }
+  }
+}

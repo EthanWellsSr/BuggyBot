@@ -82,12 +82,15 @@ work that is safe to complete.
   LISA+Mapillary classifier work. The combined model scored 99.31% top-1 on its
   combined test split; separate dataset scores use different test sets and are
   not directly comparable. The combined dataset preserves source splits but does
-  not establish physical-sign independence across datasets.
+  not establish physical-sign independence across datasets. On 329 cropped
+  BuggyBot camera photos of the printed sign cards (about 30 distinct setups,
+  10 classes), the combined model scored 100%.
 - `Hardware/` — parts list, wiring references, integration prototype, test
   scripts, and the KiCad custom-PCB project (`BuggyBot KiCAD/`). The CM5 Lite
   has no onboard Wi-Fi and uses a USB adapter. Treat driver reliability as
   unresolved unless current device evidence confirms it.
-- `Sign Cards/` — printable cards and artwork for the 12 selected US sign classes.
+- `Sign Cards/` — printable cards and artwork for the 12 selected US sign
+  classes, plus cropped camera test photos (raw photos are Git ignored).
 - `Learning/` — self-directed learning projects; follow each project's
   `MISSION.md` when working there.
 - `Weekly Reports/` — admin carve-out. Follow `context.md`; build reports with

@@ -7,12 +7,60 @@ The filenames identify the classes without putting labels in the camera view.
 - [`print_all_12_letter.pdf`](print_all_12_letter.pdf): three US Letter pages,
   four 3 x 5 inch cards per page, with light gray cut lines.
 - `cards/`: one 3 x 5 inch PDF per sign class for printing on index cards.
-- `artwork/`: the downloaded 960-pixel PNGs used to build the PDFs.
+- `artwork/`: the downloaded 960-pixel PNGs used to build the PDFs. The crop
+  script also uses them as matching templates.
+- `Test Images/`: BuggyBot camera photos of these cards; see below.
 
 Print at **100% / actual size** on white matte card stock. Disable "fit to
 page" or scaling. Cut on the light gray lines in the letter-size PDF. Avoid
 glossy reflections during camera testing. These are classification test cards;
-the repository's camera pipeline does not yet locate signs automatically.
+the car's own sign-detection pipeline is not implemented yet.
+
+## Camera test photos
+
+`Test Images/` holds an independent test of the classifiers on printed cards
+photographed by BuggyBot's Camera Module 3. It covers 10 of the 12 classes;
+speed limits 30 and 35 were left out because the track will not use them.
+
+```text
+Test Images/
+  raw/<class>/<condition>/<class>_NNN.jpg       full-resolution photos (Git ignored)
+  cropped/<class>/<condition>/<class>_NNN.png   sign crops (committed)
+  cropped/manifest.csv                          source photo, crop box, match score
+  cropped/review.html                           crop gallery, lowest score first
+```
+
+Folder names must be the exact class names from `artwork/` (for example
+`speedLimit25`, `pedestrianCrossing`). The three conditions are `no_light`,
+`sunlight`, and `sunlight_and_artificial`. The October 2026 set has 329 photos:
+11 per class and condition (10 for `stop/no_light`).
+
+The 11 photos in each folder were taken 2 seconds apart without moving the
+card, so they are near-duplicates. The set contains about 30 distinct setups
+(class × condition), not 329 independent views. Report it that way.
+
+**Taking photos.** On BuggyBot, one folder at a time:
+
+```bash
+rpicam-still -n -t 30000 --timelapse 2000 --autofocus-on-capture -o stop_%03d.jpg
+```
+
+Copy them to your computer with `scp` into `raw/<class>/<condition>/`. The raw
+photos are about 0.8 MB each, so they stay out of Git; only the crops are
+committed.
+
+**Cropping.** Run `Model Training/scripts/crop_sign_photos.py`. It finds each
+card by OpenCV template matching against its class artwork, uses the fact that
+the card stays in the same place within a folder, and writes tight square
+crops (the same style as the training data) to `cropped/`. Check
+`review.html`; a low score usually means a wrong folder name or a missed sign.
+Because the script knows each photo's class, these crops are better placed
+than a detector on the car would produce.
+
+**Testing.** Run `Model Training/scripts/evaluate_sign_photos.py`; results are
+in [`sign_photo_test_results.md`](../Model%20Training/reports/sign_photo_test_results.md).
+The combined model classified all 329 crops correctly. If the car later
+misreads signs, compare its crops with these before suspecting the model.
 
 ## Artwork sources
 

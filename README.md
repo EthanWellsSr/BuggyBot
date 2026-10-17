@@ -53,8 +53,14 @@ not rank those models. The [same-set comparison](Model%20Training/reports/combin
 evaluates all three US-sign models on the 1,016 combined test crops. The
 combined set preserves each source's split but does not establish physical-sign
 independence across datasets. The Mapillary test set has only two speed-limit-65
-crops. Camera images captured by BuggyBot are still needed to measure live
-performance. See the [model training guide](Model%20Training/README.md) for the
+crops.
+
+On BuggyBot's own camera, the combined model classified **all 329** cropped
+photos of the printed [sign cards](Sign%20Cards/README.md) correctly (10
+classes, three lighting conditions, about 30 distinct setups). The LISA and
+Mapillary models scored 47.7% and 79.9%. These crops were placed with
+knowledge of each sign's class; live performance through the car's own
+detector is still unmeasured. See the [model training guide](Model%20Training/README.md) for the
 scripts, preparation steps, and detailed results.
 
 ## Team
@@ -74,7 +80,7 @@ scripts, preparation steps, and detailed results.
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
 | `Hardware/` | Parts list, wiring references, integration prototype, hardware test scripts, and the KiCad custom-PCB project |
 | `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
-| `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes and a US Letter print sheet |
+| `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes, a US Letter print sheet, and cropped camera test photos |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
 | `setup.sh` | Installs basic Git and Python prerequisites on a Debian-based board |
 | `AGENTS.md`, `CLAUDE.md` | Working agreements for AI assistants used on this repo |

@@ -32,3 +32,6 @@ __pycache__/
 ~*.***/.history/
 **/.history/
 *.lck
+
+# Full-resolution sign-card photos (~275 MB); the committed crops are the test set
+Sign Cards/Test Images/raw/

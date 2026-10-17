@@ -100,6 +100,35 @@ per-source accuracy, per-class recall, macro F1, confusion matrices, and
 individual errors. The comparison uses only `data/prepared/combined/test`
 (1,016 crops), not training images.
 
+## Camera test: printed sign cards
+
+An independent check of the three US-sign models on BuggyBot's own camera,
+using photos of the printed [sign cards](../Sign%20Cards/README.md) under three
+lighting conditions. It covers 10 classes; speed limits 30 and 35 are not used
+on the track and were not photographed.
+
+1. `scripts/crop_sign_photos.py` crops each photo in
+   `Sign Cards/Test Images/raw/` (Git ignored) with OpenCV template matching
+   and writes `Sign Cards/Test Images/cropped/`, which is committed.
+2. `scripts/evaluate_sign_photos.py` shuffles the crops (seed 123), runs the
+   LISA, Mapillary, and combined models with the training preprocessing, and
+   writes `reports/sign_photo_test_report.json` and
+   [`reports/sign_photo_test_results.md`](reports/sign_photo_test_results.md).
+
+Results on 329 crops:
+
+| Model | Top-1 |
+| --- | ---: |
+| Combined | **100.0%** (329/329) |
+| Mapillary | 79.9% (263/329); every speed-limit-45 and 65 photo wrong |
+| LISA | 47.7% (157/329) |
+
+The photos in each class and condition were taken 2 seconds apart without
+moving the card, so the set contains about 30 distinct setups rather than 329
+independent views. The crops are placed using each photo's known class, so they
+are cleaner than a detector on the car will produce. Shuffling does not change
+the scores, because a trained model classifies each image independently.
+
 ## GTSRB: German signs
 
 See [`docs/GTSRB_PREPARATION.md`](docs/GTSRB_PREPARATION.md) for download and
