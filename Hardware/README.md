@@ -3,6 +3,15 @@
 Parts, wiring references, bench-test scripts, and the custom-PCB design for
 BuggyBot. Purchase and availability status is in [`partslist.md`](partslist.md).
 
+## Setup scripts
+
+| Script | Runs on | Purpose |
+|---|---|---|
+| [`setup.sh`](../setup.sh) | Development computer | Git, Python, pip, venv — shared dev prerequisites |
+| [`Hardware/setup.sh`](setup.sh) | BuggyBot (the CM5) | Picamera2, OpenCV, NumPy, SMBus, GPIOZero, and the LiteRT virtual environment (`~/buggybot-venv`) |
+
+The root `setup.sh` does **not** run on the Pi — `apt-get` isn't available on macOS, and the Pi doesn't need TensorFlow/Keras for inference (it uses LiteRT).
+
 ## Wiring references
 
 | File | Contents |

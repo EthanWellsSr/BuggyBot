@@ -116,7 +116,6 @@ work that is safe to complete.
   `build_report.py` and decks with `assemble_deck.py`. Each team member edits
   only their own file in `slides/`; the assembled deck is generated, not
   hand-edited.
-- `setup.sh` — installs Git, Python, and the runtime libraries the Hardware
-  scripts need on a Debian-based board. It does not create the LiteRT virtual
-  environment; `Hardware/README.md` documents that step.
+- `setup.sh` — installs Git, Python, pip, and venv on your development computer. Runs on your dev PC, not the Pi.
+- `Hardware/setup.sh` — installs Picamera2, OpenCV, NumPy, SMBus, GPIOZero, and the LiteRT virtual environment on BuggyBot (the CM5). See `Hardware/README.md` for details.
 - Inspect the current checkout before relying on prior machine or device state.

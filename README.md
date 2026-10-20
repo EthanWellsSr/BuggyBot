@@ -91,7 +91,8 @@ scripts, preparation steps, and detailed results.
 | `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
 | `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes, a US Letter print sheet, and cropped camera test photos |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
-| `setup.sh` | Installs Git, Python, and the runtime libraries the Hardware scripts need on a Debian-based board |
+| `setup.sh` | Installs Git, Python, pip, and venv on your development computer |
+| `Hardware/setup.sh` | Installs Picamera2, OpenCV, NumPy, SMBus, GPIOZero, and the LiteRT venv on BuggyBot (the CM5) |
 | `AGENTS.md` | Working agreements for AI assistants used on this repo |
 
 ### Weekly reports

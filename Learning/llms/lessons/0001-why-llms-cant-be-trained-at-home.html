@@ -17,7 +17,7 @@
 
   <div class="panel">
     <p class="panel-label">Anchor</p>
-    Your GTSRB model: <strong>475k parameters</strong>, <strong>~39,000 images</strong>
+    Your GTSRB model: <strong>162k parameters</strong>, <strong>~39,000 images</strong>
     (~300&nbsp;MB), trained in <strong>~2 minutes on a CPU</strong>, hit ~95% accuracy.
     Hold that in mind — every number below is measured against it.
   </div>
@@ -40,7 +40,7 @@
   <strong>~16–20 bytes per parameter</strong> during training.<sup><a href="https://medium.com/@maxshapp/understanding-and-estimating-gpu-memory-demands-for-training-llms-in-practise-c5ef20a4baff">3</a></sup>
   Do the arithmetic:</p>
   <ul>
-    <li>Your model: 475k &times; 16 &approx; <strong>8&nbsp;MB</strong>. Fits on a phone.</li>
+    <li>Your model: 162k &times; 16 &approx; <strong>2.6&nbsp;MB</strong>. Fits on a phone.</li>
     <li>A "small" 7B LLM: 7B &times; 16 &approx; <strong>112&nbsp;GB</strong>. A high-end consumer GPU has 24&nbsp;GB — it doesn't fit.</li>
     <li>405B: &approx; <strong>8&nbsp;TB</strong>. No single GPU on earth holds that; it's split across thousands.</li>
   </ul>
@@ -57,13 +57,13 @@
   <h2>The whole gap on one line</h2>
   <table>
     <tr><th>&nbsp;</th><th>Your GTSRB model</th><th>Frontier LLM (405B)</th></tr>
-    <tr><td>Parameters</td><td class="num">475,000</td><td class="num">405,000,000,000</td></tr>
+    <tr><td>Parameters</td><td class="num">162,443</td><td class="num">405,000,000,000</td></tr>
     <tr><td>Training data</td><td class="num">~39k images (~0.3 GB)</td><td class="num">~15T tokens (tens of TB)</td></tr>
     <tr><td>Hardware</td><td class="num">1 CPU</td><td class="num">~16,000 H100 GPUs</td></tr>
     <tr><td>Time</td><td class="num">~2 minutes</td><td class="num">~100 days</td></tr>
     <tr><td>Cost</td><td class="num">≈ your electricity</td><td class="num">~$60,000,000</td></tr>
   </table>
-  <p>That's roughly <strong>850,000&times; more parameters</strong> — and compute,
+  <p>That's roughly <strong>2.5&nbsp;million&times; more parameters</strong> — and compute,
   data, and cost scale up together, not one at a time.</p>
 
   <h2>So what <em>can</em> you do at home?</h2>
