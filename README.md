@@ -85,7 +85,7 @@ scripts, preparation steps, and detailed results.
 | `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes, a US Letter print sheet, and cropped camera test photos |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
 | `setup.sh` | Installs basic Git and Python prerequisites on a Debian-based board |
-| `AGENTS.md`, `CLAUDE.md` | Working agreements for AI assistants used on this repo |
+| `AGENTS.md` | Working agreements for AI assistants used on this repo |
 
 ### Weekly reports
 
