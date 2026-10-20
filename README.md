@@ -33,6 +33,8 @@ spring scope is the autonomous vehicle.
   reads the left and right sensors is in `Hardware/scripts/Line Sensors.py`
 - **Output and motion:** I²C LCD; TT drive motors and two motor-controller HATs
   are on hand, and vehicle motor control is being developed
+- **Chassis:** EMOZNY Emo smart robot car chassis kit (motors with speed
+  encoders, battery box) is on order, not yet received
 - **Custom PCB:** a KiCad carrier-board design, derived from the CM5 IO Board, is
   in progress in [`Hardware/BuggyBot KiCAD/`](Hardware/BuggyBot%20KiCAD/)
 
