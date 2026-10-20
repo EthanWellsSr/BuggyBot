@@ -33,8 +33,8 @@ spring scope is the autonomous vehicle.
   reads the left and right sensors is in `Hardware/scripts/Line Sensors.py`
 - **Output and motion:** I²C LCD; TT drive motors and two motor-controller HATs
   are on hand, and vehicle motor control is being developed
-- **Chassis:** EMOZNY Emo smart robot car chassis kit (motors with speed
-  encoders, battery box) is on order, not yet received
+- **Chassis:** EMOZNY Emo smart robot car chassis kit (2 DC gear motors with
+  speed encoders, battery box) is on order, not yet received
 - **Custom PCB:** a KiCad carrier-board design, derived from the CM5 IO Board, is
   in progress in [`Hardware/BuggyBot KiCAD/`](Hardware/BuggyBot%20KiCAD/)
 
@@ -44,9 +44,11 @@ see its [README](Hardware/README.md).
 
 ## Traffic-sign models
 
-The image classifiers use 32×32 sign crops. The intended CM5 pipeline will
-locate signs in camera frames and run a compact model on-device; that inference
-pipeline is not yet implemented in this repository.
+The image classifiers use 32×32 sign crops. On the CM5,
+[`Hardware/scripts/buggybot_integration.py`](Hardware/scripts/buggybot_integration.py)
+runs the combined TFLite model on a fixed region of each camera frame and shows
+the result on the LCD. The pipeline that *locates* signs in a frame and crops
+them without using the known class is not yet implemented in this repository.
 
 | Dataset and model | Classes | Prepared crops | Held-out result | Status |
 | --- | ---: | ---: | --- | --- |
@@ -89,7 +91,7 @@ scripts, preparation steps, and detailed results.
 | `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
 | `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes, a US Letter print sheet, and cropped camera test photos |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
-| `setup.sh` | Installs basic Git and Python prerequisites on a Debian-based board |
+| `setup.sh` | Installs Git, Python, and the runtime libraries the Hardware scripts need on a Debian-based board |
 | `AGENTS.md` | Working agreements for AI assistants used on this repo |
 
 ### Weekly reports
@@ -117,7 +119,7 @@ Weekly Reports/
   Self_Driving_RC_Car.docx / .pdf                      ← rolling report (working)
   Self-Driving-RC-Car.pptx                             ← rolling deck (generated)
   Week 1/ … Week 3/   frozen report .pdf + .docx
-  Week 4/ … Week 8/   frozen report + frozen .pptx
+  Week 4/ … Week 9/   frozen report + frozen .pptx
 ```
 
 See `Weekly Reports/context.md` for the full build/format guide.

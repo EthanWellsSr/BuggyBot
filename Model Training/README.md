@@ -12,7 +12,8 @@ keep source images separate without proving physical-sign independence.
 
 ```text
 Model Training/
-  scripts/     prepare_*, train_*, evaluate_* scripts
+  scripts/     prepare_*, train_*, evaluate_*, crop_sign_photos.py,
+               convert_to_tflite.py
   models/      saved .keras models
   reports/     training, test, and comparison reports
   docs/        dataset preparation guides
@@ -150,7 +151,10 @@ on the 12,630 images in `Test.csv` and write `reports/gtsrb_test_results.json`.
 
 Latest verified GTSRB result:
 
-- Track-separated validation: **97.09% top-1**.
+- Track-separated validation: **97.09% top-1** (from the training run's console
+  output; the GTSRB trainer does not write a report file).
 - Independent GTSRB test set: **95.79% top-1**, **98.45% top-3**.
 - Test macro class accuracy: **93.83%**.
 - Test predictions: **12,098 correct / 532 incorrect** across 12,630 images.
+
+The test-set numbers are stored in `reports/gtsrb_test_results.json`.

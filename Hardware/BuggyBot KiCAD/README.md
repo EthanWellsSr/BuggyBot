@@ -67,4 +67,4 @@ Opening the `.kicad_pro` file should load the schematic, PCB, and associated pro
 
 These files are the working design for BuggyBot's custom PCB.
 
-The original CM5 IO Board contains some different hardware than BuggyBot requires. The team is identifying which CM5 support circuitry and interfaces the final board must keep, and adding connectors for BuggyBot's sensors and display. The IMU and LCD ports were added in October 2026.
+The original CM5 IO Board contains some different hardware than BuggyBot requires. The team is identifying which CM5 support circuitry and interfaces the final board must keep, and adding connectors for BuggyBot's sensors and display. The IMU and LCD ports were added in October 2026. A component checklist and a review of which CM5 features to keep, remove, or modify were also made in October 2026; the checklist itself is not committed to this repository.

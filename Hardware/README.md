@@ -16,7 +16,7 @@ BuggyBot. Purchase and availability status is in [`partslist.md`](partslist.md).
 ## Scripts
 
 All scripts run on BuggyBot (the CM5), not on your development computer. The
-three test scripts list their setup steps and wiring at the top of the file.
+test scripts list their setup steps and wiring at the top of the file.
 
 | Script | Tests | Interface |
 | --- | --- | --- |

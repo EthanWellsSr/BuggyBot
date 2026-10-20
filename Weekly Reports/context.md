@@ -62,12 +62,13 @@ Then four sections, each header bold+underlined:
 ## Weekly documentation review
 Before a weekly report and slideshow are pushed, inspect every maintained
 repository document, including the root guides and nested READMEs. Start with
-`rg --files -g '*.md' -g '*.txt'`, then check any other current documentation
-affected by the week's work. Compare claims with the current code, saved model
-results, hardware evidence, slides, and report. Update stale facts in the same
-work and include those edits in Ethan's diff review. Leave unknown hardware
-models, prices, dates, and purchase links blank rather than guessing. Historical
-proposals and frozen weekly deliverables are reference material.
+`git ls-files -z '*.md' '*.txt' | xargs -0 echo` (or `rg --files -g '*.md'
+-g '*.txt'` where ripgrep is installed), then check any other current
+documentation affected by the week's work. Compare claims with the current code,
+saved model results, hardware evidence, slides, and report. Update stale facts
+in the same work and include those edits in Ethan's diff review. Leave unknown
+hardware models, prices, dates, and purchase links blank rather than guessing.
+Historical proposals and frozen weekly deliverables are reference material.
 
 ## Build and verify
 1. Read the previous report and this week's per-person slides. Confirm the
@@ -98,6 +99,8 @@ proposals and frozen weekly deliverables are reference material.
   measured result and state its test set. A crop-based score does not measure
   BuggyBot's live camera pipeline.
 - The fall prototype classifies a fixed camera region with the combined model
-  (live test pending) and does not yet detect signs automatically; the PCB,
-  ROS 2 pipeline, and vehicle autonomy remain planned or under study unless
-  current code and hardware evidence establish otherwise.
+  (live test pending) and does not yet detect signs automatically; the PCB and
+  vehicle autonomy remain planned or under study unless current code and hardware
+  evidence establish otherwise. ROS 2 is installed under WSL on a development
+  machine and its node architecture is drafted, but no ROS 2 code runs on the CM5
+  yet — describe it as a plan, not an implemented pipeline.

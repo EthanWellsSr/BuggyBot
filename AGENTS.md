@@ -85,10 +85,11 @@ work that is safe to complete.
   implementation.
 - `Model Training/` — see its `README.md` for dataset preparation, training,
   evaluation, and results. `scripts/` holds prepare/train/evaluate scripts per
-  dataset plus `convert_to_tflite.py`; `models/` holds the GTSRB, LISA,
-  Mapillary, and combined LISA+Mapillary Keras models and the combined TFLite
-  model with its labels; `reports/` holds results, including the same-set
-  comparison. The combined model scored 99.31% top-1 on its combined test split;
+  dataset, the sign-photo crop and evaluation scripts, and
+  `convert_to_tflite.py`; `models/` holds the GTSRB, LISA, Mapillary, and
+  combined LISA+Mapillary Keras models and the combined TFLite model with its
+  labels; `reports/` holds results, including the same-set comparison. The
+  combined model scored 99.31% top-1 on its combined test split;
   separate dataset scores use different test sets and are not directly
   comparable. The combined dataset preserves source splits but does not
   establish physical-sign independence across datasets. On 329 cropped BuggyBot
@@ -99,9 +100,14 @@ work that is safe to complete.
   the KiCad custom-PCB project (`BuggyBot KiCAD/`, derived from the CM5 IO
   Board). `scripts/buggybot_integration.py` is the integration prototype: camera
   capture, fixed-region OpenCV crop, combined TFLite classification, LCD output;
-  it does not locate signs or drive the vehicle. The CM5 Lite has no onboard
-  Wi-Fi and uses a USB adapter. Treat driver reliability as unresolved unless
-  current device evidence confirms it.
+  it does not locate signs or drive the vehicle. `scripts/Line Sensors.py` reads
+  the TCRT5000 course-line sensors on GPIO17 and GPIO27. The CM5 Lite has no
+  onboard Wi-Fi and uses a USB adapter. Treat driver reliability as unresolved
+  unless current device evidence confirms it.
+- `ROS 2` — a node architecture and data flow for the vehicle (camera, sign
+  detector, line sensor, IMU, behavior, motor driver, LCD, teleop) have been
+  drafted, and ROS 2 is installed under WSL on a development machine. There is
+  no ROS 2 code in the repository and none runs on the CM5.
 - `Sign Cards/` — printable cards and artwork for the 12 selected US sign
   classes, plus cropped camera test photos (raw photos are Git ignored).
 - `Learning/` — self-directed learning projects (currently `llms/`); follow each
@@ -110,5 +116,7 @@ work that is safe to complete.
   `build_report.py` and decks with `assemble_deck.py`. Each team member edits
   only their own file in `slides/`; the assembled deck is generated, not
   hand-edited.
-- `setup.sh` — installs basic Git and Python prerequisites on a Debian-based board.
+- `setup.sh` — installs Git, Python, and the runtime libraries the Hardware
+  scripts need on a Debian-based board. It does not create the LiteRT virtual
+  environment; `Hardware/README.md` documents that step.
 - Inspect the current checkout before relying on prior machine or device state.

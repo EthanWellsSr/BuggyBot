@@ -28,4 +28,4 @@ None of the 329 original camera crops met a near-exact grayscale criterion of ma
 
 The paired test supports sensitivity to color/preprocessing as a contributing factor. It does **not** establish that grayscale training data caused all of LISA's errors: grayscale input still left 133/329 predictions incorrect. Establishing the effect of training-image color independently would require a controlled training comparison, which was not performed.
 
-Sources: `sign_photo_test_report.json`, `../scripts/evaluate_sign_photos.py`, `../models/lisa_model.keras`, the prepared LISA training crops, and the committed camera crops. The private analysis scripts and raw result JSON are retained in `.codex-slide-work/build/` at repository root.
+Sources: `sign_photo_test_report.json`, `../scripts/evaluate_sign_photos.py`, `../models/lisa_model.keras`, the prepared LISA training crops, and the committed camera crops. The private analysis scripts and raw result JSON are kept locally in `.codex-slide-work/build/` at the repository root; that folder is Git ignored, so it is not part of the published repository.
