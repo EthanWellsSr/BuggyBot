@@ -23,6 +23,7 @@ three test scripts list their setup steps and wiring at the top of the file.
 | [`sensor_test.py`](scripts/sensor_test.py) | HC-SR04 ultrasonic sensor; prints distance in cm | GPIO17 trigger, GPIO18 echo (gpiozero) |
 | [`icm20948_test.py`](scripts/icm20948_test.py) | ICM-20948 IMU checks, then a live reading stream | I²C, address 0x69 or 0x68 |
 | [`2WDmotor_hat_test.py`](scripts/2WDmotor_hat_test.py) | Motor-controller HATs: Cokoino (DRV8833), Waveshare (PCA9685 + TB6612), Adafruit | GPIO or I²C, chosen with `--board` |
+| [`Line Sensors.py`](scripts/Line%20Sensors.py) | TCRT5000 IR line sensors: reads the left and right course-line sensors and reports a lane action | GPIO17 left, GPIO27 right (gpiozero `DigitalInputDevice`) |
 | [`buggybot_integration.py`](scripts/buggybot_integration.py) | Live sign test: classifies a fixed square region of each camera frame with the combined model and shows the sign on the LCD | Camera Module 3 (Picamera2), Waveshare LCD1602 (I²C) |
 
 ### Live sign test

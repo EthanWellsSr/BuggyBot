@@ -20,7 +20,7 @@ Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Sch
 | RPi 5 FPC camera cable (22-pin↔15-pin, 200 mm) | 1 | Connect Camera Module 3 to CM5 IO board | Have | 2.70 | 9/9 | Abigail Duran | [adafruit 5818](https://www.adafruit.com/product/5818) |
 | CR2032 3V lithium coin cell | 1 | RTC/CMOS battery for CM5 IO Board (J4 holder) | Have | 6.29 | 9/14 | Ethan Wells | [amazon](https://www.amazon.com/Procter-Gamble-DURDL2032B4PK-Duracell-Lithium/dp/B009108SGS) |
 | USB Wi-Fi dongle, TP-Link TL-WN725N (N150 nano, RTL8188EUS) | 1 | Wi-Fi for headless SSH on the vehicle (CM5 has no onboard wireless) | Have | 9.99 | 9/16 | Ethan Wells | [amazon](https://www.amazon.com/wifi-adapter-usb-pc-network/dp/B008IFXQFU) |
-| Car chassis | 1 | Vehicle frame | TBD | — | — | — | |
+| Car chassis | 1 | Vehicle frame | Ordered | — | — | Alexis Perez | |
 | DIANN drive set (2× 3–6 V TT motors, 2× wheels, L298N motor driver) | 1 | Propulsion, wheels, and dual-channel motor control | Have | 7.99 | 9/16 | Alexis Perez | [amazon](https://www.amazon.com/dp/B0BR7S1DQZ) |
 | Waveshare Motor Driver HAT (PCA9685 + TB6612FNG, two DC motors) | 1 | Motor-control prototype | Have | 22.10 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B07K7NP7C9) |
 | LK COKOINO 4WD Robot HAT (DRV8833) | 1 | Motor-control prototype | Have | 9.99 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B0D4VYW1PX) |
@@ -36,6 +36,8 @@ Pricing may vary depending on current market; prices listed were from time of pu
 The Week 6 report records bench tests of the camera, IMU, LCD, and both motor
 controller HATs. The TCRT5000 line sensors and AEDIKO TT motor kit were
 purchased on 10/13; the TCS34725 RGB color sensor shown on the Week 8 slides was
-not purchased.
+not purchased. A car chassis was ordered in Week 9 to test the vehicle
+components together; its model, price, and purchase date are still unknown. The
+TCRT5000 line sensors now have a reading script in `scripts/Line Sensors.py`.
 
 **Maybe later:** Raspberry Pi Pico as a real-time co-processor — only if the Pi 5's reaction time for the ultrasonic/motor timing isn't good enough.

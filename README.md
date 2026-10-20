@@ -20,14 +20,17 @@ spring scope is the autonomous vehicle.
   the Pi is pending.
 - TensorFlow classifiers have been trained on GTSRB, LISA, Mapillary, and a
   combined LISA+Mapillary dataset. Their models and results are in this repo.
+- A ROS 2 node architecture for the vehicle (camera, sign detector, line sensor,
+  IMU, behavior, motor driver, LCD, teleop) has been drafted. ROS 2 is installed
+  under WSL on a development machine; it is not running on the CM5.
 
 ## Hardware
 
 - **Compute and storage:** Raspberry Pi CM5 (4 GB Lite), CM5 IO Board, M.2 NVMe
 - **Networking:** USB Wi-Fi dongle for headless SSH
 - **Vision and sensing:** Camera Module 3, HC-SR04 ultrasonic sensor, ICM-20948 IMU
-- **Course sensing:** TCRT5000 IR line sensors (received); Raspberry Pi
-  integration is in progress
+- **Course sensing:** TCRT5000 IR line sensors (received); a line-sensor script that
+  reads the left and right sensors is in `Hardware/scripts/Line Sensors.py`
 - **Output and motion:** I²C LCD; TT drive motors and two motor-controller HATs
   are on hand, and vehicle motor control is being developed
 - **Custom PCB:** a KiCad carrier-board design, derived from the CM5 IO Board, is
