@@ -9941,6 +9941,18 @@
 		)
 	)
 	(rectangle
+		(start 144.78 135.89)
+		(end 176.53 161.29)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "4d9d94a5-9b2e-42cc-9e9c-b9653eda3bff")
+	)
+	(rectangle
 		(start 182.88 100.33)
 		(end 242.57 143.51)
 		(stroke
@@ -10000,6 +10012,38 @@
 		)
 		(uuid "c876bce5-ee8a-4bfc-980b-6301b62ba9ff")
 	)
+	(rectangle
+		(start 142.24 163.83)
+		(end 173.99 189.23)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "c8c02dbb-07c7-4a66-b47e-d329b6a89d9b")
+	)
+	(text "A0"
+		(exclude_from_sim no)
+		(at 152.4 151.384 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "0005934c-0bc4-4d15-ba77-e27b20145500")
+	)
+	(text "Quick Connect \nfor Line Sensor \nadded on \n10/23/26"
+		(exclude_from_sim no)
+		(at 155.194 184.658 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "0a996328-aecd-42e4-bf2e-97a8bff92bcb")
+	)
 	(text "+3.3v"
 		(exclude_from_sim no)
 		(at 112.522 175.514 0)
@@ -10030,6 +10074,26 @@
 		)
 		(uuid "1c734f99-2ff7-478d-99d2-bcbdacc76b00")
 	)
+	(text "Quick Connect \nfor Line Sensor \nadded on \n10/23/26"
+		(exclude_from_sim no)
+		(at 157.734 156.718 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "21930fe5-165a-4e11-b8e0-83dca34d33fb")
+	)
+	(text "D0"
+		(exclude_from_sim no)
+		(at 149.86 176.784 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "229e37b7-db26-400c-8320-976f16b0fc6d")
+	)
 	(text "40Way GPIO Header"
 		(exclude_from_sim no)
 		(at 143.51 19.05 0)
@@ -10051,6 +10115,16 @@
 			(justify left bottom)
 		)
 		(uuid "33e14999-b5ae-46d2-ac28-01787a512419")
+	)
+	(text "GND"
+		(exclude_from_sim no)
+		(at 152.4 146.304 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "39921c38-33dd-466a-8c1b-39491d9c5d6b")
 	)
 	(text "R2 : Simplify nPWR_LED Drive"
 		(exclude_from_sim no)
@@ -10114,6 +10188,16 @@
 		)
 		(uuid "726d5642-3df2-46ac-8dab-77f2dd7a181f")
 	)
+	(text "+3.3v"
+		(exclude_from_sim no)
+		(at 151.638 143.764 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "79349711-3b1b-4554-ba95-618d3c7fdbb9")
+	)
 	(text "GPIO Voltage select\n"
 		(exclude_from_sim no)
 		(at 167.64 87.63 0)
@@ -10145,6 +10229,16 @@
 		)
 		(uuid "adfabd08-44cd-4555-b4a7-1d40dff35179")
 	)
+	(text "+3.3v"
+		(exclude_from_sim no)
+		(at 149.098 171.704 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "b0cb055c-24d4-4a4f-a4ef-b870b0317f1b")
+	)
 	(text "SCL"
 		(exclude_from_sim no)
 		(at 78.74 179.324 0)
@@ -10164,6 +10258,16 @@
 			)
 		)
 		(uuid "b5d2e634-ae67-44e3-9681-20c69bab0eff")
+	)
+	(text "D0"
+		(exclude_from_sim no)
+		(at 152.4 148.844 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "be76e6fa-0701-4dae-9bcb-fcb58c9caf18")
 	)
 	(text "POE Header removed \nand No-connect flags \nadded to ethernet\n10/12/26"
 		(exclude_from_sim no)
@@ -10187,6 +10291,16 @@
 		)
 		(uuid "c78980a8-e749-4c70-b9e3-d042eb419706")
 	)
+	(text "A0"
+		(exclude_from_sim no)
+		(at 149.86 179.324 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "ce38d38d-6999-47b7-86a7-9c43e953968b")
+	)
 	(text "+3.3v"
 		(exclude_from_sim no)
 		(at 78.232 174.244 0)
@@ -10207,6 +10321,26 @@
 			(justify left bottom)
 		)
 		(uuid "e4a9ddd8-7ada-440b-a9de-a5d7da8f72b2")
+	)
+	(text "GND"
+		(exclude_from_sim no)
+		(at 149.86 174.244 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "e53c0b55-0350-4ca3-851b-b973035ebdcb")
+	)
+	(text "SCL"
+		(exclude_from_sim no)
+		(at 113.03 180.594 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "e7a37bed-da22-407f-9c98-9c607528471f")
 	)
 	(text "Connection \nfor LCU modified on \n10/22/26"
 		(exclude_from_sim no)
@@ -10530,6 +10664,10 @@
 		(uuid "426744f5-151b-4336-9db2-19b96ec1a6aa")
 	)
 	(no_connect
+		(at 166.37 151.13)
+		(uuid "541041a0-6c1d-4ad6-b40f-f4b93043f09c")
+	)
+	(no_connect
 		(at 39.37 100.33)
 		(uuid "6489fbbd-1bc4-4ea3-ab88-9e537d0c503b")
 	)
@@ -10548,6 +10686,10 @@
 	(no_connect
 		(at 246.38 67.31)
 		(uuid "9e2997dd-4d36-4c5b-bef3-54b79c6ea087")
+	)
+	(no_connect
+		(at 163.83 179.07)
+		(uuid "a1b540f3-f97f-483d-87cf-1844f70b663a")
 	)
 	(no_connect
 		(at 40.64 177.8)
@@ -10610,6 +10752,16 @@
 			(type solid)
 		)
 		(uuid "0366978a-3e89-4bad-abec-cf07fade1137")
+	)
+	(wire
+		(pts
+			(xy 157.48 173.99) (xy 166.37 173.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0617835d-4076-45f9-9ae3-d61090700fdb")
 	)
 	(wire
 		(pts
@@ -11393,6 +11545,16 @@
 	)
 	(wire
 		(pts
+			(xy 157.48 171.45) (xy 167.64 171.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5158cfbc-9d05-4528-a65d-9399435877c7")
+	)
+	(wire
+		(pts
 			(xy 217.17 80.01) (xy 228.6 80.01)
 		)
 		(stroke
@@ -11663,6 +11825,16 @@
 	)
 	(wire
 		(pts
+			(xy 157.48 179.07) (xy 163.83 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7b34b937-52ce-4a95-9fc5-68de0f9b8436")
+	)
+	(wire
+		(pts
 			(xy 101.6 110.49) (xy 101.6 151.13)
 		)
 		(stroke
@@ -11890,6 +12062,16 @@
 			(type solid)
 		)
 		(uuid "907bca71-7218-4f03-b4bd-586121fcf8e0")
+	)
+	(wire
+		(pts
+			(xy 160.02 143.51) (xy 170.18 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "908466f0-02b6-4bd8-95dc-4195def4195c")
 	)
 	(wire
 		(pts
@@ -12190,6 +12372,16 @@
 			(type solid)
 		)
 		(uuid "abbc6fd4-ca2e-4f14-b684-2a7fe1b8da2d")
+	)
+	(wire
+		(pts
+			(xy 160.02 146.05) (xy 168.91 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ac2bc7d8-5112-434e-84d5-3b8682ab6606")
 	)
 	(wire
 		(pts
@@ -12533,6 +12725,16 @@
 	)
 	(wire
 		(pts
+			(xy 167.64 148.59) (xy 160.02 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6caf788-42e6-486b-9f2e-9625697050c5")
+	)
+	(wire
+		(pts
 			(xy 160.02 91.44) (xy 175.26 91.44)
 		)
 		(stroke
@@ -12730,6 +12932,16 @@
 			(type solid)
 		)
 		(uuid "d42754be-232c-4f72-91c3-410cdb7a8c00")
+	)
+	(wire
+		(pts
+			(xy 165.1 176.53) (xy 157.48 176.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5005cd4-a030-41a4-9e3d-6a4a1be7cabb")
 	)
 	(wire
 		(pts
@@ -13063,6 +13275,16 @@
 	)
 	(wire
 		(pts
+			(xy 160.02 151.13) (xy 166.37 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f452e353-39fa-46a2-9038-41d553e9918e")
+	)
+	(wire
+		(pts
 			(xy 166.37 26.67) (xy 166.37 24.13)
 		)
 		(stroke
@@ -13210,6 +13432,16 @@
 			(justify right bottom)
 		)
 		(uuid "028825a5-a5a1-4471-a5f1-08090406bcd8")
+	)
+	(label "+3.3v"
+		(at 163.83 171.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "03046db7-0951-4feb-84f1-6949203282af")
 	)
 	(label "+5v"
 		(at 170.18 24.13 180)
@@ -13672,6 +13904,16 @@
 		(uuid "4711680f-0033-4792-90b3-99dc2aa8a7cf")
 	)
 	(label "GPIO20"
+		(at 162.56 148.59 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4869df3a-3b4c-435c-bb9c-1773c5ea4fb3")
+	)
+	(label "GPIO20"
 		(at 175.26 69.85 180)
 		(effects
 			(font
@@ -13710,6 +13952,16 @@
 			(justify right bottom)
 		)
 		(uuid "4da42412-11c8-43c1-a7e4-fee17c98b4ba")
+	)
+	(label "GPIO21"
+		(at 158.75 176.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "509a76e8-dc03-4d3b-8f18-b04332236d5e")
 	)
 	(label "GPIO16"
 		(at 175.26 67.31 180)
@@ -13830,6 +14082,16 @@
 			(justify left bottom)
 		)
 		(uuid "706338b4-bf09-4e9b-b33a-d6b331c6d22e")
+	)
+	(label "+3.3v"
+		(at 166.37 143.51 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "709d3a06-3e40-4a31-8b2e-7de10a2cb84e")
 	)
 	(label "GPIO18"
 		(at 175.26 36.83 180)
@@ -18173,6 +18435,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 168.91 146.05 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "04941b48-4428-4335-a441-7339ea474dc8")
+		(property "Reference" "#PWR036"
+			(at 175.26 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 173.3042 145.923 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 168.91 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 168.91 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 168.91 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f3876707-e142-4bae-a14d-4a265b81cd7d")
+		)
+		(instances
+			(project "CM5IO"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/00000000-0000-0000-0000-00005cff706a"
+					(reference "#PWR036")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:Battery_Cell")
 		(at 260.35 127 0)
 		(unit 1)
@@ -19054,6 +19393,83 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 166.37 173.99 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "78b6dd81-ca3f-4066-baed-35593d2703d6")
+		(property "Reference" "#PWR037"
+			(at 172.72 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 170.7642 173.863 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 166.37 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 166.37 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 166.37 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cd69d03b-2033-4bb3-b17f-a815db2e80d2")
+		)
+		(instances
+			(project "CM5IO"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/00000000-0000-0000-0000-00005cff706a"
+					(reference "#PWR037")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 96.52 171.45 90)
 		(unit 1)
 		(body_style 1)
@@ -19349,6 +19765,92 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Conn_01x04_Pin")
+		(at 152.4 173.99 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bad078f1-2ee0-4e5c-8105-eabd96e3fabc")
+		(property "Reference" "J7"
+			(at 153.035 166.37 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Line Sensor"
+			(at 153.035 168.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal"
+			(at 152.4 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x04, script generated"
+			(at 152.4 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "6a53b7e5-a216-49ba-8f1b-eb386ed14ea4")
+		)
+		(pin "4"
+			(uuid "e005dcf2-604c-43ce-a63e-82541afd44da")
+		)
+		(pin "3"
+			(uuid "ce522466-a35b-490b-b1db-fa7a795aa363")
+		)
+		(pin "1"
+			(uuid "a8e11e22-de4e-4dfd-8a7f-85aac33cd633")
+		)
+		(instances
+			(project "CM5IO"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/00000000-0000-0000-0000-00005cff706a"
+					(reference "J7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 200.66 113.03 0)
 		(unit 1)
@@ -19479,6 +19981,92 @@
 			(project "CM5IO"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/00000000-0000-0000-0000-00005cff706a"
 					(reference "R11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x04_Pin")
+		(at 154.94 146.05 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d4fe81a8-190a-4a9e-99a2-eb478649cbad")
+		(property "Reference" "J6"
+			(at 155.575 138.43 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Line Sensor"
+			(at 155.575 140.97 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal"
+			(at 154.94 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 154.94 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x04, script generated"
+			(at 154.94 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "fccb06ff-5577-49a6-a022-0ca3e0fbe02c")
+		)
+		(pin "4"
+			(uuid "663f3edd-c51e-4fc3-9adc-469f3e9c2502")
+		)
+		(pin "3"
+			(uuid "5e0217be-f5e5-4290-bd1d-517598e2458a")
+		)
+		(pin "1"
+			(uuid "50b0849c-ed5f-4603-8025-9e22dc677d1c")
+		)
+		(instances
+			(project "CM5IO"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/00000000-0000-0000-0000-00005cff706a"
+					(reference "J6")
 					(unit 1)
 				)
 			)

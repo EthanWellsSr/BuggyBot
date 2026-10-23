@@ -2664,7 +2664,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 43.815 180.975 0)
+		(at 43.18 187.96 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim yes)
@@ -2674,7 +2674,7 @@
 		(dnp yes)
 		(uuid "00000000-0000-0000-0000-00005e3b330c")
 		(property "Reference" "H8"
-			(at 46.355 179.832 0)
+			(at 45.72 186.817 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2685,7 +2685,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 46.355 182.118 0)
+			(at 45.72 189.103 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2696,7 +2696,7 @@
 			)
 		)
 		(property "Footprint" "CM5IO:MountingHole_2.7mm_M2.5_DIN965"
-			(at 43.815 180.975 0)
+			(at 43.18 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2707,7 +2707,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.815 180.975 0)
+			(at 43.18 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2718,7 +2718,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 43.815 180.975 0)
+			(at 43.18 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2729,7 +2729,7 @@
 			)
 		)
 		(property "Field4" "nf"
-			(at 43.815 180.975 0)
+			(at 43.18 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2740,7 +2740,7 @@
 			)
 		)
 		(property "Field5" "nf"
-			(at 43.815 180.975 0)
+			(at 43.18 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2751,7 +2751,7 @@
 			)
 		)
 		(property "Field6" "nf"
-			(at 43.815 180.975 0)
+			(at 43.18 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2762,7 +2762,7 @@
 			)
 		)
 		(property "Field7" "nf"
-			(at 43.815 180.975 0)
+			(at 43.18 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2773,7 +2773,7 @@
 			)
 		)
 		(property "Part Description" "M2.5 mounting hole"
-			(at 43.815 180.975 0)
+			(at 43.18 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
