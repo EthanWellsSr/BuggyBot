@@ -51,7 +51,7 @@ The design started from the Raspberry Pi Compute Module 5 IO Board files and is 
 
 ## Opening the Project
 
-1. Install KiCad 9 or a compatible newer version.
+1. Install KiCad 10 or a compatible newer version.
 2. Clone or download the BuggyBot repository.
 3. Navigate to:
 
