@@ -280,6 +280,12 @@ def shape_matches(crop, label):
         solidity = cv2.contourArea(region) / max(1, area)
         return 7 <= corners <= 9 and extent >= .7 and solidity >= .9
     corners = len(cv2.approxPolyDP(hull, .03 * perimeter, True))
+    if expected == 'diamond':
+        # A whole diamond fills about half its square crop (<= .63 in tests).
+        # A crop from inside one (a single addedLane arrow, read as merge) is
+        # yellow edge to edge (.8-.9 live), so cap the fill.
+        if area > .7 * crop.shape[0] * crop.shape[1]:
+            return False
     if expected in ('diamond', 'pentagon'):
         # Shared range: a diamond clipped at the crop edge gains a corner.
         return 4 <= corners <= 6 and .4 <= extent <= .9
