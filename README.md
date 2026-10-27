@@ -101,6 +101,7 @@ scripts, preparation steps, and detailed results.
 | `setup.sh` | Installs Git, Python, pip, and venv on your development computer |
 | `Hardware/setup.sh` | Installs Picamera2, OpenCV, NumPy, SMBus, GPIOZero, and the LiteRT venv on BuggyBot (the CM5) |
 | `AGENTS.md` | Working agreements for AI assistants used on this repo |
+| `.github/` | GitHub Actions CI, run on every push: Python scripts compile, `ruff` bug lint, sign-demo regression on the 329 test crops, integration-test pin map for each motor HAT, and Markdown link check (helper scripts in `.github/scripts/`) |
 
 ### Weekly reports
 

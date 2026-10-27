@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+# Python 3.13 matches BuggyBot's Raspberry Pi OS (Debian 13 "trixie").
+env:
+  PYTHON_VERSION: "3.13"
+
+jobs:
+  compile:
+    name: Python scripts compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      # py_compile checks syntax only; it does not import anything, so scripts
+      # that need Pi hardware libraries (picamera2, gpiozero) still compile here.
+      # -z / -0 keep file names with spaces ("Line Sensors.py") intact.
+      - name: Compile every tracked .py file
+        run: git ls-files -z '*.py' | xargs -0 python -m py_compile
+
+  lint:
+    name: Lint for real bugs (ruff F rules)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: pip install ruff==0.17.3
+
+      # F rules (pyflakes) catch undefined names, unused imports, and typos in
+      # variable names: bugs that compile but crash at runtime on the Pi.
+      - name: ruff check --select F
+        run: git ls-files -z '*.py' | xargs -0 ruff check --select F --output-format github
+
+  sign-crops:
+    name: Sign demo regression (test crops)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: pip install ai-edge-litert opencv-python-headless numpy
+
+      # Classifies the 329 committed sign-card crops with the combined model and
+      # runs the demo's color/shape checks; fails if either falls below baseline.
+      - name: Check committed sign crops
+        run: python .github/scripts/check_sign_crops.py
+
+  pin-map:
+    name: Integration test pin map (no hardware)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        board: [cokoino, waveshare, adafruit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      # The integration test's `pins` stage needs no hardware: it fails if two
+      # devices are assigned the same GPIO for the chosen motor HAT.
+      - name: Check GPIO assignments (${{ matrix.board }})
+        run: python Hardware/scripts/test_all_sensors.py --only pins --board ${{ matrix.board }} --report-dir "$RUNNER_TEMP"
+
+  docs-links:
+    name: Markdown links resolve
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Check relative links in tracked .md files
+        run: python .github/scripts/check_md_links.py
