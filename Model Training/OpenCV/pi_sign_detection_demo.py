@@ -124,7 +124,10 @@ def make_candidates(frame, max_count):
     # Merge colored borders and grayscale edges. Both branches still contribute.
     combined = cv2.bitwise_or(sat, edge)
     box_records = []
-    for mask in (combined, edge):
+    # Color alone too: edges of whatever holds the sign (a stick, a hand) can
+    # merge with its outline in the other masks, leaving only inner pieces
+    # (one arrow of addedLane, which reads as merge).
+    for mask in (combined, edge, sat):
         contours, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
         for c in contours:
             area = cv2.contourArea(c)
@@ -167,6 +170,13 @@ def make_candidates(frame, max_count):
         if len(chosen) >= max_count:
             break
     return chosen
+
+
+def contains(outer, inner):
+    """True when box inner lies inside box outer (x, y, w, h)."""
+    ox, oy, ow, oh = outer
+    ix, iy, iw, ih = inner
+    return ox <= ix and oy <= iy and ix + iw <= ox + ow and iy + ih <= oy + oh
 
 
 def crop_square(frame, box):
@@ -351,6 +361,10 @@ def main():
                     label, confidence = classify(interpreter, labels, crop)
                     if confidence >= args.threshold and shape_matches(crop, label):
                         matches.append((box, label, confidence))
+                # Drop matches inside another match: a piece of a sign (one
+                # arrow of addedLane) can classify as a different sign (merge).
+                matches = [m for m in matches
+                           if not any(o is not m and contains(o[0], m[0]) for o in matches)]
                 for (x, y, bw, bh), label, confidence in matches:
                     cv2.rectangle(frame, (x, y), (x + bw, y + bh), (0, 255, 0), 2)
                     cv2.putText(frame, f'{label} {confidence:.1%}',

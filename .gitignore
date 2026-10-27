@@ -35,3 +35,6 @@ __pycache__/
 
 # Full-resolution sign-card photos (~275 MB); the committed crops are the test set
 Sign Cards/Test Images/raw/
+
+# Demo frames copied from BuggyBot for review
+scratch_frames/
