@@ -20,17 +20,18 @@ Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Sch
 | RPi 5 FPC camera cable (22-pin↔15-pin, 200 mm) | 1 | Connect Camera Module 3 to CM5 IO board | Have | 2.70 | 9/9 | Abigail Duran | [adafruit 5818](https://www.adafruit.com/product/5818) |
 | CR2032 3V lithium coin cell | 1 | RTC/CMOS battery for CM5 IO Board (J4 holder) | Have | 6.29 | 9/14 | Ethan Wells | [amazon](https://www.amazon.com/Procter-Gamble-DURDL2032B4PK-Duracell-Lithium/dp/B009108SGS) |
 | USB Wi-Fi dongle, TP-Link TL-WN725N (N150 nano, RTL8188EUS) | 1 | Wi-Fi for headless SSH on the vehicle (CM5 has no onboard wireless) | Have | 9.99 | 9/16 | Ethan Wells | [amazon](https://www.amazon.com/wifi-adapter-usb-pc-network/dp/B008IFXQFU) |
-| EMOZNY Emo Smart Robot Car Chassis Kit with Motors, Speed Encoder, and Battery Box | 1 | Vehicle frame, 2 DC gear motors (48:1) with speed encoders, and battery holder | Ordered | 13.99 | 10/20 | Alexis Perez | [amazon](https://www.amazon.com/dp/B01LXY7CM3) |
+| EMOZNY Emo Smart Robot Car Chassis Kit with Motors, Speed Encoder, and Battery Box | 1 | Vehicle frame, 2 DC gear motors (48:1) with speed encoders, and battery holder | Have | 13.99 | 10/20 | Alexis Perez | [amazon](https://www.amazon.com/dp/B01LXY7CM3) |
 | DIANN drive set (2× 3–6 V TT motors, 2× wheels, L298N motor driver) | 1 | Propulsion, wheels, and dual-channel motor control | Have | 7.99 | 9/16 | Alexis Perez | [amazon](https://www.amazon.com/dp/B0BR7S1DQZ) |
 | Waveshare Motor Driver HAT (PCA9685 + TB6612FNG, two DC motors) | 1 | Motor-control prototype | Have | 22.10 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B07K7NP7C9) |
 | LK COKOINO 4WD Robot HAT (DRV8833) | 1 | Motor-control prototype | Have | 9.99 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B0D4VYW1PX) |
 | HiLetgo TCRT5000 IR line sensor modules (10-pack) | 1 | Detect the course line | Have | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B00LZV1V10) |
 | AEDIKO TT motor kit (4 sets: 3–6 V dual-shaft 1:48 TT motors with wheels) | 1 | Propulsion and wheels | Have | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B099Z85573) |
+| GL.iNet GL-SFT1200 Opal travel router (AC1200 dual-band, OpenWrt) | 1 | Portable Wi-Fi network for SSH to BuggyBot | Ordered | 39.99 | 10/27 | Ethan Wells | [amazon](https://a.co/d/084fiKs8) |
 | Steering servo | 1 | Steering — only needed for a servo-steered chassis | TBD | — | — | — | |
 | Battery | 1 | Power source | TBD | — | — | — | |
 | Battery charger | 1 | Charge the battery | TBD | — | — | — | |
 | Custom carrier PCB | 1 | Final CM5 carrier board (spring) | TBD | — | — | — | |
-| **Running total (priced items only)** | | | | **371.48** | | | |
+| **Running total (priced items only)** | | | | **411.47** | | | |
 
 Pricing may vary depending on current market; prices listed were from time of purchase.
 The Week 6 report records bench tests of the camera, IMU, LCD, and both motor
@@ -38,11 +39,11 @@ controller HATs. The TCRT5000 line sensors and AEDIKO TT motor kit were
 purchased on 10/13; the TCS34725 RGB color sensor shown on the Week 8 slides was
 not purchased. In Week 9 the EMOZNY Emo smart robot car chassis kit (2 DC gear
 motors, 48:1, with speed encoders, and a battery box) was ordered to test the
-vehicle components together; it is on order, not yet received, and the purchase
-date is still unknown. It is a 2-wheel differential-drive kit with a caster, so
+vehicle components together; it was ordered 10/20 and has been received. It is a 2-wheel differential-drive kit with a caster, so
 it steers by driving the two wheels at different speeds; a steering servo would
 only be needed for a servo-steered chassis. Its motors may replace the DIANN
 drive set and the AEDIKO TT motor kit. The TCRT5000 line sensors now have a
-reading script in `scripts/Line Sensors.py`.
+reading script in `scripts/Line Sensors.py` (GPIO20 left, GPIO21 right). The
+GL.iNet travel router was ordered 10/27.
 
 **Maybe later:** Raspberry Pi Pico as a real-time co-processor — only if the Pi 5's reaction time for the ultrasonic/motor timing isn't good enough.

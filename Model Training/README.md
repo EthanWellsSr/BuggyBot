@@ -17,6 +17,8 @@ Model Training/
   models/      saved .keras models
   reports/     training, test, and comparison reports
   docs/        dataset preparation guides
+  OpenCV/      OpenCV install guide and webcam prototypes (camera, color mask,
+               preprocessing, live classification, auto-detection)
   data/        Git-ignored datasets
     raw/         gtsrb/, lisa/, mapillary/ (downloads and review files)
     prepared/    lisa/, mapillary/, combined/ (generated crop datasets)
@@ -110,6 +112,16 @@ checks first that the TFLite model gives the same prediction as the Keras model
 on all 329 sign-card crops. The CM5 runs the `.tflite` file with the LiteRT
 runtime instead of full TensorFlow; see the
 [Hardware README](../Hardware/README.md#live-sign-test).
+
+## OpenCV prototypes
+
+`OpenCV/` holds Alexis Perez's OpenCV install guide (`.docx`) and
+development-computer webcam scripts (`cv2.VideoCapture(0)`, not Picamera2).
+`buggybot_live.py` classifies frames with the combined TFLite model;
+`buggybot_auto_detection.py` finds sign candidates with Canny edges and contours,
+then classifies each one. The scripts load the model from
+`~/Projects/BuggyBot/Model Training/models/`, so they expect the repository at
+that path. They have not been run on BuggyBot.
 
 ## Camera test: printed sign cards
 

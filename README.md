@@ -17,7 +17,9 @@ spring scope is the autonomous vehicle.
   camera frames, crops a fixed region with OpenCV, classifies it with the
   combined model (TensorFlow Lite), and shows the result on the LCD. It does not
   yet locate signs automatically or control the vehicle; the first live test on
-  the Pi is pending.
+  the Pi is pending. Webcam OpenCV prototypes in
+  [`Model Training/OpenCV/`](Model%20Training/OpenCV/) add contour-based
+  sign-candidate detection; they are not yet on the CM5.
 - TensorFlow classifiers have been trained on GTSRB, LISA, Mapillary, and a
   combined LISA+Mapillary dataset. Their models and results are in this repo.
 - A ROS 2 node architecture for the vehicle (camera, sign detector, line sensor,
@@ -30,11 +32,11 @@ spring scope is the autonomous vehicle.
 - **Networking:** USB Wi-Fi dongle for headless SSH
 - **Vision and sensing:** Camera Module 3, HC-SR04 ultrasonic sensor, ICM-20948 IMU
 - **Course sensing:** TCRT5000 IR line sensors (received); a line-sensor script that
-  reads the left and right sensors is in `Hardware/scripts/Line Sensors.py`
+  reads the left (GPIO20) and right (GPIO21) sensors is in `Hardware/scripts/Line Sensors.py`
 - **Output and motion:** I²C LCD; TT drive motors and two motor-controller HATs
   are on hand, and vehicle motor control is being developed
 - **Chassis:** EMOZNY Emo smart robot car chassis kit (2 DC gear motors with
-  speed encoders, battery box) is on order, not yet received
+  speed encoders, battery box) has been received
 - **Custom PCB:** a KiCad carrier-board design, derived from the CM5 IO Board, is
   in progress in [`Hardware/BuggyBot KiCAD/`](Hardware/BuggyBot%20KiCAD/)
 
@@ -48,7 +50,8 @@ The image classifiers use 32×32 sign crops. On the CM5,
 [`Hardware/scripts/buggybot_integration.py`](Hardware/scripts/buggybot_integration.py)
 runs the combined TFLite model on a fixed region of each camera frame and shows
 the result on the LCD. The pipeline that *locates* signs in a frame and crops
-them without using the known class is not yet implemented in this repository.
+them without using the known class is prototyped on a webcam in
+`Model Training/OpenCV/buggybot_auto_detection.py` but not yet on the CM5.
 
 | Dataset and model | Classes | Prepared crops | Held-out result | Status |
 | --- | ---: | ---: | --- | --- |

@@ -5,7 +5,7 @@ test_all_sensors.py - master bench test for BuggyBot's sensors and motor driver
 Runs one short test per device, one after another, and prints a PASS/FAIL/SKIP
 summary. A failure in one test never stops the others.
 
-  line        TCRT5000 x2      GPIO17 left, GPIO27 right
+  line        TCRT5000 x2      GPIO20 left, GPIO21 right
   imu         ICM-20948        I2C 0x69 / 0x68
   camera      Camera Module 3  Picamera2
   lcd         Waveshare LCD1602 (I2C), text and RGB backlight
@@ -22,11 +22,8 @@ Run (on BuggyBot):
 
 SAFETY: the motor test spins the motors. Lift the wheels off the ground first.
 
-NOTE: the Cokoino HAT drives GPIO17 and GPIO27 (motor 1) as outputs, the same
-pins the line sensors read. Tests run one at a time and release their pins, so
-the software works, but both can't be wired at once. Check the schematic.
-
-Alexis: "I updated GPIO pins for Line Sensors to Left = GPI020 and Right = GPIO21"
+NOTE: the line sensors moved from GPIO17/27 to GPIO20/21 (10/27) so they no
+longer share pins with the Cokoino HAT's motor 1 outputs (GPIO17/27).
 """
 
 import argparse
