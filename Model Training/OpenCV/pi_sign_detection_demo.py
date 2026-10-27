@@ -28,6 +28,24 @@ LCD_LIB = Path('/home/buggybot/LCD1602-RGB-Module-demo/Raspberry')
 SEARCHING = 'SEARCHING'
 DISPLAYING = 'DISPLAYING'
 
+# Expected sign face for each class: (color mask, shape). The classifier has no
+# "not a sign" class, so it labels any red blob (a hand, a shirt) as the
+# nearest sign. Checking the crop's color and outline rejects those.
+SIGN_SHAPES = {
+    'stop': ('red', 'octagon'),
+    'school': ('yellow', 'pentagon'),
+    'pedestrianCrossing': ('yellow', 'pentagon'),
+    'addedLane': ('yellow', 'diamond'),
+    'merge': ('yellow', 'diamond'),
+    'signalAhead': ('yellow', 'diamond'),
+    'keepRight': ('white', 'rectangle'),
+    'speedLimit25': ('white', 'rectangle'),
+    'speedLimit30': ('white', 'rectangle'),
+    'speedLimit35': ('white', 'rectangle'),
+    'speedLimit45': ('white', 'rectangle'),
+    'speedLimit65': ('white', 'rectangle'),
+}
+
 
 def arguments():
     p = argparse.ArgumentParser(description='BuggyBot automatic Pi Camera sign recognition demo')
@@ -207,6 +225,47 @@ class FrameStream:
         self.server.server_close()
 
 
+def color_mask(hsv, color):
+    if color == 'red':  # red hue wraps around 0/179
+        return cv2.inRange(hsv, (0, 60, 25), (10, 255, 255)) | cv2.inRange(hsv, (160, 60, 25), (179, 255, 255))
+    if color == 'yellow':  # includes fluorescent yellow-green school/ped signs
+        return cv2.inRange(hsv, (15, 80, 40), (55, 255, 255))
+    # White face: unsaturated and brighter than the crop's Otsu split, so it
+    # adapts to dim and bright lighting.
+    otsu, _ = cv2.threshold(hsv[..., 2], 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    return cv2.inRange(hsv, (0, 0, int(otsu)), (179, 70, 255))
+
+
+def shape_matches(crop, label):
+    """True when the crop's largest region of the class color has the class shape."""
+    if label not in SIGN_SHAPES:
+        return True
+    color, expected = SIGN_SHAPES[label]
+    mask = color_mask(cv2.cvtColor(crop, cv2.COLOR_BGR2HSV), color)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8))
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if not contours:
+        return False
+    # Convex hull ignores the sign's lettering and symbols cut into the mask.
+    hull = cv2.convexHull(max(contours, key=cv2.contourArea))
+    area = cv2.contourArea(hull)
+    _, _, bw, bh = cv2.boundingRect(hull)
+    if area < .2 * crop.shape[0] * crop.shape[1]:
+        return False  # sign face must fill a real part of the crop
+    extent = area / max(1, bw * bh)  # 1.0 = fills its box, .5 = diamond
+    perimeter = cv2.arcLength(hull, True)
+    if expected == 'octagon':
+        # Fine 1% tolerance: an octagon keeps 8 corners, a circle/ellipse
+        # (round hand or shirt blob) breaks into 14+.
+        corners = len(cv2.approxPolyDP(hull, .01 * perimeter, True))
+        return 7 <= corners <= 10 and extent >= .7
+    corners = len(cv2.approxPolyDP(hull, .03 * perimeter, True))
+    if expected in ('diamond', 'pentagon'):
+        # Shared range: a diamond clipped at the crop edge gains a corner.
+        return 4 <= corners <= 6 and .4 <= extent <= .9
+    return corners == 4 and extent >= .8  # rectangle
+
+
 def setup_lcd(enabled):
     if not enabled:
         return None
@@ -270,7 +329,7 @@ def main():
                     if crop.size == 0:
                         continue
                     label, confidence = classify(interpreter, labels, crop)
-                    if confidence >= args.threshold:
+                    if confidence >= args.threshold and shape_matches(crop, label):
                         matches.append((box, label, confidence))
                 for (x, y, bw, bh), label, confidence in matches:
                     cv2.rectangle(frame, (x, y), (x + bw, y + bh), (0, 255, 0), 2)
