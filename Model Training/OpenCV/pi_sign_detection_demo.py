@@ -59,6 +59,8 @@ def arguments():
                    help='serve annotated video at http://buggybot.local:PORT; 0 disables')
     p.add_argument('--lcd', action=argparse.BooleanOptionalAction, default=True,
                    help='write highest-confidence match to Waveshare RGB1602 (--no-lcd disables)')
+    p.add_argument('--confirm-frames', type=int, default=2,
+                   help='consecutive frames that must agree on a label before it is shown')
     p.add_argument('--display-seconds', type=float, default=3.0,
                    help='seconds to hold a detected sign on the LCD before searching again')
     p.add_argument('--save-every', type=float, default=2.0, help='seconds between saved annotated frames (0 disables)')
@@ -274,13 +276,18 @@ def shape_matches(crop, label):
     return corners == 4 and extent >= .8  # rectangle
 
 
+# LCD backlight (R, G, B) per sign color in SIGN_SHAPES; green while searching.
+LCD_COLORS = {'red': (255, 0, 0), 'yellow': (255, 150, 0), 'white': (255, 255, 255)}
+SEARCHING_COLOR = (0, 255, 0)
+
+
 def setup_lcd(enabled):
     if not enabled:
         return None
     sys.path.insert(0, str(LCD_LIB))
     import RGB1602
     lcd = RGB1602.RGB1602(16, 2)
-    lcd.setRGB(0, 255, 0)
+    lcd.setRGB(*SEARCHING_COLOR)
     lcd.clear()
     return lcd
 
@@ -321,6 +328,11 @@ def main():
         frames = 0
         state = SEARCHING
         display_until = 0.0
+        # Confirmation: a label must be the best match on --confirm-frames
+        # consecutive frames. One-frame errors (a blurred crop as a card moves
+        # into view) reset the count instead of reaching the LCD.
+        pending_label = None
+        pending_count = 0
         if lcd is not None:
             lcd_text(lcd, 'SEARCHING...', 'NO SIGN FOUND')
         while True:
@@ -348,17 +360,25 @@ def main():
                     print(f'Frame {frames}: {len(candidates)} regions | searching', flush=True)
                     last_report = now
                 if matches:
-                    # Transition: SEARCHING -> DISPLAYING. LCD is written once here.
                     _, label, confidence = max(matches, key=lambda m: m[2])
+                    pending_count = pending_count + 1 if label == pending_label else 1
+                    pending_label = label
+                else:
+                    pending_label, pending_count = None, 0
+                if pending_count >= args.confirm_frames:
+                    # Transition: SEARCHING -> DISPLAYING. LCD is written once here.
                     print(f'DETECTED {label} {confidence:.0%} | holding {args.display_seconds:g}s', flush=True)
                     if lcd is not None:
+                        lcd.setRGB(*LCD_COLORS[SIGN_SHAPES[label][0]])
                         lcd_text(lcd, label, f'Confidence {confidence:.0%}')
                     state = DISPLAYING
                     display_until = now + args.display_seconds
+                    pending_label, pending_count = None, 0
             elif state == DISPLAYING and now >= display_until:
                 # Transition: DISPLAYING -> SEARCHING.
                 print('Hold finished | searching', flush=True)
                 if lcd is not None:
+                    lcd.setRGB(*SEARCHING_COLOR)
                     lcd_text(lcd, 'SEARCHING...', 'NO SIGN FOUND')
                 state = SEARCHING
             cv2.putText(frame, f'BuggyBot | {state}',
