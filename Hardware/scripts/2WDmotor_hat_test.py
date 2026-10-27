@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
 """
-2WDmotor_hat_test.py - bench test for BuggyBot's motor controller HAT
+2WDmotor_hat_test.py - bench test for BuggyBot's two motor controller HATs
 
-Board: Waveshare Motor Driver HAT (I2C 0x40, PCA9685 + TB6612, motors A/B -> 1/2).
-It drives BuggyBot's two DC motors and is the only motor HAT the car uses
-(the Cokoino and Adafruit options were removed 10/27).
+Supported boards (pick with --board; default waveshare):
+  waveshare  Waveshare Motor Driver HAT (2WD)  (I2C 0x40, PCA9685 + TB6612, motors A/B -> 1/2)
+  cokoino    Cokoino 4WD Robot HAT             (GPIO direct, 2x DRV8833, motors M1-M4)
 
 Setup (Raspberry Pi OS):
-  sudo raspi-config -> Interface Options -> I2C -> Enable, reboot
-  sudo apt install python3-smbus2 i2c-tools
+  Waveshare: sudo raspi-config -> Interface Options -> I2C -> Enable, reboot
+             sudo apt install python3-smbus2 i2c-tools
+  Cokoino:   sudo apt install python3-gpiozero python3-lgpio   (usually preinstalled)
 
 Usage:
-  python3 2WDmotor_hat_test.py              # full automatic test
-  python3 2WDmotor_hat_test.py --max 40     # gentler test
-  python3 2WDmotor_hat_test.py --motors 1
-  python3 2WDmotor_hat_test.py -i           # interactive control
-  python3 2WDmotor_hat_test.py --scan       # scan the I2C bus
+  python3 2WDmotor_hat_test.py                              # Waveshare, full automatic test
+  python3 2WDmotor_hat_test.py --board cokoino              # Cokoino, full automatic test
+  python3 2WDmotor_hat_test.py --max 40                     # gentler test
+  python3 2WDmotor_hat_test.py --board cokoino --motors 1 3
+  python3 2WDmotor_hat_test.py --board cokoino -i           # interactive control
+  python3 2WDmotor_hat_test.py --scan                       # scan the I2C bus (I2C boards only)
 
 SAFETY: lift the wheels off the ground before running. Ctrl+C stops all motors.
 """
@@ -26,12 +28,23 @@ import sys
 import time
 
 
-# Motor number -> (PWM channel, IN1 channel, IN2 channel) on the PCA9685
-BOARD = {
-    "name": "Waveshare Motor Driver HAT",
-    "addr": 0x40,
-    "freq": 1000,
-    "motors": {1: (0, 1, 2), 2: (5, 3, 4)},
+# I2C boards: motor number -> (PWM channel, IN1 channel, IN2 channel) on the PCA9685
+# GPIO boards: motor number -> (sleep/enable pin, IN1 pin, IN2 pin), BCM numbering
+BOARDS = {
+    "cokoino": {
+        "name": "Cokoino 4WD Robot HAT",
+        "type": "gpio",
+        "freq": 500,
+        # From the vendor schematic: U3 (NSLEEP=GPIO12) drives M1/M2, U2 (NSLEEP=GPIO13) drives M3/M4
+        "motors": {1: (12, 17, 27), 2: (12, 22, 23), 3: (13, 24, 25), 4: (13, 26, 16)},
+    },
+    "waveshare": {
+        "name": "Waveshare Motor Driver HAT",
+        "type": "i2c",
+        "addr": 0x40,
+        "freq": 1000,
+        "motors": {1: (0, 1, 2), 2: (5, 3, 4)},
+    },
 }
 
 
@@ -86,7 +99,7 @@ class PCA9685:
 
 # ----------------------------------------------------------------- Motors ----
 class PCAMotor:
-    """TB6612 channel driven through the HAT's PCA9685."""
+    """TB6612 channel driven through a PCA9685 (Waveshare)."""
 
     def __init__(self, pca, number, pwm_ch, in1_ch, in2_ch, invert=False):
         self.pca = pca
@@ -118,6 +131,39 @@ class PCAMotor:
 
     def coast(self):
         self.run(0)
+
+
+class GPIOMotor:
+    """DRV8833 channel driven straight from Pi GPIO (Cokoino).
+
+    Speed is set by PWM on the IN pins with NSLEEP held high, so every motor
+    gets its own speed (the vendor demo PWMs NSLEEP instead, which forces
+    M1/M2 and M3/M4 to share one speed).
+    """
+
+    def __init__(self, gz_motor, number, invert=False):
+        self.m = gz_motor
+        self.number = number
+        self.invert = invert
+
+    def run(self, speed):
+        speed = max(-100.0, min(100.0, float(speed)))
+        if self.invert:
+            speed = -speed
+        if speed > 0:
+            self.m.forward(speed / 100.0)
+        elif speed < 0:
+            self.m.backward(-speed / 100.0)
+        else:
+            self.m.stop()                      # both IN low = coast
+
+    def brake(self):
+        """DRV8833 brake: both inputs high."""
+        self.m.forward_device.value = 1
+        self.m.backward_device.value = 1
+
+    def coast(self):
+        self.m.stop()
 
 
 # --------------------------------------------------------------- Hardware ----
@@ -153,6 +199,49 @@ class I2CHardware:
 
     def close(self):
         self.bus.close()
+
+
+class GPIOHardware:
+    def __init__(self, board, args):
+        try:
+            from gpiozero import Motor, DigitalOutputDevice
+        except ImportError:
+            sys.exit("gpiozero is not installed. Run: sudo apt install python3-gpiozero python3-lgpio")
+        self.Motor = Motor
+        self.freq = args.freq or board["freq"]
+        print(f"Board: {board['name']}  |  GPIO direct, PWM {self.freq:.0f} Hz")
+
+        # Wake both DRV8833 chips (NSLEEP high). Only the pins actually used get claimed.
+        self.sleep_pins = {}
+        for sleep, _, _ in board["motors"].values():
+            if sleep not in self.sleep_pins:
+                try:
+                    self.sleep_pins[sleep] = DigitalOutputDevice(sleep, initial_value=True)
+                except Exception as e:
+                    sys.exit(f"Can't claim GPIO{sleep}: {e}\n"
+                             "Is another program (or a dtoverlay like pwm/audio) using it?")
+        self.motors = []
+
+    def make_motor(self, n, pins, invert):
+        _, in1, in2 = pins
+        m = self.Motor(forward=in1, backward=in2, pwm=True)
+        m.forward_device.frequency = self.freq
+        m.backward_device.frequency = self.freq
+        m.stop()
+        self.motors.append(m)
+        return GPIOMotor(m, n, invert=invert)
+
+    def all_off(self):
+        for m in self.motors:
+            m.stop()
+        for p in self.sleep_pins.values():
+            p.off()                            # NSLEEP low: outputs high-impedance
+
+    def close(self):
+        for m in self.motors:
+            m.close()
+        for p in self.sleep_pins.values():
+            p.close()
 
 
 # ------------------------------------------------------------------ Tests ----
@@ -276,15 +365,17 @@ def scan_bus(bus_num):
         print("  (0x70 is the PCA9685 all-call address and is normal to see.)")
     else:
         print("  No devices found. Check that I2C is enabled and the HAT is seated.")
+        print("  (The Cokoino HAT has no I2C chip, so it never shows up here.)")
     return found
 
 
 # ------------------------------------------------------------------- Main ----
 def main():
-    p = argparse.ArgumentParser(description="Test BuggyBot's Waveshare motor driver HAT.")
-    p.add_argument("--addr", type=lambda x: int(x, 0), help="override the I2C address, e.g. 0x41")
+    p = argparse.ArgumentParser(description="Test a Raspberry Pi motor controller HAT.")
+    p.add_argument("--board", choices=BOARDS.keys(), default="waveshare")
+    p.add_argument("--addr", type=lambda x: int(x, 0), help="I2C boards: override address, e.g. 0x41")
     p.add_argument("--bus", type=int, default=1, help="I2C bus number (default 1)")
-    p.add_argument("--freq", type=float, help="PWM frequency in Hz (default 1000)")
+    p.add_argument("--freq", type=float, help="PWM frequency in Hz (default depends on board)")
     p.add_argument("--motors", type=int, nargs="+", help="which motors to test (default: all)")
     p.add_argument("--invert", type=int, nargs="+", default=[], help="motors whose direction to flip")
     p.add_argument("--max", type=int, default=60, help="max speed %% used in tests (default 60)")
@@ -299,7 +390,7 @@ def main():
         scan_bus(args.bus)
         return
 
-    board = BOARD
+    board = BOARDS[args.board]
     max_speed = max(1, min(100, args.max))
 
     nums = args.motors or sorted(board["motors"])
@@ -307,7 +398,7 @@ def main():
     if bad:
         sys.exit(f"{board['name']} has motors {sorted(board['motors'])}; got {bad}")
 
-    hw = I2CHardware(board, args)
+    hw = (GPIOHardware if board["type"] == "gpio" else I2CHardware)(board, args)
     motors = {n: hw.make_motor(n, board["motors"][n], n in args.invert) for n in nums}
 
     def shutdown(*_):

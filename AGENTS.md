@@ -134,7 +134,8 @@ work that is safe to complete.
   check --select F`, the sign-demo regression on the 329 committed test crops
   (`scripts/check_sign_crops.py`: 329 classified, 328 pass the shape check;
   update its baselines if a deliberate change improves them), the integration
-  test's `pins` stage, and relative Markdown links
+  test's `pins` stage for both motor HATs (Waveshare 2WD and Cokoino 4WD),
+  and relative Markdown links
   (`scripts/check_md_links.py`). Before committing, run the checks your change
   touches; a new Python script, a moved or renamed file, a GPIO change, or a
   detection-threshold change can each break CI.

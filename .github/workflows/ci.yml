@@ -57,6 +57,9 @@ jobs:
   pin-map:
     name: Integration test pin map (no hardware)
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        board: [waveshare, cokoino]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -64,9 +67,9 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       # The integration test's `pins` stage needs no hardware: it fails if two
-      # devices are assigned the same GPIO.
-      - name: Check GPIO assignments
-        run: python Hardware/scripts/test_all_sensors.py --only pins --report-dir "$RUNNER_TEMP"
+      # devices are assigned the same GPIO for the chosen motor HAT.
+      - name: Check GPIO assignments (${{ matrix.board }})
+        run: python Hardware/scripts/test_all_sensors.py --only pins --board ${{ matrix.board }} --report-dir "$RUNNER_TEMP"
 
   docs-links:
     name: Markdown links resolve
