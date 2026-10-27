@@ -21,6 +21,11 @@ MODEL_PATH = MODEL_DIR / "combined_model.tflite"
 LABELS_PATH = MODEL_DIR / "combined_model_labels.txt"
 LCD_LIB = Path('/home/buggybot/LCD1602-RGB-Module-demo/Raspberry')
 
+# Demo states: SEARCHING runs detection every frame; DISPLAYING holds one
+# result on the LCD and skips detection until the hold time expires.
+SEARCHING = 'SEARCHING'
+DISPLAYING = 'DISPLAYING'
+
 
 def arguments():
     p = argparse.ArgumentParser(description='BuggyBot automatic Pi Camera sign recognition demo')
@@ -32,6 +37,8 @@ def arguments():
     p.add_argument('--max-candidates', type=int, default=8)
     p.add_argument('--preview', action='store_true', help='show live window (requires graphical desktop)')
     p.add_argument('--lcd', action='store_true', help='write highest-confidence match to Waveshare RGB1602')
+    p.add_argument('--display-seconds', type=float, default=3.0,
+                   help='seconds to hold a detected sign on the LCD before searching again')
     p.add_argument('--save-every', type=float, default=2.0, help='seconds between saved annotated frames (0 disables)')
     p.add_argument('--output', type=Path, default=Path.home() / 'buggybot_sign_demo')
     p.add_argument('--seconds', type=float, default=0, help='stop after N seconds; 0 means Ctrl+C')
@@ -189,42 +196,52 @@ def main():
         print(f'Saving frames to {args.output} | Ctrl+C to stop')
         start = time.monotonic()
         next_save = 0.0
-        next_lcd = 0.0
         last_report = 0.0
         frames = 0
+        state = SEARCHING
+        display_until = 0.0
+        if lcd is not None:
+            lcd_text(lcd, 'SEARCHING...', 'NO SIGN FOUND')
         while True:
             now = time.monotonic()
             if args.seconds and now - start >= args.seconds:
                 break
             frame = camera.capture_array('main')  # BGR for RGB888 on Picamera2
-            candidates = make_candidates(frame, args.max_candidates)
-            matches = []
-            for box in candidates:
-                crop = crop_square(frame, box)
-                if crop.size == 0:
-                    continue
-                label, confidence = classify(interpreter, labels, crop)
-                if confidence >= args.threshold:
-                    matches.append((box, label, confidence))
-            for (x, y, bw, bh), label, confidence in matches:
-                cv2.rectangle(frame, (x, y), (x + bw, y + bh), (0, 255, 0), 2)
-                cv2.putText(frame, f'{label} {confidence:.1%}',
-                            (x, max(25, y - 8)), cv2.FONT_HERSHEY_SIMPLEX,
-                            .65, (0, 255, 0), 2, cv2.LINE_AA)
-            cv2.putText(frame, f'BuggyBot | {len(matches)} candidate matches',
-                        (15, 30), cv2.FONT_HERSHEY_SIMPLEX, .7, (255, 255, 255), 2)
             frames += 1
-            if now - last_report > 1.0:
-                desc = ', '.join(f'{lab} {conf:.0%}' for _, lab, conf in matches) or 'no confident candidates'
-                print(f'Frame {frames}: {len(candidates)} regions | {desc}', flush=True)
-                last_report = now
-            if lcd is not None and now >= next_lcd:
+            if state == SEARCHING:
+                candidates = make_candidates(frame, args.max_candidates)
+                matches = []
+                for box in candidates:
+                    crop = crop_square(frame, box)
+                    if crop.size == 0:
+                        continue
+                    label, confidence = classify(interpreter, labels, crop)
+                    if confidence >= args.threshold:
+                        matches.append((box, label, confidence))
+                for (x, y, bw, bh), label, confidence in matches:
+                    cv2.rectangle(frame, (x, y), (x + bw, y + bh), (0, 255, 0), 2)
+                    cv2.putText(frame, f'{label} {confidence:.1%}',
+                                (x, max(25, y - 8)), cv2.FONT_HERSHEY_SIMPLEX,
+                                .65, (0, 255, 0), 2, cv2.LINE_AA)
+                if now - last_report > 1.0:
+                    print(f'Frame {frames}: {len(candidates)} regions | searching', flush=True)
+                    last_report = now
                 if matches:
+                    # Transition: SEARCHING -> DISPLAYING. LCD is written once here.
                     _, label, confidence = max(matches, key=lambda m: m[2])
-                    lcd_text(lcd, label, f'Confidence {confidence:.0%}')
-                else:
+                    print(f'DETECTED {label} {confidence:.0%} | holding {args.display_seconds:g}s', flush=True)
+                    if lcd is not None:
+                        lcd_text(lcd, label, f'Confidence {confidence:.0%}')
+                    state = DISPLAYING
+                    display_until = now + args.display_seconds
+            elif state == DISPLAYING and now >= display_until:
+                # Transition: DISPLAYING -> SEARCHING.
+                print('Hold finished | searching', flush=True)
+                if lcd is not None:
                     lcd_text(lcd, 'SEARCHING...', 'NO SIGN FOUND')
-                next_lcd = now + .5
+                state = SEARCHING
+            cv2.putText(frame, f'BuggyBot | {state}',
+                        (15, 30), cv2.FONT_HERSHEY_SIMPLEX, .7, (255, 255, 255), 2)
             if args.save_every > 0 and now >= next_save:
                 filename = args.output / f'frame_{frames:06d}.jpg'
                 cv2.imwrite(str(filename), frame)
