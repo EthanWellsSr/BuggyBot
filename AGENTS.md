@@ -104,7 +104,9 @@ work that is safe to complete.
   capture, fixed-region OpenCV crop, combined TFLite classification, LCD output;
   it does not locate signs or drive the vehicle. `scripts/Line Sensors.py` reads
   the TCRT5000 course-line sensors on GPIO20 and GPIO21. The CM5 Lite has no
-  onboard Wi-Fi and uses a USB adapter. Treat driver reliability as unresolved
+  onboard Wi-Fi and uses a USB adapter. BuggyBot runs Raspberry Pi OS Lite,
+  Debian 13 "trixie" (13.7; headless, no desktop), so view camera output over a network
+  stream. Treat driver reliability as unresolved
   unless current device evidence confirms it.
 - `ROS 2` — a node architecture and data flow for the vehicle (camera, sign
   detector, line sensor, IMU, behavior, motor driver, LCD, teleop) have been

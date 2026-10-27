@@ -6,10 +6,8 @@
 
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    # macOS: Homebrew packages. XQuartz is the X server for viewing the Pi's
-    # OpenCV preview window over `ssh -Y` (log out and back in after install).
+    # macOS: Homebrew packages.
     brew install git python
-    brew install --cask xquartz
 else
     sudo apt-get update
     sudo apt-get install -y \

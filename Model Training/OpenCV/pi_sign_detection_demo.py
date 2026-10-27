@@ -9,7 +9,9 @@ or classify background. A classification confidence is NOT a sign-detection scor
 """
 import argparse
 import sys
+import threading
 import time
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 import cv2
@@ -35,7 +37,8 @@ def arguments():
     p.add_argument('--height', type=int, default=720)
     p.add_argument('--threshold', type=float, default=.85, help='minimum classifier confidence to show')
     p.add_argument('--max-candidates', type=int, default=8)
-    p.add_argument('--preview', action='store_true', help='show live window (requires graphical desktop)')
+    p.add_argument('--stream', type=int, nargs='?', const=8000, default=0, metavar='PORT',
+                   help='serve annotated video at http://buggybot.local:PORT (default port 8000)')
     p.add_argument('--lcd', action='store_true', help='write highest-confidence match to Waveshare RGB1602')
     p.add_argument('--display-seconds', type=float, default=3.0,
                    help='seconds to hold a detected sign on the LCD before searching again')
@@ -156,6 +159,53 @@ def crop_square(frame, box):
     return frame[y1:y2, x1:x2]
 
 
+class FrameStream:
+    """Holds the newest annotated frame as JPEG and serves it as an MJPEG stream.
+
+    MJPEG is a sequence of JPEG images sent in one HTTP response
+    (multipart/x-mixed-replace); browsers replace the image as each part arrives.
+    The OS is headless, so this replaces an OpenCV window.
+    """
+
+    def __init__(self, port):
+        self.jpeg = None
+        self.ready = threading.Condition()
+        stream = self
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=frame')
+                self.end_headers()
+                try:
+                    while True:
+                        with stream.ready:
+                            stream.ready.wait()  # block until the main loop publishes a frame
+                            jpeg = stream.jpeg
+                        self.wfile.write(b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + jpeg + b'\r\n')
+                except (BrokenPipeError, ConnectionResetError):
+                    pass  # viewer closed the tab
+
+            def log_message(self, *_):
+                pass  # keep the terminal for detection output
+
+        # Daemon threads so Ctrl+C on the main loop ends the program.
+        self.server = ThreadingHTTPServer(('0.0.0.0', port), Handler)
+        self.server.daemon_threads = True
+        threading.Thread(target=self.server.serve_forever, daemon=True).start()
+
+    def publish(self, frame):
+        ok, buf = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 70])
+        if ok:
+            with self.ready:
+                self.jpeg = buf.tobytes()
+                self.ready.notify_all()
+
+    def close(self):
+        self.server.shutdown()
+        self.server.server_close()
+
+
 def setup_lcd(enabled):
     if not enabled:
         return None
@@ -185,6 +235,7 @@ def main():
     labels = args.labels.read_text().split()
     interpreter = load_interpreter(args.model)
     lcd = setup_lcd(args.lcd)
+    stream = FrameStream(args.stream) if args.stream else None
     from picamera2 import Picamera2
     camera = Picamera2()
     try:
@@ -194,6 +245,8 @@ def main():
         time.sleep(2)  # exposure settle
         print(f'Camera running {args.width}x{args.height} | model={args.model}')
         print(f'Saving frames to {args.output} | Ctrl+C to stop')
+        if stream is not None:
+            print(f'Streaming at http://buggybot.local:{args.stream}')
         start = time.monotonic()
         next_save = 0.0
         last_report = 0.0
@@ -246,10 +299,8 @@ def main():
                 filename = args.output / f'frame_{frames:06d}.jpg'
                 cv2.imwrite(str(filename), frame)
                 next_save = now + args.save_every
-            if args.preview:
-                cv2.imshow('BuggyBot Pi Camera Sign Demo (Q to quit)', frame)
-                if cv2.waitKey(1) & 0xFF in (ord('q'), 27):
-                    break
+            if stream is not None:
+                stream.publish(frame)
     except KeyboardInterrupt:
         print('\nDemo stopped')
     finally:
@@ -257,8 +308,8 @@ def main():
         camera.close()
         if lcd is not None:
             lcd_text(lcd, 'BUGGYBOT', 'DEMO COMPLETE')
-        if args.preview:
-            cv2.destroyAllWindows()
+        if stream is not None:
+            stream.close()
         print('Camera released; demo finished.')
 
 
