@@ -89,7 +89,9 @@ work that is safe to complete.
   `convert_to_tflite.py`; `models/` holds the GTSRB, LISA, Mapillary, and
   combined LISA+Mapillary Keras models and the combined TFLite model with its
   labels; `OpenCV/` holds webcam
-  OpenCV prototypes, including contour-based sign-candidate detection;
+  OpenCV prototypes, including contour-based sign-candidate detection and
+  the Pi sign demo (read `OpenCV/OpenCV_troubleshooting_guide.md` before
+  changing its detection logic or thresholds);
   `reports/` holds results, including the same-set comparison. The
   combined model scored 99.31% top-1 on its combined test split;
   separate dataset scores use different test sets and are not directly
