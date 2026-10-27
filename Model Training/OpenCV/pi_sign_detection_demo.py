@@ -250,7 +250,8 @@ def shape_matches(crop, label):
     if not contours:
         return False
     # Convex hull ignores the sign's lettering and symbols cut into the mask.
-    hull = cv2.convexHull(max(contours, key=cv2.contourArea))
+    region = max(contours, key=cv2.contourArea)
+    hull = cv2.convexHull(region)
     area = cv2.contourArea(hull)
     _, _, bw, bh = cv2.boundingRect(hull)
     if area < .2 * crop.shape[0] * crop.shape[1]:
@@ -261,7 +262,11 @@ def shape_matches(crop, label):
         # Fine 1% tolerance: an octagon keeps 8 corners, a circle/ellipse
         # (round hand or shirt blob) breaks into 14+.
         corners = len(cv2.approxPolyDP(hull, .01 * perimeter, True))
-        return 7 <= corners <= 10 and extent >= .7
+        # Solidity = region area / hull area. A printed octagon is one solid
+        # red shape (~.99); skin (ears, noses, hands) is shaded and lumpy, so
+        # its red patches are concave (<= .80 in our live frames).
+        solidity = cv2.contourArea(region) / max(1, area)
+        return 7 <= corners <= 9 and extent >= .7 and solidity >= .9
     corners = len(cv2.approxPolyDP(hull, .03 * perimeter, True))
     if expected in ('diamond', 'pentagon'):
         # Shared range: a diamond clipped at the crop edge gains a corner.
