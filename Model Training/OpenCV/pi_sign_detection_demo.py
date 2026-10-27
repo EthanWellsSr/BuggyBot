@@ -59,7 +59,7 @@ def arguments():
                    help='serve annotated video at http://buggybot.local:PORT; 0 disables')
     p.add_argument('--lcd', action=argparse.BooleanOptionalAction, default=True,
                    help='write highest-confidence match to Waveshare RGB1602 (--no-lcd disables)')
-    p.add_argument('--confirm-frames', type=int, default=2,
+    p.add_argument('--confirm-frames', type=int, default=3,
                    help='consecutive frames that must agree on a label before it is shown')
     p.add_argument('--display-seconds', type=float, default=3.0,
                    help='seconds to hold a detected sign on the LCD before searching again')
