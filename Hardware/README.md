@@ -60,7 +60,9 @@ Hold the sign card so it fills the green square drawn on each saved frame in
 `~/buggybot_images/` (about 18% of the frame width, near the center). The box
 position and size, the confidence threshold, and manual or automatic capture are
 set at the top of the script. Below the threshold the LCD shows `SCANNING...`.
-This first version does not search the frame for signs; that detection step is
-next.
+This script does not search the frame for signs. The live sign demo in
+[`Model Training/OpenCV/`](../Model%20Training/OpenCV/README.md) does: it finds
+signs anywhere in the frame, streams video to a browser, and colors the LCD by
+sign.
 
 Lift the wheels off the ground before running the motor test.

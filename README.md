@@ -74,8 +74,9 @@ On BuggyBot's own camera, the combined model classified **all 329** cropped
 photos of the printed [sign cards](Sign%20Cards/README.md) correctly (10
 classes, three lighting conditions, about 30 distinct setups). The LISA and
 Mapillary models scored 47.7% and 79.9%. These crops were placed with
-knowledge of each sign's class; live performance through the car's own
-detector is still unmeasured. See the [model training guide](Model%20Training/README.md) for the
+knowledge of each sign's class. Through the car's own detector (the live
+demo), 60 of 60 LCD outputs were correct in one room; distance, angle, other
+lighting, and CM5 inference time are still unmeasured. See the [model training guide](Model%20Training/README.md) for the
 scripts, preparation steps, and detailed results.
 
 ## Team
@@ -94,7 +95,7 @@ scripts, preparation steps, and detailed results.
 | `Proposal/` | Project proposal and Gantt charts |
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
 | `Hardware/` | Parts list, wiring references, integration prototype, hardware test scripts, and the KiCad custom-PCB project |
-| `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; downloaded datasets are Git ignored |
+| `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; the live Pi sign demo in `OpenCV/`; downloaded datasets are Git ignored |
 | `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes, a US Letter print sheet, and cropped camera test photos |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
 | `setup.sh` | Installs Git, Python, pip, and venv on your development computer |
