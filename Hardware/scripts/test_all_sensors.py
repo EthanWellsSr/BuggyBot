@@ -13,7 +13,7 @@ Stages, in order (a failure never stops later stages):
   i2c       every expected I2C device answers               I2C bus 1
   line      TCRT5000 x2 toggle when a line passes under    GPIO20 left, GPIO21 right
   imu       ICM-20948 still / motion / read-rate checks     I2C 0x69 or 0x68
-  motors    each motor spins both ways, brakes, coasts      HAT chosen with --board
+  motors    each motor spins both ways, brakes, coasts      Waveshare HAT, I2C 0x40
   pipeline  camera -> OpenCV -> model -> LCD reads one card Camera Module 3, LCD1602
   stress    everything above running at once, then checks power, I2C errors,
             line-sensor noise, and frame rate
@@ -28,14 +28,15 @@ pipeline and stress stages with the LiteRT venv:
   ~/buggybot-venv/bin/python test_all_sensors.py                  # everything
   ~/buggybot-venv/bin/python test_all_sensors.py --only pins i2c  # quick wiring check
   ~/buggybot-venv/bin/python test_all_sensors.py --sign stop --stress-seconds 300
-  ~/buggybot-venv/bin/python test_all_sensors.py --board waveshare --max 40
+  ~/buggybot-venv/bin/python test_all_sensors.py --max 40
 
 SAFETY: the motors and stress stages spin the motors. Lift the wheels off the
 ground first. Run on battery power: the stress stage is a power test.
 
-NOTE: the line sensors moved from GPIO17/27 to GPIO20/21 (10/27) so they no
-longer share pins with the Cokoino HAT's motor 1 outputs (GPIO17/27). The
-`pins` stage exists so that kind of clash is caught before the PCB is built.
+NOTE: the line sensors moved from GPIO17/27 to GPIO20/21 (10/27) after a pin
+clash with a motor HAT that is no longer used. The `pins` stage exists so that
+kind of clash is caught before the PCB is built. The Waveshare motor HAT is
+driven over I2C, so it adds no GPIO pins of its own.
 """
 
 import argparse
@@ -61,26 +62,13 @@ METRICS = {}
 # Every GPIO (BCM numbering) each device uses on BuggyBot today. This must match
 # the KiCad schematic in Hardware/BuggyBot KiCAD/ -- check it against the PCB
 # before sign-off. The camera uses the CSI connector, not GPIO.
-I2C_PINS = {"i2c SDA": 2, "i2c SCL": 3}
+I2C_PINS = {"i2c SDA": 2, "i2c SCL": 3}  # IMU, LCD, and the Waveshare motor HAT
 LINE_PINS = {"line left": 20, "line right": 21}
 
 # I2C addresses that must answer on bus 1. The LCD is checked by the pipeline
 # stage instead, because its addresses depend on the LCD board revision; the
 # scan prints every address it finds so they can be written down here.
 IMU_ADDRESSES = (0x69, 0x68)
-
-
-def motor_pins(board_name, board):
-    """GPIOs the motor HAT claims: its I2C pins, or its direct-drive pins."""
-    if board["type"] == "i2c":
-        return {}  # shares I2C_PINS
-    pins = {}
-    for n, (sleep, in1, in2) in board["motors"].items():
-        # One driver chip's sleep pin serves two motors, so name it by pin, once.
-        pins[f"{board_name} sleep GPIO{sleep}"] = sleep
-        pins[f"{board_name} M{n} in1"] = in1
-        pins[f"{board_name} M{n} in2"] = in2
-    return pins
 
 
 def banner(text):
@@ -131,8 +119,7 @@ def describe_throttled(flags):
 
 # --------------------------------------------------------------------- Pins --
 def test_pins(args):
-    board = load_script("2WDmotor_hat_test.py").BOARDS[args.board]
-    pin_map = {**I2C_PINS, **LINE_PINS, **motor_pins(args.board, board)}
+    pin_map = {**I2C_PINS, **LINE_PINS}
     users = {}
     for name, pin in pin_map.items():
         users.setdefault(pin, []).append(name)
@@ -148,13 +135,13 @@ def test_pins(args):
 # ---------------------------------------------------------------------- I2C --
 def test_i2c(args):
     mod = load_script("2WDmotor_hat_test.py")
-    board = mod.BOARDS[args.board]
+    board = mod.BOARD
     found = mod.scan_bus(1)
     METRICS["i2c_addresses"] = [f"0x{a:02X}" for a in found]
     missing = []
     if not any(a in found for a in IMU_ADDRESSES):
         missing.append("IMU (0x69/0x68)")
-    if board["type"] == "i2c" and board["addr"] not in found:
+    if board["addr"] not in found:
         missing.append(f"{board['name']} (0x{board['addr']:02X})")
     if missing:
         return FAIL, f"not answering: {', '.join(missing)}"
@@ -202,16 +189,16 @@ def test_imu(args):
 
 # ------------------------------------------------------------------- Motors --
 def open_motors(args):
-    """Return (motor script module, hardware, {number: motor}) for --board / --motors."""
+    """Return (motor script module, hardware, {number: motor}) for --motors."""
     mod = load_script("2WDmotor_hat_test.py")
-    board = mod.BOARDS[args.board]
+    board = mod.BOARD
     nums = args.motors or sorted(board["motors"])
     bad = [n for n in nums if n not in board["motors"]]
     if bad:
         raise ValueError(f"{board['name']} has motors {sorted(board['motors'])}; got {bad}")
     # The hardware classes read these fields from the motor script's argparse result.
     hw_args = argparse.Namespace(addr=None, bus=1, freq=None)
-    hw = (mod.GPIOHardware if board["type"] == "gpio" else mod.I2CHardware)(board, hw_args)
+    hw = mod.I2CHardware(board, hw_args)
     motors = {n: hw.make_motor(n, board["motors"][n], False) for n in nums}
     return mod, hw, motors
 
@@ -405,7 +392,7 @@ def line_worker(sensors, stop, c):
 
 def lcd_worker(d, lcd, stop, c):
     # Writing the LCD keeps the shared I2C bus busy alongside the IMU (and the
-    # motor HAT on I2C boards).
+    # Waveshare motor HAT).
     n = 0
     while not stop.is_set():
         try:
@@ -542,7 +529,7 @@ def save_report(args, results):
     path = args.report_dir / f"integration_{stamp}.json"
     report = {
         "time": datetime.datetime.now().isoformat(timespec="seconds"),
-        "board": args.board,
+        "motor_hat": "Waveshare Motor Driver HAT (I2C 0x40)",
         "max_speed_pct": args.max,
         "results": {name: {"status": s, "detail": d} for name, (s, d) in results.items()},
         "metrics": METRICS,
@@ -556,8 +543,6 @@ def main():
     p.add_argument("--only", nargs="+", choices=TESTS, help="run just these stages")
     p.add_argument("--skip", nargs="+", choices=TESTS, default=[], help="skip these stages")
     p.add_argument("--no-motion", action="store_true", help="IMU: skip the interactive motion test")
-    p.add_argument("--board", choices=["cokoino", "waveshare", "adafruit"], default="cokoino",
-                   help="motor HAT to test (default cokoino)")
     p.add_argument("--motors", type=int, nargs="+", help="motor numbers to test (default: all)")
     p.add_argument("--max", type=int, default=60, help="motors: max speed %% (default 60)")
     p.add_argument("--sign", help="pipeline: the sign card you will hold up (asked if omitted)")

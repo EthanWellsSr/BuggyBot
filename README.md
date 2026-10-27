@@ -36,8 +36,8 @@ spring scope is the autonomous vehicle.
 - **Vision and sensing:** Camera Module 3, ICM-20948 IMU (the HC-SR04 ultrasonic sensor is no longer used)
 - **Course sensing:** TCRT5000 IR line sensors (received); a line-sensor script that
   reads the left (GPIO20) and right (GPIO21) sensors is in `Hardware/scripts/Line Sensors.py`
-- **Output and motion:** I²C LCD; TT drive motors and two motor-controller HATs
-  are on hand, and vehicle motor control is being developed
+- **Output and motion:** I²C LCD; the Waveshare Motor Driver HAT (I²C) drives
+  the two DC motors, and vehicle motor control is being developed
 - **Chassis:** EMOZNY Emo smart robot car chassis kit (2 DC gear motors with
   speed encoders, battery box) has been received
 - **Custom PCB:** a KiCad carrier-board design, derived from the CM5 IO Board, is
@@ -101,7 +101,7 @@ scripts, preparation steps, and detailed results.
 | `setup.sh` | Installs Git, Python, pip, and venv on your development computer |
 | `Hardware/setup.sh` | Installs Picamera2, OpenCV, NumPy, SMBus, GPIOZero, and the LiteRT venv on BuggyBot (the CM5) |
 | `AGENTS.md` | Working agreements for AI assistants used on this repo |
-| `.github/` | GitHub Actions CI, run on every push: Python scripts compile, `ruff` bug lint, sign-demo regression on the 329 test crops, integration-test pin map for each motor HAT, and Markdown link check (helper scripts in `.github/scripts/`) |
+| `.github/` | GitHub Actions CI, run on every push: Python scripts compile, `ruff` bug lint, sign-demo regression on the 329 test crops, integration-test pin map, and Markdown link check (helper scripts in `.github/scripts/`) |
 
 ### Weekly reports
 

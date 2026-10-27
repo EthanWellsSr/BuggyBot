@@ -30,9 +30,9 @@ test scripts list their setup steps and wiring at the top of the file.
 | Script | Tests | Interface |
 | --- | --- | --- |
 | [`icm20948_test.py`](scripts/icm20948_test.py) | ICM-20948 IMU checks, then a live reading stream | I²C, address 0x69 or 0x68 |
-| [`2WDmotor_hat_test.py`](scripts/2WDmotor_hat_test.py) | Motor-controller HATs: Cokoino (DRV8833), Waveshare (PCA9685 + TB6612), Adafruit | GPIO or I²C, chosen with `--board` |
+| [`2WDmotor_hat_test.py`](scripts/2WDmotor_hat_test.py) | Waveshare Motor Driver HAT (PCA9685 + TB6612), BuggyBot's two DC motors: ramps, brake/coast, interactive mode (`-i`), bus scan (`--scan`) | I²C, address 0x40 |
 | [`Line Sensors.py`](scripts/Line%20Sensors.py) | TCRT5000 IR line sensors: reads the left and right course-line sensors and reports a lane action | GPIO20 left, GPIO21 right (gpiozero `DigitalInputDevice`) |
-| [`test_all_sensors.py`](scripts/test_all_sensors.py) | Integration test before PCB sign-off (Ethan Bishop's master test, extended 10/27): pin-map clash check, I²C scan, line sensors, IMU, motors, the full sign pipeline (camera → model → LCD, with fps and inference time), then a stress run with everything at once that checks for under-voltage, I²C errors, line-sensor noise, and frame-rate drop. Saves a JSON report to `~/buggybot_integration_reports/`. Run with `~/buggybot-venv/bin/python`; options `--only`, `--skip`, `--board`, `--sign`, `--stress-seconds` | GPIO20/21, I²C, CSI camera, motor HAT pins |
+| [`test_all_sensors.py`](scripts/test_all_sensors.py) | Integration test before PCB sign-off (Ethan Bishop's master test, extended 10/27): pin-map clash check, I²C scan, line sensors, IMU, motors, the full sign pipeline (camera → model → LCD, with fps and inference time), then a stress run with everything at once that checks for under-voltage, I²C errors, line-sensor noise, and frame-rate drop. Saves a JSON report to `~/buggybot_integration_reports/`. Run with `~/buggybot-venv/bin/python`; options `--only`, `--skip`, `--sign`, `--stress-seconds` | GPIO20/21, I²C (IMU, LCD, Waveshare motor HAT), CSI camera |
 | [`buggybot_integration.py`](scripts/buggybot_integration.py) | Live sign test: classifies a fixed square region of each camera frame with the combined model and shows the sign on the LCD | Camera Module 3 (Picamera2), Waveshare LCD1602 (I²C) |
 
 ### Live sign test
