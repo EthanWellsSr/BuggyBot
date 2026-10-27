@@ -17,9 +17,12 @@ spring scope is the autonomous vehicle.
   camera frames, crops a fixed region with OpenCV, classifies it with the
   combined model (TensorFlow Lite), and shows the result on the LCD. It does not
   yet locate signs automatically or control the vehicle; the first live test on
-  the Pi is pending. Webcam OpenCV prototypes in
-  [`Model Training/OpenCV/`](Model%20Training/OpenCV/) add contour-based
-  sign-candidate detection; they are not yet on the CM5.
+  the Pi is pending.
+- [`Model Training/OpenCV/pi_sign_detection_demo.py`](Model%20Training/OpenCV/)
+  is the live sign demo on the CM5. It finds sign regions with OpenCV,
+  classifies them with the combined model, and shows the confirmed sign on the
+  LCD. In the final test, 60 of 60 LCD outputs were correct (10 printed sign
+  classes, 3 times each over two runs, one room).
 - TensorFlow classifiers have been trained on GTSRB, LISA, Mapillary, and a
   combined LISA+Mapillary dataset. Their models and results are in this repo.
 - A ROS 2 node architecture for the vehicle (camera, sign detector, line sensor,
@@ -49,9 +52,9 @@ see its [README](Hardware/README.md).
 The image classifiers use 32×32 sign crops. On the CM5,
 [`Hardware/scripts/buggybot_integration.py`](Hardware/scripts/buggybot_integration.py)
 runs the combined TFLite model on a fixed region of each camera frame and shows
-the result on the LCD. The pipeline that *locates* signs in a frame and crops
-them without using the known class is prototyped on a webcam in
-`Model Training/OpenCV/buggybot_auto_detection.py` but not yet on the CM5.
+the result on the LCD. The live demo in
+[`Model Training/OpenCV/`](Model%20Training/OpenCV/README.md) also *locates*
+signs in each frame and crops them without using the known class.
 
 | Dataset and model | Classes | Prepared crops | Held-out result | Status |
 | --- | ---: | ---: | --- | --- |

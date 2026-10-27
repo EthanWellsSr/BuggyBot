@@ -88,18 +88,20 @@ work that is safe to complete.
   dataset, the sign-photo crop and evaluation scripts, and
   `convert_to_tflite.py`; `models/` holds the GTSRB, LISA, Mapillary, and
   combined LISA+Mapillary Keras models and the combined TFLite model with its
-  labels; `OpenCV/` holds webcam
-  OpenCV prototypes, including contour-based sign-candidate detection and
-  the Pi sign demo (read `OpenCV/OpenCV_troubleshooting_guide.md` before
-  changing its detection logic or thresholds);
+  labels; `OpenCV/` holds the live Pi sign demo
+  (`pi_sign_detection_demo.py`), its README, and
+  `OpenCV_troubleshooting_guide.md` (read it before changing the demo's
+  detection logic or thresholds);
   `reports/` holds results, including the same-set comparison. The
   combined model scored 99.31% top-1 on its combined test split;
   separate dataset scores use different test sets and are not directly
   comparable. The combined dataset preserves source splits but does not
   establish physical-sign independence across datasets. On 329 cropped BuggyBot
   camera photos of the printed sign cards (about 30 distinct setups, 10
-  classes), the combined model scored 100%; those crops were placed by hand, so
-  live detection performance is still unmeasured.
+  classes), the combined model scored 100%; those crops were placed by hand. In
+  the live Pi sign demo's final test (10 classes, 3 times each over two runs,
+  one room), 60 of 60 LCD outputs were correct; distance, angle, other
+  lighting, and CM5 inference time are still unmeasured.
 - `Hardware/` — parts list, wiring schematics (`Schematics/`), test scripts, and
   the KiCad custom-PCB project (`BuggyBot KiCAD/`, derived from the CM5 IO
   Board). `scripts/buggybot_integration.py` is the integration prototype: camera
