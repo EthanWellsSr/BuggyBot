@@ -18,7 +18,7 @@ A file `Self_Driving_RC_Car.docx` and a matching `Self_Driving_RC_Car.pdf` in th
 - **Terminology — fix Ethan's occasional slips:**
   - Compute: **Raspberry Pi Compute Module 5 (CM5)** on its IO Board for bench testing; the custom carrier PCB is planned — NOT "Arduino"
   - Prototyping board: **Raspberry Pi Compute Module I/O Board** — NOT "breadboard"
-  - Sensors: camera (primary, reads signs) + ultrasonic (obstacle/wall distance) + IMU (heading/turns); no LiDAR
+  - Sensors: camera (primary, reads signs) + TCRT5000 line sensors (course line) + IMU (heading/turns); no LiDAR. The HC-SR04 ultrasonic sensor is no longer used (10/27).
   - Scope: autonomous car that follows a controlled course AND obeys traffic signs. Fall = stationary recognition system; Spring = autonomous vehicle.
 - **Ethan's voice:** plain, concrete, sequential, honest, no embellishment. Read
   the previous weekly reports before drafting so new wording matches them.
@@ -47,7 +47,7 @@ Header block (each on its own line; label prefix bold, section headers bold+unde
 6. `Project Members:` (bold+underline) then one line per member; mark Ethan as `(Group Leader)`.
 
 Then four sections, each header bold+underlined:
-7. `Weekly Summary (M/D/YYYY):` — one paragraph, group-level, what got done in the last week, WITH specifics (name each part and its purpose — e.g. "Raspberry Pi Compute Module I/O Board", "ultrasonic sensor for wall distance").
+7. `Weekly Summary (M/D/YYYY):` — one paragraph, group-level, what got done in the last week, WITH specifics (name each part and its purpose — e.g. "Raspberry Pi Compute Module I/O Board", "TCRT5000 line sensors for following the course line").
 8. `Proposed Plan for Next Week:` — **next-week goals are now REQUIRED** (opposite of the old rule). One line per member: underlined `Name:` + a specific, non-ambiguous goal. No vague goals. For reports after the first, this is what next week's report updates against.
 9. `Weekly Contributions:` — per member: an underlined `Name:` subhead, then one line per task in the form `M/D/YYYY – <what they did> (N hours)`. Ask for missing task dates and hours before finalizing; mark unavailable details for Ethan's review rather than inventing them.
 10. `Hour Tracker:` — the table in the template: `Name | Hours For the Week | Cumulative Hours`, one row per member.

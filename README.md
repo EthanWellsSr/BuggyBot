@@ -33,7 +33,7 @@ spring scope is the autonomous vehicle.
 
 - **Compute and storage:** Raspberry Pi CM5 (4 GB Lite), CM5 IO Board, M.2 NVMe
 - **Networking:** USB Wi-Fi dongle for headless SSH
-- **Vision and sensing:** Camera Module 3, HC-SR04 ultrasonic sensor, ICM-20948 IMU
+- **Vision and sensing:** Camera Module 3, ICM-20948 IMU (the HC-SR04 ultrasonic sensor is no longer used)
 - **Course sensing:** TCRT5000 IR line sensors (received); a line-sensor script that
   reads the left (GPIO20) and right (GPIO21) sensors is in `Hardware/scripts/Line Sensors.py`
 - **Output and motion:** I²C LCD; TT drive motors and two motor-controller HATs

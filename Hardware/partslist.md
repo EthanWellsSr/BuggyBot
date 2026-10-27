@@ -13,7 +13,7 @@ Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Sch
 | Raspberry Pi Camera Module 3 Standard (12MP AF) | 1 | Reads traffic signs | Have | 29.25 | 9/7 | Abigail Duran | [adafruit 5657](https://www.adafruit.com/product/5657) |
 | Adafruit ICM-20948 9-DoF IMU (STEMMA QT) | 1 | Heading / turns | Have | 19.95 | 9/7 | Ethan Bishop | [adafruit 4554](https://www.adafruit.com/product/4554) |
 | STEMMA QT → male header cable, 150 mm | 1 | Wires IMU to CM5 header | Have | 0.95 | 9/9 | Ethan Bishop | [adafruit 4209](https://www.adafruit.com/product/4209) |
-| Ultrasonic distance sensor, HC-SR04 (3.3 V) | 1 | Obstacle / wall distance (more later) | Have | 6.95 | 9/7 | Alexis Perez | [sparkfun](https://www.sparkfun.com/ultrasonic-distance-sensor-3-3v-hc-sr04.html) |
+| Ultrasonic distance sensor, HC-SR04 (3.3 V) | 1 | Obstacle / wall distance — no longer used (10/27) | Have | 6.95 | 9/7 | Alexis Perez | [sparkfun](https://www.sparkfun.com/ultrasonic-distance-sensor-3-3v-hc-sr04.html) |
 | Waveshare LCD1602 RGB (I²C) | 1 | Status display | Have | 17.99 | 9/9 | Abigail Duran | [amazon](https://www.amazon.com/dp/B095HBY7YP) |
 | KIOXIA BG4 128 GB M.2 2230 NVMe SSD (KBG40ZNS128G) | 1 | Boot media | Have | 44.89 | 9/9 | Ethan Wells | [amazon](https://www.amazon.com/KIOXIA-Toshiba-128GB-KBG40ZNS128G-Package/dp/B09CR818J2) |
 | UGREEN M.2 NVMe enclosure (USB) | 1 | Flash/interface the SSD from a PC | Have | 17.99 | 9/9 | Ethan Wells | [amazon](https://www.amazon.com/UGREEN-Enclosure-Tool-Free-Thunderbolt-Compatible/dp/B09T97Z7DM) |
@@ -46,4 +46,4 @@ drive set and the AEDIKO TT motor kit. The TCRT5000 line sensors now have a
 reading script in `scripts/Line Sensors.py` (GPIO20 left, GPIO21 right). The
 GL.iNet travel router was ordered 10/27.
 
-**Maybe later:** Raspberry Pi Pico as a real-time co-processor — only if the Pi 5's reaction time for the ultrasonic/motor timing isn't good enough.
+**Maybe later:** Raspberry Pi Pico as a real-time co-processor — only if the Pi 5's reaction time for the motor timing isn't good enough.

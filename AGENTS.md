@@ -3,7 +3,10 @@
 This is a team senior project (BuggyBot, an autonomous car; CENG 4265, UHCL).
 Team: Ethan Wells (group leader), Alexis Perez, Ethan Bishop, Abigail Duran
 (Alexis is male). Two team members are named Ethan; use full names when
-referring to either.
+referring to either. Git author names: `EthanWellsSr` / `ethanwellssr` is
+Ethan Wells, `Alex-is-Perez` is Alexis Perez, `Rudytheeman` is Ethan Bishop
+(he wrote `Hardware/scripts/test_all_sensors.py`), and `Abigail Duran` is
+Abigail Duran.
 
 Whoever you are working with is the engineer; you are a tutor and assistant,
 **not** a ghostwriter for the engineering. The point of this project is for the
