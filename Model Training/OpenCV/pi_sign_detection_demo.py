@@ -226,8 +226,11 @@ class FrameStream:
 
 
 def color_mask(hsv, color):
-    if color == 'red':  # red hue wraps around 0/179
-        return cv2.inRange(hsv, (0, 60, 25), (10, 255, 255)) | cv2.inRange(hsv, (160, 60, 25), (179, 255, 255))
+    if color == 'red':
+        # Red hue wraps around 0/179. The printed stop card is magenta-side red
+        # (hue ~176, sat ~150); skin and the pink shirt in our test frames were
+        # orange-side (hue ~3) and duller (sat ~97), so both bounds are tight.
+        return cv2.inRange(hsv, (0, 100, 25), (2, 255, 255)) | cv2.inRange(hsv, (165, 100, 25), (179, 255, 255))
     if color == 'yellow':  # includes fluorescent yellow-green school/ped signs
         return cv2.inRange(hsv, (15, 80, 40), (55, 255, 255))
     # White face: unsaturated and brighter than the crop's Otsu split, so it
