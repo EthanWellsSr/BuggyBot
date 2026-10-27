@@ -34,7 +34,7 @@ DISPLAYING = 'DISPLAYING'
 SIGN_SHAPES = {
     'stop': ('red', 'octagon'),
     'school': ('yellow', 'pentagon'),
-    'pedestrianCrossing': ('yellow', 'pentagon'),
+    'pedestrianCrossing': ('yellow', 'diamond'),
     'addedLane': ('yellow', 'diamond'),
     'merge': ('yellow', 'diamond'),
     'signalAhead': ('yellow', 'diamond'),
@@ -365,6 +365,7 @@ def main():
                 # arrow of addedLane) can classify as a different sign (merge).
                 matches = [m for m in matches
                            if not any(o is not m and contains(o[0], m[0]) for o in matches)]
+                clean = frame.copy() if matches else None  # before overlays are drawn
                 for (x, y, bw, bh), label, confidence in matches:
                     cv2.rectangle(frame, (x, y), (x + bw, y + bh), (0, 255, 0), 2)
                     cv2.putText(frame, f'{label} {confidence:.1%}',
@@ -374,7 +375,7 @@ def main():
                     print(f'Frame {frames}: {len(candidates)} regions | searching', flush=True)
                     last_report = now
                 if matches:
-                    _, label, confidence = max(matches, key=lambda m: m[2])
+                    box, label, confidence = max(matches, key=lambda m: m[2])
                     pending_count = pending_count + 1 if label == pending_label else 1
                     pending_label = label
                 else:
@@ -382,6 +383,12 @@ def main():
                 if pending_count >= args.confirm_frames:
                     # Transition: SEARCHING -> DISPLAYING. LCD is written once here.
                     print(f'DETECTED {label} {confidence:.0%} | holding {args.display_seconds:g}s', flush=True)
+                    # Save exactly what produced this LCD output: the unannotated
+                    # frame (to rerun the pipeline) and the crop the model saw.
+                    # PNG is lossless, so classifying it again gives the same result.
+                    stem = args.output / f'detect_{frames:06d}_{label}'
+                    cv2.imwrite(f'{stem}_frame.png', clean)
+                    cv2.imwrite(f'{stem}_crop.png', crop_square(clean, box))
                     if lcd is not None:
                         lcd.setRGB(*LCD_COLORS[SIGN_SHAPES[label][0]])
                         lcd_text(lcd, label, f'Confidence {confidence:.0%}')
