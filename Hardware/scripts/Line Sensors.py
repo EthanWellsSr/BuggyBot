@@ -1,8 +1,8 @@
 
 """
 Connections:
-    Left Sensor DO  -> GPIO17 (Physical Pin 11)
-    Right Sensor DO -> GPIO27 (Physical Pin 13)
+    Left Sensor DO  -> GPIO20 (Physical Pin 38)
+    Right Sensor DO -> GPIO21 (Physical Pin 40)
     Both VCC        -> 3.3V
     Both GND        -> GND
 """
@@ -12,8 +12,8 @@ from time import sleep
 from gpiozero import DigitalInputDevice
 
 # GPIO CONFIGURATION
-LEFT_GPIO = 17
-RIGHT_GPIO = 27
+LEFT_GPIO = 20
+RIGHT_GPIO = 21
 
 # TCRT5000 output trigger
 BOUNDARY_ACTIVE_LOW = True

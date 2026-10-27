@@ -25,6 +25,8 @@ SAFETY: the motor test spins the motors. Lift the wheels off the ground first.
 NOTE: the Cokoino HAT drives GPIO17 and GPIO27 (motor 1) as outputs, the same
 pins the line sensors read. Tests run one at a time and release their pins, so
 the software works, but both can't be wired at once. Check the schematic.
+
+Alexis: "I updated GPIO pins for Line Sensors to Left = GPI020 and Right = GPIO21"
 """
 
 import argparse
