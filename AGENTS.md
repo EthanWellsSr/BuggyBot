@@ -129,4 +129,13 @@ work that is safe to complete.
   hand-edited.
 - `setup.sh` — installs Git, Python, pip, and venv on your development computer. Runs on your dev PC, not the Pi.
 - `Hardware/setup.sh` — installs Picamera2, OpenCV, NumPy, SMBus, GPIOZero, and the LiteRT virtual environment on BuggyBot (the CM5). See `Hardware/README.md` for details.
+- `.github/` — GitHub Actions CI (`workflows/ci.yml`), run on every push and
+  pull request: all Python scripts compile (Python 3.13, as on the Pi), `ruff
+  check --select F`, the sign-demo regression on the 329 committed test crops
+  (`scripts/check_sign_crops.py`: 329 classified, 328 pass the shape check;
+  update its baselines if a deliberate change improves them), the integration
+  test's `pins` stage for each motor HAT, and relative Markdown links
+  (`scripts/check_md_links.py`). Before committing, run the checks your change
+  touches; a new Python script, a moved or renamed file, a GPIO change, or a
+  detection-threshold change can each break CI.
 - Inspect the current checkout before relying on prior machine or device state.
