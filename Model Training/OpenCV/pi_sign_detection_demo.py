@@ -37,9 +37,10 @@ def arguments():
     p.add_argument('--height', type=int, default=720)
     p.add_argument('--threshold', type=float, default=.85, help='minimum classifier confidence to show')
     p.add_argument('--max-candidates', type=int, default=8)
-    p.add_argument('--stream', type=int, nargs='?', const=8000, default=0, metavar='PORT',
-                   help='serve annotated video at http://buggybot.local:PORT (default port 8000)')
-    p.add_argument('--lcd', action='store_true', help='write highest-confidence match to Waveshare RGB1602')
+    p.add_argument('--stream', type=int, default=8000, metavar='PORT',
+                   help='serve annotated video at http://buggybot.local:PORT; 0 disables')
+    p.add_argument('--lcd', action=argparse.BooleanOptionalAction, default=True,
+                   help='write highest-confidence match to Waveshare RGB1602 (--no-lcd disables)')
     p.add_argument('--display-seconds', type=float, default=3.0,
                    help='seconds to hold a detected sign on the LCD before searching again')
     p.add_argument('--save-every', type=float, default=2.0, help='seconds between saved annotated frames (0 disables)')
