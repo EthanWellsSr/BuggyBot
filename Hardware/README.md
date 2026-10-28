@@ -22,9 +22,16 @@ The root `setup.sh` does **not** run on the Pi — `apt-get` isn't available on 
 | [`Navigation Ideas.pdf`](Navigation%20Ideas.pdf) | Navigation approach notes (Alexis Perez, 9/29) |
 | [`BuggyBot KiCAD/`](BuggyBot%20KiCAD/) | KiCad project for the custom carrier PCB; see its [README](BuggyBot%20KiCAD/README.md) |
 
+## 3D prints
+
+| File | Contents |
+| --- | --- |
+| [`camera_bracket.py`](3D%20Prints/camera_bracket.py) | Generates `camera_bracket.stl` (no dependencies; run with `python3` on your development computer): a Camera Module 3 bracket that bolts to IO board hole H7 behind CAM/DISP 0 with one M2.5 screw and to the camera's two holes on one side with M2 self-tapping screws. Positions come from `CM5IO.kicad_pcb`; measure the board before printing |
+| [`camera_bracket.stl`](3D%20Prints/camera_bracket.stl) | Generated print file; print foot down, no supports |
+
 ## Scripts
 
-All scripts run on BuggyBot (the CM5), not on your development computer. The
+All scripts in this section run on BuggyBot (the CM5), not on your development computer. The
 test scripts list their setup steps and wiring at the top of the file.
 
 | Script | Tests | Interface |
