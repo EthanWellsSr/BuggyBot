@@ -129,7 +129,7 @@ Weekly Reports/
   Self_Driving_RC_Car.docx / .pdf                      ← rolling report (working)
   Self-Driving-RC-Car.pptx                             ← rolling deck (generated)
   Week 1/ … Week 3/   frozen report .pdf + .docx
-  Week 4/ … Week 9/   frozen report + frozen .pptx
+  Week 4/ … Week 10/  frozen report + frozen .pptx
 ```
 
 See `Weekly Reports/context.md` for the full build/format guide.
