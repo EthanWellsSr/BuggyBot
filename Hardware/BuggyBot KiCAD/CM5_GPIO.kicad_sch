@@ -13453,6 +13453,16 @@
 		)
 		(uuid "05c1c0ae-f846-4942-b9ca-9f0f8f62492d")
 	)
+	(label "GPIO2"
+		(at 121.92 177.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "069c33e4-3482-400e-a000-7390abe35368")
+	)
 	(label "GPIO5"
 		(at 24.13 62.23 0)
 		(effects
@@ -13703,16 +13713,6 @@
 		)
 		(uuid "28c42959-8e72-4709-83e0-fbb99eade23c")
 	)
-	(label "SCL0"
-		(at 124.46 180.34 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "29b54fca-e94a-4be2-9dad-e01cc12dd88d")
-	)
 	(label "ETH_LEDY"
 		(at 103.124 39.37 0)
 		(effects
@@ -13732,16 +13732,6 @@
 			(justify left bottom)
 		)
 		(uuid "2acd5cc2-9dd5-4a7d-87cb-dd4fd55911c1")
-	)
-	(label "SDA0"
-		(at 87.63 176.53 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "2e401163-6dfc-42d7-9f21-68f477735031")
 	)
 	(label "PWM"
 		(at 102.87 44.45 0)
@@ -13833,16 +13823,6 @@
 		)
 		(uuid "39b32332-d6eb-4066-9c5a-784c77cb509f")
 	)
-	(label "SDA0"
-		(at 121.92 177.8 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "39e196f5-a138-4980-acc0-30f3fbb82153")
-	)
 	(label "GPIO19"
 		(at 148.59 67.31 180)
 		(effects
@@ -13912,6 +13892,16 @@
 			(justify left bottom)
 		)
 		(uuid "4869df3a-3b4c-435c-bb9c-1773c5ea4fb3")
+	)
+	(label "GPIO3"
+		(at 121.92 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4c2c102c-728b-4095-8872-f81868f1114c")
 	)
 	(label "GPIO20"
 		(at 175.26 69.85 180)
@@ -14033,6 +14023,16 @@
 		)
 		(uuid "6174394f-bb9b-4752-bb81-4ff9404b9295")
 	)
+	(label "GPIO3"
+		(at 87.63 179.07 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "64a495a6-0f85-41c3-856e-63c5e8d60992")
+	)
 	(label "TRD0_N"
 		(at 245.11 26.67 180)
 		(effects
@@ -14152,16 +14152,6 @@
 			(justify right bottom)
 		)
 		(uuid "7ea5fa02-788a-478b-aebb-c1380934d36b")
-	)
-	(label "SCL0"
-		(at 90.17 179.07 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "7fb1a530-6252-4a5b-9397-b13148638878")
 	)
 	(label "GPIO23"
 		(at 175.26 41.91 180)
@@ -14702,6 +14692,16 @@
 			(justify right bottom)
 		)
 		(uuid "edff7200-18c6-4e0c-99f9-a118fc24b63a")
+	)
+	(label "GPIO2"
+		(at 88.9 176.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f17390ba-e138-4e54-9a9f-a8c394a3dd0a")
 	)
 	(label "PWR_BUT"
 		(at 40.64 185.42 0)
