@@ -28,7 +28,7 @@ pipeline and stress stages with the LiteRT venv:
   ~/buggybot-venv/bin/python test_all_sensors.py                  # everything
   ~/buggybot-venv/bin/python test_all_sensors.py --only pins i2c  # quick wiring check
   ~/buggybot-venv/bin/python test_all_sensors.py --stress-seconds 300
-  ~/buggybot-venv/bin/python test_all_sensors.py --board cokoino --max 40
+  ~/buggybot-venv/bin/python test_all_sensors.py --board waveshare --max 40
 
 SAFETY: the motors and stress stages spin the motors. Lift the wheels off the
 ground first. Run on battery power: the stress stage is a power test.
@@ -600,8 +600,8 @@ def main():
     p.add_argument("--only", nargs="+", choices=TESTS, help="run just these stages")
     p.add_argument("--skip", nargs="+", choices=TESTS, default=[], help="skip these stages")
     p.add_argument("--no-motion", action="store_true", help="IMU: skip the interactive motion test")
-    p.add_argument("--board", choices=["waveshare", "cokoino"], default="waveshare",
-                   help="motor HAT: waveshare (2WD, default) or cokoino (4WD)")
+    p.add_argument("--board", choices=["waveshare", "cokoino"], default="cokoino",
+                   help="motor HAT: cokoino (4WD, default) or waveshare (2WD)")
     p.add_argument("--motors", type=int, nargs="+", help="motor numbers to test (default: 1 2)")
     p.add_argument("--max", type=int, default=60, help="motors: max speed %% (default 60)")
     p.add_argument("--stress-seconds", type=float, default=120, help="stress: run length (default 120)")
