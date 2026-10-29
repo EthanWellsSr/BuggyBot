@@ -356,7 +356,9 @@ def scan_bus(bus_num):
     with SMBus(bus_num) as bus:
         for addr in range(0x03, 0x78):
             try:
-                bus.read_byte(addr)
+                # Empty write, as i2cdetect does: write-only chips such as the
+                # LCD's text controller (0x3E) don't answer a read.
+                bus.write_quick(addr)
                 found.append(addr)
             except OSError:
                 pass

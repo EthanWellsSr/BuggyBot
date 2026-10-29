@@ -38,11 +38,17 @@ class LaneSensors:
         # Initialize left and right IR sensors
         self.left_sensor = DigitalInputDevice(
             LEFT_GPIO,
-            pull_up=None
+            pull_up=None,
+            # Required with pull_up=None; value is the raw pin level and
+            # BOUNDARY_ACTIVE_LOW handles the inversion.
+            active_state=True
         )
         self.right_sensor = DigitalInputDevice(
             RIGHT_GPIO,
-            pull_up=None
+            pull_up=None,
+            # Required with pull_up=None; value is the raw pin level and
+            # BOUNDARY_ACTIVE_LOW handles the inversion.
+            active_state=True
         )
         print("TCRT5000 Sensors Initialized")
 
