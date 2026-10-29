@@ -13,7 +13,7 @@ Stages, in order (a failure never stops later stages):
   i2c       every expected I2C device answers               I2C bus 1
   line      TCRT5000 x2 toggle when a line passes under    GPIO20 left, GPIO21 right
   imu       ICM-20948 still / motion / read-rate checks     I2C 0x69 or 0x68
-  motors    each motor spins both ways, brakes, coasts      HAT chosen with --board
+  motors    each motor spins both ways                      HAT chosen with --board
   pipeline  camera, LCD, and the sign demo read any card     Camera Module 3, LCD1602
   stress    everything above running at once, then checks power, I2C errors,
             line-sensor noise, and frame rate
@@ -226,7 +226,7 @@ def test_motors(args):
     try:
         input("  Lift the wheels off the ground, turn motor power on, then press Enter...")
         max_speed = max(1, min(100, args.max))
-        results = {f"Motor {n}": mod.test_motor(m, max_speed, 10, 0.2, 1.5) for n, m in motors.items()}
+        results = {f"Motor {n}": mod.test_motor(m, max_speed, 10, 0.2) for n, m in motors.items()}
         if len(motors) > 1:
             results["All together"] = mod.test_all_together(list(motors.values()), max_speed, 1.5)
     finally:

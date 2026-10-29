@@ -259,7 +259,7 @@ def ramp(motor, target, step, dwell):
     print()
 
 
-def test_motor(motor, max_speed, step, dwell, hold):
+def test_motor(motor, max_speed, step, dwell):
     n = motor.number
     print(f"\n=== Motor {n} ===")
 
@@ -271,20 +271,8 @@ def test_motor(motor, max_speed, step, dwell, hold):
     ramp(motor, -max_speed, step, dwell)
     time.sleep(0.5)
 
-    print(f"  Hold {max_speed}% forward for {hold}s, then BRAKE")
-    motor.run(max_speed)
-    time.sleep(hold)
-    motor.brake()
-    time.sleep(0.5)
-    motor.coast()
-
-    print(f"  Hold {max_speed}% forward for {hold}s, then COAST (should spin down slower than brake)")
-    motor.run(max_speed)
-    time.sleep(hold)
-    motor.coast()
-    time.sleep(1.0)
-
-    ans = input(f"  Did motor {n} spin both ways and brake harder than it coasted? [y/n/skip] ").strip().lower()
+    # No brake/coast comparison: BuggyBot's motors stop the same either way.
+    ans = input(f"  Did motor {n} spin both ways? [y/n/skip] ").strip().lower()
     return {"y": "PASS", "n": "FAIL"}.get(ans, "SKIPPED")
 
 
@@ -383,7 +371,7 @@ def main():
     p.add_argument("--max", type=int, default=60, help="max speed %% used in tests (default 60)")
     p.add_argument("--step", type=int, default=10, help="ramp step %% (default 10)")
     p.add_argument("--dwell", type=float, default=0.2, help="seconds per ramp step")
-    p.add_argument("--hold", type=float, default=1.5, help="seconds to hold speed in brake/coast tests")
+    p.add_argument("--hold", type=float, default=1.5, help="seconds to hold speed in the all-motors test")
     p.add_argument("-i", "--interactive", action="store_true", help="manual control mode")
     p.add_argument("--scan", action="store_true", help="scan the I2C bus and exit")
     args = p.parse_args()
@@ -419,7 +407,7 @@ def main():
             input("\nLift the wheels off the ground, check motor power is on, then press Enter to start...")
             results = {}
             for n, m in motors.items():
-                results[f"Motor {n}"] = test_motor(m, max_speed, args.step, args.dwell, args.hold)
+                results[f"Motor {n}"] = test_motor(m, max_speed, args.step, args.dwell)
             if len(motors) > 1:
                 results["All together"] = test_all_together(list(motors.values()), max_speed, args.hold)
 
