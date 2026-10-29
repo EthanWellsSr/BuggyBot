@@ -13,7 +13,7 @@ Stages, in order (a failure never stops later stages):
   i2c       every expected I2C device answers               I2C bus 1
   line      TCRT5000 x2 toggle when a line passes under    GPIO20 left, GPIO21 right
   imu       ICM-20948 still / motion / read-rate checks     I2C 0x69 or 0x68
-  motors    each motor spins both ways, brakes, coasts      HAT chosen with --board
+  motors    each motor spins both ways                      HAT chosen with --board
   pipeline  camera, LCD, and the sign demo read any card     Camera Module 3, LCD1602
   stress    everything above running at once, then checks power, I2C errors,
             line-sensor noise, and frame rate
@@ -226,7 +226,7 @@ def test_motors(args):
     try:
         input("  Lift the wheels off the ground, turn motor power on, then press Enter...")
         max_speed = max(1, min(100, args.max))
-        results = {f"Motor {n}": mod.test_motor(m, max_speed, 10, 0.2, 1.5) for n, m in motors.items()}
+        results = {f"Motor {n}": mod.test_motor(m, max_speed, 10, 0.2) for n, m in motors.items()}
         if len(motors) > 1:
             results["All together"] = mod.test_all_together(list(motors.values()), max_speed, 1.5)
     finally:
@@ -430,13 +430,21 @@ def line_worker(sensors, stop, c):
         time.sleep(0.005)
 
 
-def lcd_worker(d, lcd, stop, c):
+def lcd_worker(d, lcd, stop, c, sign):
     # Writing the LCD keeps the shared I2C bus busy alongside the IMU (and the
-    # motor HAT on I2C boards).
+    # motor HAT on I2C boards). A sign confirmed by the camera loop is flashed
+    # until sign["until"], then the stress counter returns. Only this thread
+    # writes the LCD, so camera and counter writes never interleave.
     n = 0
     while not stop.is_set():
         try:
-            d.lcd_text(lcd, "STRESS TEST", f"update {n}")
+            if time.monotonic() < sign["until"]:
+                label, confidence = sign["label"], sign["confidence"]
+                lcd.setRGB(*d.LCD_COLORS[d.SIGN_SHAPES[label][0]])
+                d.lcd_text(lcd, label, f"Confidence {confidence:.0%}")
+            else:
+                lcd.setRGB(*d.SEARCHING_COLOR)
+                d.lcd_text(lcd, "STRESS TEST", f"update {n}")
             c.add("lcd_writes")
         except Exception as e:
             c.error("lcd", e)
@@ -464,16 +472,25 @@ def test_stress(args):
         pipe = SignPipeline()
         cleanup.append(pipe.close)
         lcd = pipe.d.setup_lcd(True)
-        workers.append(threading.Thread(target=lcd_worker, args=(pipe.d, lcd, stop, c)))
+        sign = {"label": None, "confidence": 0.0, "until": 0.0}
+        workers.append(threading.Thread(target=lcd_worker, args=(pipe.d, lcd, stop, c, sign)))
 
         for w in workers:
             w.start()
         # The camera pipeline runs here in the main thread, as it does in the demo.
         frames, start = 0, time.monotonic()
+        streak, last = 0, None
         while time.monotonic() - start < args.stress_seconds:
             try:
-                pipe.step()
+                result = pipe.step()
                 frames += 1
+                label = result[0] if result else None
+                streak = streak + 1 if label is not None and label == last else (1 if label else 0)
+                last = label
+                # Same 3-frame confirmation as the demo; flash the sign for 2 s.
+                if streak == 3 and time.monotonic() >= sign["until"]:
+                    sign.update(label=label, confidence=result[1], until=time.monotonic() + 2.0)
+                    c.add("signs_shown")
             except Exception as e:
                 c.error("camera", e)
             elapsed = time.monotonic() - start
