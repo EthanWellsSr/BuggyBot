@@ -26,12 +26,12 @@ Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Sch
 | EMOZNY Emo Smart Robot Car Chassis Kit with Motors, Speed Encoder, and Battery Box | 1 | Vehicle frame, 2 DC gear motors (48:1) with speed encoders, and battery holder | Have | 13.99 | 10/20 | Alexis Perez | [amazon](https://www.amazon.com/dp/B01LXY7CM3) |
 | DIANN drive set (2× 3–6 V TT motors, 2× wheels, L298N motor driver) | 1 | Propulsion, wheels, and dual-channel motor control | Have | 7.99 | 9/16 | Alexis Perez | [amazon](https://www.amazon.com/dp/B0BR7S1DQZ) |
 | Waveshare Motor Driver HAT (PCA9685 + TB6612FNG, two DC motors) | 1 | Motor-control prototype | Have | 22.10 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B07K7NP7C9) |
-| LK COKOINO 4WD Robot HAT (DRV8833) | 1 | Motor-control prototype | Have | 9.99 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B0D4VYW1PX) |
+| LK COKOINO 4WD Robot HAT (DRV8833) | 1 | Motor-control prototype; can power the Pi from a 7–12 V battery (see the power note below) | Have | 9.99 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B0D4VYW1PX) |
 | HiLetgo TCRT5000 IR line sensor modules (10-pack) | 1 | Detect the course line | Have | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B00LZV1V10) |
 | AEDIKO TT motor kit (4 sets: 3–6 V dual-shaft 1:48 TT motors with wheels) | 1 | Propulsion and wheels | Have | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B099Z85573) |
 | GL.iNet GL-SFT1200 Opal travel router (AC1200 dual-band, OpenWrt) | 1 | Portable Wi-Fi network for SSH to BuggyBot | Ordered | 39.99 | 10/27 | Ethan Wells | [amazon](https://a.co/d/084fiKs8) |
 | Steering servo | 1 | Steering — only needed for a servo-steered chassis | TBD | — | — | — | |
-| Battery | 1 | Power source | TBD | — | — | — | |
+| Battery | 1 | Power source; 7–12 V to feed the Cokoino HAT (for example, a 2S 18650 pack) | TBD | — | — | — | |
 | Battery charger | 1 | Charge the battery | TBD | — | — | — | |
 | Custom carrier PCB | 1 | Final CM5 carrier board (spring) | TBD | — | — | — | |
 | **Running total (priced items only)** | | | | **415.27** | | | |
@@ -48,5 +48,15 @@ only be needed for a servo-steered chassis. Its motors may replace the DIANN
 drive set and the AEDIKO TT motor kit. The TCRT5000 line sensors now have a
 reading script in `scripts/Line Sensors.py` (GPIO20 left, GPIO21 right). The
 GL.iNet travel router was ordered 10/27.
+
+**Cokoino HAT power** (from the vendor's
+[CKK0018 introduction and schematic](https://github.com/Cokoino/CKK0018)): the
+DC jack and 2-pin terminal take 7–12 V DC (the component table says 7–9 V). The
+input passes a 1N5824 Schottky diode to VIN, which feeds the DRV8833 motor
+supply directly and a GS2678 buck regulator that makes the Pi's 5 V (rated
+5.1 V; the feedback resistors set about 5.2 V) through a 4 A fuse to header
+pins 2 and 4. A 5 V supply on the jack is too low: after the diode the buck
+cannot reach 5 V, so the Pi would report under-voltage. Do not power the IO
+board's USB-C and the HAT's input at the same time; both drive the 5 V rail.
 
 **Maybe later:** Raspberry Pi Pico as a real-time co-processor — only if the CM5's reaction time for the motor timing isn't good enough.

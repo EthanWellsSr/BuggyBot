@@ -53,4 +53,17 @@ batteries and the wheels off the ground: I²C found the LCD (0x3E, backlight
 with no I²C errors and no under-voltage. Battery power and a loaded drivetrain
 are still untested. See the [report](integration_reports/integration_20261028_192332.json).
 
+### Power
+
+- **Cokoino HAT input:** 7–12 V DC on the DC jack or 2-pin terminal (the
+  vendor's component table says 7–9 V). A GS2678 buck makes the Pi's 5 V
+  (about 5.2 V, 4 A fuse); the motors run from the raw input, not the 5 V rail.
+  A 5 V supply on the jack is too low to run the Pi. Details and source are in
+  the [parts list](partslist.md).
+- **One 5 V source at a time:** power the IO board from its USB-C or from the
+  HAT, never both.
+- **Demo without motors:** a 5 V USB-C power bank can run the CM5 (camera, LCD,
+  sign demo) and the travel router. The router is rated under 6 W; keep the
+  total under the bank's rating and check `vcgencmd get_throttled` reads `0x0`.
+
 Lift the wheels off the ground before running the motor test.
