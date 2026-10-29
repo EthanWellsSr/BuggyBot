@@ -209,7 +209,8 @@ def open_motors(args):
     """Return (motor script module, hardware, {number: motor}) for --board / --motors."""
     mod = load_script("2WDmotor_hat_test.py")
     board = mod.BOARDS[args.board]
-    nums = args.motors or sorted(board["motors"])
+    # BuggyBot drives with motors 1 and 2 on either board; --motors overrides.
+    nums = args.motors or [1, 2]
     bad = [n for n in nums if n not in board["motors"]]
     if bad:
         raise ValueError(f"{board['name']} has motors {sorted(board['motors'])}; got {bad}")
@@ -584,7 +585,7 @@ def main():
     p.add_argument("--no-motion", action="store_true", help="IMU: skip the interactive motion test")
     p.add_argument("--board", choices=["waveshare", "cokoino"], default="waveshare",
                    help="motor HAT: waveshare (2WD, default) or cokoino (4WD)")
-    p.add_argument("--motors", type=int, nargs="+", help="motor numbers to test (default: all)")
+    p.add_argument("--motors", type=int, nargs="+", help="motor numbers to test (default: 1 2)")
     p.add_argument("--max", type=int, default=60, help="motors: max speed %% (default 60)")
     p.add_argument("--stress-seconds", type=float, default=120, help="stress: run length (default 120)")
     p.add_argument("--report-dir", type=Path, default=Path.home() / "buggybot_integration_reports",
