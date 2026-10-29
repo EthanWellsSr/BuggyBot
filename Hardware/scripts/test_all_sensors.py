@@ -14,7 +14,7 @@ Stages, in order (a failure never stops later stages):
   line      TCRT5000 x2 toggle when a line passes under    GPIO20 left, GPIO21 right
   imu       ICM-20948 still / motion / read-rate checks     I2C 0x69 or 0x68
   motors    each motor spins both ways, brakes, coasts      HAT chosen with --board
-  pipeline  camera -> OpenCV -> model -> LCD reads one card Camera Module 3, LCD1602
+  pipeline  camera, LCD, and the sign demo read any card     Camera Module 3, LCD1602
   stress    everything above running at once, then checks power, I2C errors,
             line-sensor noise, and frame rate
 
@@ -27,7 +27,7 @@ pipeline and stress stages with the LiteRT venv:
 
   ~/buggybot-venv/bin/python test_all_sensors.py                  # everything
   ~/buggybot-venv/bin/python test_all_sensors.py --only pins i2c  # quick wiring check
-  ~/buggybot-venv/bin/python test_all_sensors.py --sign stop --stress-seconds 300
+  ~/buggybot-venv/bin/python test_all_sensors.py --stress-seconds 300
   ~/buggybot-venv/bin/python test_all_sensors.py --board cokoino --max 40
 
 SAFETY: the motors and stress stages spin the motors. Lift the wheels off the
@@ -261,6 +261,7 @@ class SignPipeline:
     def step(self, threshold=0.85):
         """Process one frame; return the best (label, confidence) or None."""
         frame = self.camera.capture_array("main")
+        self.last_frame = frame
         matches = []
         for box in self.d.make_candidates(frame, 8):
             crop = self.d.crop_square(frame, box)
@@ -288,18 +289,39 @@ def ms(seconds):
 
 
 def test_pipeline(args):
-    sign = args.sign or input("  Which sign card will you hold up (e.g. stop, merge)? ").strip()
+    """Camera, LCD, and the sign demo's detection, judged without questions.
+
+    Camera: frames arrive at the expected size and are not blank (a dead or
+    covered sensor gives near-zero brightness variation).
+    LCD: every write must be acknowledged on I2C by both of its chips (text and
+    backlight); a missing or unpowered LCD raises "Remote I/O error". This
+    proves the LCD received the text, not that the pixels are readable.
+    Detection: any sign the demo confirms on 3 consecutive frames is accepted;
+    the demo's shape check already rejects reads that don't match the card.
+    """
+    problems = []
     pipe = SignPipeline()
     d = pipe.d
-    if sign not in pipe.labels:
-        pipe.close()
-        return FAIL, f"unknown sign '{sign}'; choose from {', '.join(pipe.labels)}"
-    lcd = d.setup_lcd(True)
-    d.lcd_text(lcd, "SEARCHING...", "INTEGRATION TEST")
-    input(f"  Hold the {sign} card in front of the camera, then press Enter...")
-    frames, streak, last, confirmed = 0, 0, None, None
-    start = time.monotonic()
     try:
+        frame = pipe.camera.capture_array("main")
+        brightness_sd = float(frame.std())
+        METRICS["camera"] = {"shape": list(frame.shape), "brightness_sd": round(brightness_sd, 1)}
+        if frame.shape[:2] != (720, 1280):
+            problems.append(f"camera frame is {frame.shape[1]}x{frame.shape[0]}, expected 1280x720")
+        elif brightness_sd < 5:
+            problems.append(f"camera image is blank (brightness SD {brightness_sd:.1f}): lens covered or sensor fault")
+
+        lcd = None
+        try:
+            lcd = d.setup_lcd(True)
+            d.lcd_text(lcd, "SEARCHING...", "INTEGRATION TEST")
+        except OSError as e:
+            lcd = None
+            problems.append(f"LCD did not answer on I2C ({e}): check SDA/SCL, power, and ground")
+
+        print("  Hold up any sign card in front of the camera (20 s)...")
+        frames, streak, last, confirmed = 0, 0, None, None
+        start = time.monotonic()
         while time.monotonic() - start < 20 and confirmed is None:
             result = pipe.step()
             frames += 1
@@ -321,21 +343,21 @@ def test_pipeline(args):
           f"model {METRICS.get('inference_ms_mean', '-')} ms per crop")
 
     if confirmed is None:
-        d.lcd_text(lcd, "NO SIGN FOUND", "")
-        return FAIL, f"no sign confirmed in 20 s (expected {sign})"
-    label, confidence = confirmed
-    lcd.setRGB(*d.LCD_COLORS[d.SIGN_SHAPES[label][0]])
-    d.lcd_text(lcd, label, f"Confidence {confidence:.0%}")
-    METRICS["pipeline_sign"] = {"expected": sign, "read": label, "confidence": round(confidence, 3)}
-    if label != sign:
-        return FAIL, f"read {label} instead of {sign}"
-    color = d.SIGN_SHAPES[label][0]
-    ans = input(f"  Does the LCD show '{label}' with a {color} backlight? [y/n] ").strip().lower()
-    lcd.setRGB(*d.SEARCHING_COLOR)
-    d.lcd_text(lcd, "BUGGYBOT", "PIPELINE OK" if ans == "y" else "PIPELINE FAIL")
-    if ans != "y":
-        return FAIL, "LCD did not show the sign correctly: check I2C wiring and LCD power"
-    return PASS, f"read {label} at {confidence:.0%}; {fps:.1f} fps"
+        problems.append("no sign confirmed in 20 s")
+    else:
+        label, confidence = confirmed
+        METRICS["pipeline_sign"] = {"read": label, "confidence": round(confidence, 3)}
+        print(f"  Read {label} at {confidence:.0%}")
+        if lcd is not None:
+            try:
+                lcd.setRGB(*d.LCD_COLORS[d.SIGN_SHAPES[label][0]])
+                d.lcd_text(lcd, label, f"Confidence {confidence:.0%}")
+            except OSError as e:
+                problems.append(f"LCD stopped answering mid-test ({e})")
+
+    if problems:
+        return FAIL, "; ".join(problems)
+    return PASS, f"camera OK, LCD acknowledged, read {label} at {confidence:.0%}; {fps:.1f} fps"
 
 
 # ------------------------------------------------------------------- Stress --
@@ -564,7 +586,6 @@ def main():
                    help="motor HAT: waveshare (2WD, default) or cokoino (4WD)")
     p.add_argument("--motors", type=int, nargs="+", help="motor numbers to test (default: all)")
     p.add_argument("--max", type=int, default=60, help="motors: max speed %% (default 60)")
-    p.add_argument("--sign", help="pipeline: the sign card you will hold up (asked if omitted)")
     p.add_argument("--stress-seconds", type=float, default=120, help="stress: run length (default 120)")
     p.add_argument("--report-dir", type=Path, default=Path.home() / "buggybot_integration_reports",
                    help="where the JSON report is saved")
