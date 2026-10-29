@@ -64,10 +64,12 @@ METRICS = {}
 I2C_PINS = {"i2c SDA": 2, "i2c SCL": 3}  # IMU, LCD, and the Waveshare motor HAT
 LINE_PINS = {"line left": 20, "line right": 21}
 
-# I2C addresses that must answer on bus 1. The LCD is checked by the pipeline
-# stage instead, because its addresses depend on the LCD board revision; the
-# scan prints every address it finds so they can be written down here.
+# I2C addresses that must answer on bus 1. The LCD1602 RGB's text controller
+# is 0x3E on every board revision; its backlight chip's address varies by
+# revision, so only the text controller is required. The scan records every
+# address it finds in the report.
 IMU_ADDRESSES = (0x69, 0x68)
+LCD_ADDRESS = 0x3E
 
 
 def motor_pins(board_name, board):
@@ -154,6 +156,8 @@ def test_i2c(args):
     missing = []
     if not any(a in found for a in IMU_ADDRESSES):
         missing.append("IMU (0x69/0x68)")
+    if LCD_ADDRESS not in found:
+        missing.append(f"LCD (0x{LCD_ADDRESS:02X})")
     if board["type"] == "i2c" and board["addr"] not in found:
         missing.append(f"{board['name']} (0x{board['addr']:02X})")
     if missing:
