@@ -289,7 +289,22 @@ def shape_matches(crop, label):
     if expected in ('diamond', 'pentagon'):
         # Shared range: a diamond clipped at the crop edge gains a corner.
         return 4 <= corners <= 6 and .4 <= extent <= .9
-    return corners == 4 and extent >= .8  # rectangle
+    # Rectangle. The white mask also takes in the wall, so a crop of one letter
+    # from a speed-limit sign (read as keepRight) still looks like a white
+    # rectangle. A whole sign has at least two ink shapes (keepRight: bullet and
+    # arrow; speed limits: letters and digits) lying fully inside the crop; a
+    # fragment has one cut by the crop edge, or none.
+    return corners == 4 and extent >= .8 and inner_ink_shapes(crop) >= 2
+
+
+def inner_ink_shapes(crop):
+    """Count dark regions (>= .5% of the crop) that do not touch the crop edge."""
+    v = cv2.cvtColor(crop, cv2.COLOR_BGR2HSV)[..., 2]
+    otsu, _ = cv2.threshold(v, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    count, _, stats, _ = cv2.connectedComponentsWithStats((v < otsu).astype(np.uint8))
+    h, w = v.shape
+    return sum(1 for x, y, bw, bh, area in stats[1:]
+               if area >= .005 * h * w and x > 0 and y > 0 and x + bw < w and y + bh < h)
 
 
 # LCD backlight (R, G, B) per sign color in SIGN_SHAPES; green while searching.

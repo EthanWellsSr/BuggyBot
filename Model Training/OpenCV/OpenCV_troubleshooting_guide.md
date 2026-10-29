@@ -153,6 +153,7 @@ hardware alone:
 | Round red objects (signalAhead's light) pass as stop | Circles approximate to 8 corners at 3% tolerance | 1% tolerance and 7–9 corners (§5.3) |
 | **addedLane → merge** | Only single-arrow fragments were proposed; the holder stick merged with the sign's outline | `sat` mask as a proposal source + nested-match filter (§5.5) + diamond fill cap (§5.4) |
 | **speed limit → keepRight**, one frame, then correct | Blurred or partial crop as the card enters view | Multi-frame confirmation (§5.6) |
+| **speed limit → keepRight**, repeatedly | Crop of one letter or digit (sign partly off-frame or blurred), or of background | Inner ink-shape count (§5.7) |
 | Motion-blurred signs misread (signalAhead/pedestrianCrossing → merge, 45 → 25) | Model was never trained on blur | `--confirm-frames 3` (§5.6) |
 | Couldn't tell what caused a bad LCD output | Timed saves every 2 s rarely coincide with detections | Save frame + crop on every `DETECTED` (§6) |
 
@@ -215,7 +216,7 @@ For a crop and its predicted label:
 | octagon | ε = 1%, 7–9 corners, extent ≥ 0.7, solidity ≥ 0.9 |
 | diamond | hull ≤ 70% of crop, then the pentagon rule |
 | pentagon | ε = 3%, 4–6 corners, 0.4 ≤ extent ≤ 0.9 |
-| rectangle | ε = 3%, exactly 4 corners, extent ≥ 0.8 |
+| rectangle | ε = 3%, exactly 4 corners, extent ≥ 0.8, ≥ 2 inner ink shapes (§5.7) |
 
 Diamond and pentagon share a 4–6 corner range on purpose: a diamond clipped
 at the crop edge gains a corner. So the shape check **cannot separate
@@ -334,6 +335,31 @@ LCD.
 - **N = 2** still let through 3 motion-blur errors in 36 detections.
   **N = 3** gave 32 of 32 correct, with no noticeable delay. Higher N filters
   more errors at the cost of a slower response.
+
+### 5.7 White-sign fragments: inner ink-shape count
+
+In a later run, 18 of 21 keepRight LCD outputs were wrong. The crops were one
+letter or digit of a speed-limit sign ("M", "2", "LI"), usually with the sign
+partly off-frame or blurred, or background (wall, window). A single dark glyph
+on white looks most like keepRight's black arrow. The white mask also takes in
+the wall, so the rectangle check passed them (§8 explains why fill fraction
+can't separate them).
+
+A whole white sign has **at least two ink shapes lying fully inside the
+crop**: keepRight has its bullet and arrow, and speed limits have their
+letters and digits. A fragment has one glyph, often cut by the crop edge, or
+none. `inner_ink_shapes()` counts dark regions (V below the crop's Otsu
+split, at least 0.5% of the crop) that don't touch the crop edge. White
+rectangles need 2 or more.
+
+| Source | Inner ink shapes |
+|---|---|
+| Committed white-sign test crops (132) | ≥ 3, all pass |
+| Live whole keepRight / speed-limit crops | 2–9, all pass |
+| Live keepRight fragments and background | 14 of 18 rejected (0–1) |
+
+**Still passes:** fragments with two glyphs ("LI") and textured background.
+Confirmation (§5.6) has to catch those.
 
 ---
 
@@ -455,7 +481,7 @@ system is robust everywhere.
 
 | Issue | Why the filters can't fix it | Real fix |
 |---|---|---|
-| Letter fragments from speed-limit signs → keepRight | The white mask also captures the wall, so fill fraction doesn't separate a fragment from a whole sign | Retrain with partial crops / background class |
+| Letter fragments from speed-limit signs → keepRight | Inner ink-shape count (§5.7) rejects most; two-glyph fragments ("LI") still pass | Retrain with partial crops / background class |
 | Close-up dark red blobs (hand or shirt against the lens) → stop | Fill (0.70–0.87) and brightness (V ≈ 53) overlap with tight, dim test stops (fill up to 0.75, V down to 40) | Background class |
 | Heavy motion blur | Whole-sign crops, so no shape test applies; confirmation hides it but doesn't fix it | Train with blur augmentation |
 | Very dim stop signs may be missed | Solidity ≥ 0.9 rejects one dim test crop (0.80) | Better lighting, or retraining |
