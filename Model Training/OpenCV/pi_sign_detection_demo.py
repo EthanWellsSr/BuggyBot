@@ -312,6 +312,19 @@ LCD_COLORS = {'red': (255, 0, 0), 'yellow': (255, 150, 0), 'white': (255, 255, 2
 SEARCHING_COLOR = (0, 255, 0)
 
 
+def draw_banner(frame, label, confidence):
+    """Draw the sign shown on the LCD as a large bar across the bottom of the
+    frame, in the LCD's color, so it reads on a projected stream."""
+    r, g, b = LCD_COLORS[SIGN_SHAPES[label][0]]
+    h, w = frame.shape[:2]
+    bar = max(60, h // 9)
+    cv2.rectangle(frame, (0, h - bar), (w, h), (b, g, r), -1)  # OpenCV is BGR
+    ink = (255, 255, 255) if label == 'stop' else (0, 0, 0)
+    scale = bar / 45
+    cv2.putText(frame, f'{label}  {confidence:.0%}', (20, h - bar // 4),
+                cv2.FONT_HERSHEY_SIMPLEX, scale, ink, max(2, round(scale * 2)), cv2.LINE_AA)
+
+
 def setup_lcd(enabled):
     if not enabled:
         return None
@@ -359,6 +372,7 @@ def main():
         frames = 0
         state = SEARCHING
         display_until = 0.0
+        shown = None  # (label, confidence) on the LCD while DISPLAYING
         # Confirmation: a label must be the best match on --confirm-frames
         # consecutive frames. One-frame errors (a blurred crop as a card moves
         # into view) reset the count instead of reaching the LCD.
@@ -415,6 +429,7 @@ def main():
                         lcd_text(lcd, label, f'Confidence {confidence:.0%}')
                     state = DISPLAYING
                     display_until = now + args.display_seconds
+                    shown = (label, confidence)
                     pending_label, pending_count = None, 0
             elif state == DISPLAYING and now >= display_until:
                 # Transition: DISPLAYING -> SEARCHING.
@@ -425,6 +440,8 @@ def main():
                 state = SEARCHING
             cv2.putText(frame, f'BuggyBot | {state}',
                         (15, 30), cv2.FONT_HERSHEY_SIMPLEX, .7, (255, 255, 255), 2)
+            if state == DISPLAYING:
+                draw_banner(frame, *shown)
             if args.save_every > 0 and now >= next_save:
                 filename = args.output / f'frame_{frames:06d}.jpg'
                 cv2.imwrite(str(filename), frame)

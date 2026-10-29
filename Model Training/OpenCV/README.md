@@ -40,6 +40,10 @@ To watch the camera, open `http://buggybot.local:8000` in a browser on the same
 network. BuggyBot runs Raspberry Pi OS Lite with no desktop, so there is no
 preview window on the Pi. Press Ctrl+C to stop.
 
+While a sign is held on the LCD, the stream shows it as a large bar across the
+bottom of the video in the LCD's color, so the result reads when the browser is
+projected.
+
 ### LCD
 
 | State | Backlight |
