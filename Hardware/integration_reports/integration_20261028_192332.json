@@ -1,0 +1,90 @@
+{
+  "time": "2026-10-28T19:23:32",
+  "board": "cokoino",
+  "max_speed_pct": 60,
+  "results": {
+    "pins": {
+      "status": "PASS",
+      "detail": "14 pin assignments, no clashes (compare with the KiCad schematic)"
+    },
+    "i2c": {
+      "status": "PASS",
+      "detail": "found 0x03, 0x3E, 0x60, 0x69"
+    },
+    "line": {
+      "status": "PASS",
+      "detail": "both sensors toggled"
+    },
+    "imu": {
+      "status": "PASS",
+      "detail": "all checks passed"
+    },
+    "motors": {
+      "status": "PASS",
+      "detail": "2 motor(s) OK"
+    },
+    "pipeline": {
+      "status": "PASS",
+      "detail": "camera OK, LCD acknowledged, read addedLane at 98%; 36.2 fps"
+    },
+    "stress": {
+      "status": "PASS",
+      "detail": "120s with no errors, no under-voltage, 30.0 fps"
+    }
+  },
+  "metrics": {
+    "pin_map": {
+      "i2c SDA": 2,
+      "i2c SCL": 3,
+      "line left": 20,
+      "line right": 21,
+      "cokoino sleep GPIO12": 12,
+      "cokoino M1 in1": 17,
+      "cokoino M1 in2": 27,
+      "cokoino M2 in1": 22,
+      "cokoino M2 in2": 23,
+      "cokoino sleep GPIO13": 13,
+      "cokoino M3 in1": 24,
+      "cokoino M3 in2": 25,
+      "cokoino M4 in1": 26,
+      "cokoino M4 in2": 16
+    },
+    "i2c_addresses": [
+      "0x03",
+      "0x3E",
+      "0x60",
+      "0x69"
+    ],
+    "camera": {
+      "shape": [
+        720,
+        1280,
+        3
+      ],
+      "brightness_sd": 65.4
+    },
+    "pipeline_fps": 36.22,
+    "inference_ms_mean": 1.9,
+    "inference_ms_max": 2.2,
+    "pipeline_sign": {
+      "read": "addedLane",
+      "confidence": 0.982
+    },
+    "stress": {
+      "seconds": 120.0,
+      "fps": 30.02,
+      "counts": {
+        "motor_reversals": 121,
+        "line_reads": 23350,
+        "lcd_writes": 235,
+        "imu_reads": 9365,
+        "signs_shown": 5
+      },
+      "first_errors": [],
+      "throttled_before": "0x0",
+      "throttled_after": "0x0",
+      "cpu_temp_before_c": 37.3,
+      "cpu_temp_after_c": 45.0
+    }
+  }
+}
