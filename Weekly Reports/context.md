@@ -98,10 +98,10 @@ Historical proposals and frozen weekly deliverables are reference material.
 - Training-set and test-set scores use different images. Use each model's
   measured result and state its test set. A crop-based score does not measure
   BuggyBot's live camera pipeline.
-- `Hardware/scripts/buggybot_integration.py` classifies a fixed camera region.
-  The live sign demo (`Model Training/OpenCV/pi_sign_detection_demo.py`) finds
-  signs automatically and scored 60/60 in one room; distance, angle, and
-  inference time are unmeasured. The PCB and
+- The live sign demo (`Model Training/OpenCV/pi_sign_detection_demo.py`) finds
+  signs automatically and scored 60/60 in one room; distance and angle are
+  unmeasured. CM5 inference averaged 1.9 ms per crop (36 fps) in the 10/28
+  integration test, which passed all seven stages on Pi power with no load. The PCB and
   vehicle autonomy remain planned or under study unless current code and hardware
   evidence establish otherwise. ROS 2 is installed under WSL on a development
   machine and its node architecture is drafted, but no ROS 2 code runs on the CM5

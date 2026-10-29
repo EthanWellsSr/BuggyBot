@@ -103,13 +103,15 @@ work that is safe to complete.
   camera photos of the printed sign cards (about 30 distinct setups, 10
   classes), the combined model scored 100%; those crops were placed by hand. In
   the live Pi sign demo's final test (10 classes, 3 times each over two runs,
-  one room), 60 of 60 LCD outputs were correct; distance, angle, other
-  lighting, and CM5 inference time are still unmeasured.
+  one room), 60 of 60 LCD outputs were correct; distance, angle, and other
+  lighting are still unmeasured. CM5 inference averaged 1.9 ms per crop
+  (36 fps) in the 10/28 integration test.
 - `Hardware/` — parts list, wiring schematics (`Schematics/`), test scripts, and
   the KiCad custom-PCB project (`BuggyBot KiCAD/`, derived from the CM5 IO
-  Board). `scripts/buggybot_integration.py` is the integration prototype: camera
-  capture, fixed-region OpenCV crop, combined TFLite classification, LCD output;
-  it does not locate signs or drive the vehicle. `scripts/Line Sensors.py` reads
+  Board). `scripts/test_all_sensors.py` is the pre-PCB integration test (all
+  seven stages passed on 10/28; reports in `integration_reports/`), and
+  `scripts/motor_hat_test.py` drives either motor HAT (Cokoino default).
+  Nothing drives the vehicle yet. `scripts/Line Sensors.py` reads
   the TCRT5000 course-line sensors on GPIO20 and GPIO21. The CM5 Lite has no
   onboard Wi-Fi and uses a USB adapter. BuggyBot runs Raspberry Pi OS Lite,
   Debian 13 "trixie" (13.7; headless, no desktop), so view camera output over a network

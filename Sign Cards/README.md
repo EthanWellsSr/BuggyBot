@@ -13,8 +13,9 @@ The filenames identify the classes without putting labels in the camera view.
 
 Print at **100% / actual size** on white matte card stock. Disable "fit to
 page" or scaling. Cut on the light gray lines in the letter-size PDF. Avoid
-glossy reflections during camera testing. These are classification test cards;
-the car's own sign-detection pipeline is not implemented yet.
+glossy reflections during camera testing. The live sign demo in
+[`Model Training/OpenCV/`](../Model%20Training/OpenCV/README.md) detects these
+cards on the car's camera.
 
 ## Camera test photos
 

@@ -51,8 +51,7 @@ Contours are kept if they are sign-sized (0.06%–55% of the frame), at least
 18 px, roughly square (aspect 0.65–1.5), not touching the frame edge, and at
 least 18% filled. Overlapping proposals of similar size are deduplicated.
 
-**Stage 3 (`classify`)** matches `Hardware/scripts/buggybot_integration.py`
-exactly: BGR → RGB, resize to 32×32, float32 0–255 (the model rescales
+**Stage 3 (`classify`)** uses the training preprocessing: BGR → RGB, resize to 32×32, float32 0–255 (the model rescales
 internally). The model is `Model Training/models/combined_model.tflite` with
 12 classes (`combined_model_labels.txt`).
 

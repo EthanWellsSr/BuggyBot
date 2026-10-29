@@ -13,16 +13,18 @@ spring scope is the autonomous vehicle.
 - The bench platform uses a Raspberry Pi Compute Module 5 (CM5) on its IO Board,
   booting Raspberry Pi OS Lite from an M.2 NVMe SSD. USB Wi-Fi supplies network
   access because this CM5 Lite has no onboard wireless.
-- [`Hardware/scripts/buggybot_integration.py`](Hardware/scripts/buggybot_integration.py) captures
-  camera frames, crops a fixed region with OpenCV, classifies it with the
-  combined model (TensorFlow Lite), and shows the result on the LCD. It does not
-  yet locate signs automatically or control the vehicle; the first live test on
-  the Pi is pending.
 - [`Model Training/OpenCV/pi_sign_detection_demo.py`](Model%20Training/OpenCV/)
   is the live sign demo on the CM5. It finds sign regions with OpenCV,
   classifies them with the combined model, and shows the confirmed sign on the
   LCD. In the final test, 60 of 60 LCD outputs were correct (10 printed sign
   classes, 3 times each over two runs, one room).
+- [`Hardware/scripts/test_all_sensors.py`](Hardware/scripts/test_all_sensors.py)
+  is the integration test before PCB sign-off. On 10/28 all seven stages passed
+  on the Cokoino HAT (pins, I²C, line sensors, IMU, motors, sign pipeline, and a
+  120 s stress run with everything at once), powered from the Pi with the wheels
+  off the ground. Battery power and a loaded drivetrain are untested. Reports are
+  in [`Hardware/integration_reports/`](Hardware/integration_reports/). Nothing
+  drives the vehicle yet.
 - TensorFlow classifiers have been trained on GTSRB, LISA, Mapillary, and a
   combined LISA+Mapillary dataset. Their models and results are in this repo.
 - A ROS 2 node architecture for the vehicle (camera, sign detector, line sensor,
@@ -50,12 +52,10 @@ see its [README](Hardware/README.md).
 
 ## Traffic-sign models
 
-The image classifiers use 32×32 sign crops. On the CM5,
-[`Hardware/scripts/buggybot_integration.py`](Hardware/scripts/buggybot_integration.py)
-runs the combined TFLite model on a fixed region of each camera frame and shows
-the result on the LCD. The live demo in
-[`Model Training/OpenCV/`](Model%20Training/OpenCV/README.md) also *locates*
-signs in each frame and crops them without using the known class.
+The image classifiers use 32×32 sign crops. On the CM5, the live demo in
+[`Model Training/OpenCV/`](Model%20Training/OpenCV/README.md) locates signs in
+each camera frame, crops them without using the known class, and runs the
+combined TFLite model on each crop.
 
 | Dataset and model | Classes | Prepared crops | Held-out result | Status |
 | --- | ---: | ---: | --- | --- |
@@ -77,7 +77,7 @@ classes, three lighting conditions, about 30 distinct setups). The LISA and
 Mapillary models scored 47.7% and 79.9%. These crops were placed with
 knowledge of each sign's class. Through the car's own detector (the live
 demo), 60 of 60 LCD outputs were correct in one room; distance, angle, other
-lighting, and CM5 inference time are still unmeasured. See the [model training guide](Model%20Training/README.md) for the
+lighting are still unmeasured; CM5 inference averaged 1.9 ms per crop (36 fps). See the [model training guide](Model%20Training/README.md) for the
 scripts, preparation steps, and detailed results.
 
 ## Team
@@ -95,7 +95,7 @@ scripts, preparation steps, and detailed results.
 | --- | --- |
 | `Proposal/` | Project proposal and Gantt charts |
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
-| `Hardware/` | Parts list, wiring references, integration prototype, hardware test scripts, and the KiCad custom-PCB project |
+| `Hardware/` | Parts list, wiring references, hardware test scripts, integration test reports, and the KiCad custom-PCB project |
 | `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; the live Pi sign demo in `OpenCV/`; downloaded datasets are Git ignored |
 | `Sign Cards/` | Printable 3 x 5 inch cards for the 12 U.S. sign classes, a US Letter print sheet, and cropped camera test photos |
 | `Learning/` | Self-directed learning side-quests, separate from the main project |
@@ -106,30 +106,7 @@ scripts, preparation steps, and detailed results.
 
 ### Weekly reports
 
-Reports follow the TA's required template (`Weekly Reports/project_name.docx`). Everything at the top level of
-`Weekly Reports/` is a live working copy:
-
-- `Self_Driving_RC_Car.docx` / `.pdf` — the rolling report, rebuilt each week from `build_report.py` and submitted as PDF.
-- `Self-Driving-RC-Car.pptx` — the rolling presentation deck (started Week 4). **Generated — do not hand-edit.**
-
-The deck is assembled from one file per person in `Weekly Reports/slides/` (`0-title.pptx`, `1-ethan-wells.pptx`, …).
-A `.pptx` is a binary file, so git cannot merge two people's edits to the same deck — everyone edits only their own
-file, which makes conflicts impossible. Whoever assembles the deck runs `python3 assemble_deck.py` from inside
-`Weekly Reports/`, which stitches the slide files in filename order into `Self-Driving-RC-Car.pptx`. See
-`Weekly Reports/slides/README.md`.
-
-Each week's frozen deliverables are archived in a `Week N/` subfolder — the dated report PDF and docx, plus the
-dated presentation from Week 4 on:
-
-```
-Weekly Reports/
-  build_report.py  context.md  project_name.docx       ← tooling + template
-  assemble_deck.py                                     ← builds the deck from slides/
-  slides/  0-title.pptx  1-ethan-wells.pptx  …         ← one file per person (edit yours)
-  Self_Driving_RC_Car.docx / .pdf                      ← rolling report (working)
-  Self-Driving-RC-Car.pptx                             ← rolling deck (generated)
-  Week 1/ … Week 3/   frozen report .pdf + .docx
-  Week 4/ … Week 10/  frozen report + frozen .pptx
-```
-
-See `Weekly Reports/context.md` for the full build/format guide.
+Weekly reports and the presentation deck are built from `Weekly Reports/`;
+see [`Weekly Reports/context.md`](Weekly%20Reports/context.md) for the build
+and format guide, and [`slides/README.md`](Weekly%20Reports/slides/README.md)
+for how each person edits their own slides.

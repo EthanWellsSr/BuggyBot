@@ -13,10 +13,9 @@ The design started from the Raspberry Pi Compute Module 5 IO Board files and is 
   Main schematic, inherited from the CM5 IO Board.
 
 - `CM5IO.kicad_pcb`  
-  PCB layout, inherited from the CM5 IO Board and being updated for BuggyBot.
-
-- `CM5IORedesign.kicad_pro` / `CM5IORedesign.kicad_pcb`  
-  Redesigned BuggyBot board layout (added 10/23), under active revision.
+  PCB layout, inherited from the CM5 IO Board and being redesigned for
+  BuggyBot. Earlier layouts, including the 10/23 redesign file, are in Git
+  history.
 
 - `CM5IO.kicad_sym`  
   Custom symbol library used by the project.

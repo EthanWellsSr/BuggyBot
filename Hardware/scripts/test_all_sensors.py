@@ -18,8 +18,8 @@ Stages, in order (a failure never stops later stages):
   stress    everything above running at once, then checks power, I2C errors,
             line-sensor noise, and frame rate
 
-Every run saves a JSON report (results + measurements) to ~/buggybot_integration_reports/
-so the team has a record when approving the PCB.
+Every run saves a JSON report (results + measurements) to Hardware/integration_reports/
+in the repository, so the team can commit it as the record for approving the PCB.
 
 Setup is the union of the individual scripts plus the sign demo's: gpiozero,
 adafruit-circuitpython-icm20x, smbus2, picamera2, OpenCV, and LiteRT. Run the
@@ -133,7 +133,7 @@ def describe_throttled(flags):
 
 # --------------------------------------------------------------------- Pins --
 def test_pins(args):
-    board = load_script("2WDmotor_hat_test.py").BOARDS[args.board]
+    board = load_script("motor_hat_test.py").BOARDS[args.board]
     pin_map = {**I2C_PINS, **LINE_PINS, **motor_pins(args.board, board)}
     users = {}
     for name, pin in pin_map.items():
@@ -149,7 +149,7 @@ def test_pins(args):
 
 # ---------------------------------------------------------------------- I2C --
 def test_i2c(args):
-    mod = load_script("2WDmotor_hat_test.py")
+    mod = load_script("motor_hat_test.py")
     board = mod.BOARDS[args.board]
     found = mod.scan_bus(1)
     METRICS["i2c_addresses"] = [f"0x{a:02X}" for a in found]
@@ -207,7 +207,7 @@ def test_imu(args):
 # ------------------------------------------------------------------- Motors --
 def open_motors(args):
     """Return (motor script module, hardware, {number: motor}) for --board / --motors."""
-    mod = load_script("2WDmotor_hat_test.py")
+    mod = load_script("motor_hat_test.py")
     board = mod.BOARDS[args.board]
     # BuggyBot drives with motors 1 and 2 on either board; --motors overrides.
     nums = args.motors or [1, 2]
@@ -605,7 +605,7 @@ def main():
     p.add_argument("--motors", type=int, nargs="+", help="motor numbers to test (default: 1 2)")
     p.add_argument("--max", type=int, default=60, help="motors: max speed %% (default 60)")
     p.add_argument("--stress-seconds", type=float, default=120, help="stress: run length (default 120)")
-    p.add_argument("--report-dir", type=Path, default=Path.home() / "buggybot_integration_reports",
+    p.add_argument("--report-dir", type=Path, default=HERE.parent / "integration_reports",
                    help="where the JSON report is saved")
     args = p.parse_args()
 

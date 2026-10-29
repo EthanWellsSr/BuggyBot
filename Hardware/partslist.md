@@ -49,4 +49,4 @@ drive set and the AEDIKO TT motor kit. The TCRT5000 line sensors now have a
 reading script in `scripts/Line Sensors.py` (GPIO20 left, GPIO21 right). The
 GL.iNet travel router was ordered 10/27.
 
-**Maybe later:** Raspberry Pi Pico as a real-time co-processor — only if the Pi 5's reaction time for the motor timing isn't good enough.
+**Maybe later:** Raspberry Pi Pico as a real-time co-processor — only if the CM5's reaction time for the motor timing isn't good enough.

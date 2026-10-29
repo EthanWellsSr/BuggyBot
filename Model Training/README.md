@@ -110,7 +110,7 @@ individual errors. The comparison uses only `data/prepared/combined/test`
 checks first that the TFLite model gives the same prediction as the Keras model
 on all 329 sign-card crops. The CM5 runs the `.tflite` file with the LiteRT
 runtime instead of full TensorFlow; see the
-[Hardware README](../Hardware/README.md#live-sign-test).
+[OpenCV sign demo](OpenCV/README.md).
 
 ## OpenCV sign demo
 

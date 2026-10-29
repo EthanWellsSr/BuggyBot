@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-2WDmotor_hat_test.py - bench test for BuggyBot's two motor controller HATs
+motor_hat_test.py - bench test for BuggyBot's two motor controller HATs
 
-Supported boards (pick with --board; default waveshare):
+Supported boards (pick with --board; default cokoino):
   waveshare  Waveshare Motor Driver HAT (2WD)  (I2C 0x40, PCA9685 + TB6612, motors A/B -> 1/2)
   cokoino    Cokoino 4WD Robot HAT             (GPIO direct, 2x DRV8833, motors M1-M4)
 
@@ -12,12 +12,12 @@ Setup (Raspberry Pi OS):
   Cokoino:   sudo apt install python3-gpiozero python3-lgpio   (usually preinstalled)
 
 Usage:
-  python3 2WDmotor_hat_test.py                              # Waveshare, full automatic test
-  python3 2WDmotor_hat_test.py --board cokoino              # Cokoino, full automatic test
-  python3 2WDmotor_hat_test.py --max 40                     # gentler test
-  python3 2WDmotor_hat_test.py --board cokoino --motors 1 3
-  python3 2WDmotor_hat_test.py --board cokoino -i           # interactive control
-  python3 2WDmotor_hat_test.py --scan                       # scan the I2C bus (I2C boards only)
+  python3 motor_hat_test.py                              # Cokoino, full automatic test
+  python3 motor_hat_test.py --board waveshare            # Waveshare, full automatic test
+  python3 motor_hat_test.py --max 40                     # gentler test
+  python3 motor_hat_test.py --motors 1 3
+  python3 motor_hat_test.py -i                           # interactive control
+  python3 motor_hat_test.py --board waveshare --scan     # scan the I2C bus
 
 SAFETY: lift the wheels off the ground before running. Ctrl+C stops all motors.
 """
@@ -362,7 +362,7 @@ def scan_bus(bus_num):
 # ------------------------------------------------------------------- Main ----
 def main():
     p = argparse.ArgumentParser(description="Test a Raspberry Pi motor controller HAT.")
-    p.add_argument("--board", choices=BOARDS.keys(), default="waveshare")
+    p.add_argument("--board", choices=BOARDS.keys(), default="cokoino")
     p.add_argument("--addr", type=lambda x: int(x, 0), help="I2C boards: override address, e.g. 0x41")
     p.add_argument("--bus", type=int, default=1, help="I2C bus number (default 1)")
     p.add_argument("--freq", type=float, help="PWM frequency in Hz (default depends on board)")

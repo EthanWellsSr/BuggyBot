@@ -85,8 +85,8 @@ def load_interpreter(path):
 
 
 def classify(interpreter, labels, bgr_crop):
-    # Match Hardware/scripts/buggybot_integration.py exactly: BGR -> RGB, 32x32,
-    # float32 0..255; model contains its own rescaling.
+    # Match the training preprocessing: BGR -> RGB, 32x32, float32 0..255;
+    # model contains its own rescaling.
     rgb = cv2.cvtColor(bgr_crop, cv2.COLOR_BGR2RGB)
     rgb = cv2.resize(rgb, (32, 32), interpolation=cv2.INTER_LINEAR)
     input_info = interpreter.get_input_details()[0]

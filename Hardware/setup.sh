@@ -22,5 +22,5 @@ python3 -m venv --system-site-packages ~/buggybot-venv
 ~/buggybot-venv/bin/pip install ai-edge-litert
 
 echo "[3/3] Done."
-echo "Run the integration prototype with:"
-echo "  ~/buggybot-venv/bin/python ~/BuggyBot/Hardware/scripts/buggybot_integration.py"
+echo "Run the live sign demo with:"
+echo '  cd ~/BuggyBot && ~/buggybot-venv/bin/python "Model Training/OpenCV/pi_sign_detection_demo.py"'

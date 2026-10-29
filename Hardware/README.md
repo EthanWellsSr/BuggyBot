@@ -16,7 +16,7 @@ The root `setup.sh` does **not** run on the Pi — `apt-get` isn't available on 
 
 | File | Contents |
 | --- | --- |
-| [`Autonomous Car Schematic.png`](Schematics/Autonomous%20Car%20Schematic.png) | Current wiring schematic (CM5) |
+| [`Autonomous Car Schematic.png`](Schematics/Autonomous%20Car%20Schematic.png) | Wiring schematic (CM5, 10/17); out of date: still shows the HC-SR04 and lacks the line sensors and motor HAT |
 | [`Schematic_with_pico.jpeg`](Schematics/Schematic_with_pico.jpeg) | Earlier version using a Raspberry Pi Pico; historical |
 | [`cm5_io_board_week5.jpg`](Schematics/cm5_io_board_week5.jpg) | Photo of the CM5 booted on its IO Board (Week 5) |
 | [`Navigation Ideas.pdf`](Navigation%20Ideas.pdf) | Navigation approach notes (Alexis Perez, 9/29) |
@@ -37,38 +37,20 @@ test scripts list their setup steps and wiring at the top of the file.
 | Script | Tests | Interface |
 | --- | --- | --- |
 | [`icm20948_test.py`](scripts/icm20948_test.py) | ICM-20948 IMU checks, then a live reading stream | I²C, address 0x69 or 0x68 |
-| [`2WDmotor_hat_test.py`](scripts/2WDmotor_hat_test.py) | Motor-controller HATs, chosen with `--board`: Waveshare Motor Driver HAT (2WD, PCA9685 + TB6612; default) or Cokoino 4WD Robot HAT (DRV8833). Ramps both directions, interactive mode (`-i`), bus scan (`--scan`) | Waveshare: I²C 0x40 · Cokoino: GPIO12/13 sleep, 16/17/22–27 inputs |
+| [`motor_hat_test.py`](scripts/motor_hat_test.py) | Motor-controller HATs, chosen with `--board`: Cokoino 4WD Robot HAT (DRV8833; default) or Waveshare Motor Driver HAT (2WD, PCA9685 + TB6612). Ramps both directions, interactive mode (`-i`), bus scan (`--scan`, Waveshare only) | Cokoino: GPIO12/13 sleep, 16/17/22–27 inputs · Waveshare: I²C 0x40 |
 | [`Line Sensors.py`](scripts/Line%20Sensors.py) | TCRT5000 IR line sensors: reads the left and right course-line sensors and reports a lane action | GPIO20 left, GPIO21 right (gpiozero `DigitalInputDevice`) |
-| [`test_all_sensors.py`](scripts/test_all_sensors.py) | Integration test before PCB sign-off (Ethan Bishop's master test, extended 10/27): pin-map clash check, I²C scan, line sensors, IMU, motors, the full sign pipeline (camera, LCD, and the sign demo checked automatically; any card, with fps and inference time), then a stress run with everything at once that checks for under-voltage, I²C errors, line-sensor noise, and frame-rate drop. Saves a JSON report to `~/buggybot_integration_reports/`; copy reports worth keeping into [`integration_reports/`](integration_reports/) as the PCB sign-off record (file names use the Pi's clock). Run with `~/buggybot-venv/bin/python`; options `--only`, `--skip`, `--board` (cokoino default, or waveshare), `--motors` (default 1 2 on either board), `--stress-seconds` | GPIO20/21, I²C (IMU, LCD, Waveshare HAT), CSI camera, Cokoino GPIO pins |
-| [`buggybot_integration.py`](scripts/buggybot_integration.py) | Live sign test: classifies a fixed square region of each camera frame with the combined model and shows the sign on the LCD | Camera Module 3 (Picamera2), Waveshare LCD1602 (I²C) |
+| [`test_all_sensors.py`](scripts/test_all_sensors.py) | Integration test before PCB sign-off (Ethan Bishop's master test, extended 10/27): pin-map clash check, I²C scan, line sensors, IMU, motors, the full sign pipeline (camera, LCD, and the sign demo checked automatically; any card, with fps and inference time), then a stress run with everything at once that checks for under-voltage, I²C errors, line-sensor noise, and frame-rate drop. Saves a JSON report to [`integration_reports/`](integration_reports/); commit the reports worth keeping as the PCB sign-off record (file names use the Pi's clock). Run with `~/buggybot-venv/bin/python`; options `--only`, `--skip`, `--board` (cokoino default, or waveshare), `--motors` (default 1 2 on either board), `--stress-seconds` | GPIO20/21, I²C (IMU, LCD, Waveshare HAT), CSI camera, Cokoino GPIO pins |
 
-### Live sign test
+The live sign demo is in [`Model Training/OpenCV/`](../Model%20Training/OpenCV/README.md).
+Run `Hardware/setup.sh` first for its packages and the LiteRT venv.
 
-`scripts/buggybot_integration.py` loads `Model Training/models/combined_model.tflite`
-and its label file from the repository, and Waveshare's LCD1602 demo library from
-`/home/buggybot/LCD1602-RGB-Module-demo/Raspberry`. It needs Picamera2, OpenCV,
-and the LiteRT runtime. On the CM5 they are installed in a virtual environment
-that can also see the system packages:
+### Integration test result (10/28)
 
-```bash
-sudo apt install -y python3-picamera2 python3-opencv python3-numpy python3-smbus
-```
-
-```bash
-python3 -m venv --system-site-packages ~/buggybot-venv && ~/buggybot-venv/bin/pip install ai-edge-litert
-```
-
-```bash
-~/buggybot-venv/bin/python ~/BuggyBot/Hardware/scripts/buggybot_integration.py
-```
-
-Hold the sign card so it fills the green square drawn on each saved frame in
-`~/buggybot_images/` (about 18% of the frame width, near the center). The box
-position and size, the confidence threshold, and manual or automatic capture are
-set at the top of the script. Below the threshold the LCD shows `SCANNING...`.
-This script does not search the frame for signs. The live sign demo in
-[`Model Training/OpenCV/`](../Model%20Training/OpenCV/README.md) does: it finds
-signs anywhere in the frame, streams video to a browser, and colors the LCD by
-sign.
+All seven stages passed on the Cokoino HAT, powered from the Pi with no
+batteries and the wheels off the ground: I²C found the LCD (0x3E, backlight
+0x60) and IMU (0x69), both line sensors toggled, the pipeline read a card at
+98% with 1.9 ms mean inference and 36 fps, and the 120 s stress run held 30 fps
+with no I²C errors and no under-voltage. Battery power and a loaded drivetrain
+are still untested. See the [report](integration_reports/integration_20261028_192332.json).
 
 Lift the wheels off the ground before running the motor test.
