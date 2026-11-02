@@ -24,7 +24,10 @@ spring scope is the autonomous vehicle.
   everything at once. On 10/28 all seven stages of the original combined test passed
   on the Cokoino HAT (pins, I²C, line sensors, IMU, motors, sign pipeline, and a
   120 s stress run with everything at once), powered from the Pi with the wheels
-  off the ground. Battery power and a loaded drivetrain are untested. Reports are
+  off the ground. On 11/02 the 120 s stress run passed again with the motors on
+  real power (a 9 V bench supply into the Cokoino HAT): no under-voltage, no I²C
+  or line-sensor noise, and 30 fps. Battery power and a loaded drivetrain are
+  untested. Reports are
   in [`Hardware/integration_reports/`](Hardware/integration_reports/). Nothing
   drives the vehicle yet.
 - TensorFlow classifiers have been trained on GTSRB, LISA, Mapillary, and a

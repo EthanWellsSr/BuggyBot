@@ -112,7 +112,8 @@ work that is safe to complete.
   Board). `scripts/test_components.py` (each device alone) and
   `scripts/stress_test.py` (everything at once) are the pre-PCB integration
   tests (split from `test_all_sensors.py` on 11/02; all seven stages of that
-  combined test passed on 10/28; reports in `integration_reports/`), and
+  combined test passed on 10/28, and `stress_test.py` passed on 11/02 on a 9 V
+  bench supply into the Cokoino HAT; reports in `integration_reports/`), and
   `scripts/motor_hat_test.py` drives either motor HAT (Cokoino default).
   Nothing drives the vehicle yet. `scripts/Line Sensors.py` reads
   the TCRT5000 course-line sensors on GPIO20 and GPIO21. The CM5 Lite has no
@@ -138,7 +139,7 @@ work that is safe to complete.
   pull request: all Python scripts compile (Python 3.13, as on the Pi), `ruff
   check --select F`, the sign-demo regression on the 329 committed test crops
   (`scripts/check_sign_crops.py`: 329 classified, 328 pass the shape check;
-  update its baselines if a deliberate change improves them), the integration
+  update its baselines if a deliberate change improves them), the component
   test's `pins` stage for both motor HATs (Waveshare 2WD and Cokoino 4WD),
   and relative Markdown links
   (`scripts/check_md_links.py`). Before committing, run the checks your change

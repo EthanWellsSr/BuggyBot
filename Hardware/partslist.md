@@ -29,7 +29,7 @@ Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Sch
 | LK COKOINO 4WD Robot HAT (DRV8833) | 1 | Motor-control prototype; can power the Pi from a 7–12 V battery (see the power note below) | Have | 9.99 | 9/25 | Ethan Bishop | [amazon](https://www.amazon.com/dp/B0D4VYW1PX) |
 | HiLetgo TCRT5000 IR line sensor modules (10-pack) | 1 | Detect the course line | Have | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B00LZV1V10) |
 | AEDIKO TT motor kit (4 sets: 3–6 V dual-shaft 1:48 TT motors with wheels) | 1 | Propulsion and wheels | Have | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B099Z85573) |
-| GL.iNet GL-SFT1200 Opal travel router (AC1200 dual-band, OpenWrt) | 1 | Portable Wi-Fi network for SSH to BuggyBot | Ordered | 39.99 | 10/27 | Ethan Wells | [amazon](https://a.co/d/084fiKs8) |
+| GL.iNet GL-SFT1200 Opal travel router (AC1200 dual-band, OpenWrt) | 1 | Portable Wi-Fi network for SSH to BuggyBot | Have | 39.99 | 10/27 | Ethan Wells | [amazon](https://a.co/d/084fiKs8) |
 | SHNITPWR 60W universal adjustable AC/DC power supply (3.5–12 V, 5 A max) | 1 | Bench power for the full sensor setup through the Cokoino HAT; set to 9 V (the DRV8833 limit is 10.8 V) | Have | 18.99 | 10/29 | Ethan Wells | [amazon](https://www.amazon.com/dp/B08BL55LMB) |
 | Steering servo | 1 | Steering — only needed for a servo-steered chassis | TBD | — | — | — | |
 | Battery | 1 | Power source; 7–12 V to feed the Cokoino HAT (for example, a 2S 18650 pack) | TBD | — | — | — | |
@@ -48,7 +48,8 @@ it steers by driving the two wheels at different speeds; a steering servo would
 only be needed for a servo-steered chassis. Its motors may replace the DIANN
 drive set and the AEDIKO TT motor kit. The TCRT5000 line sensors now have a
 reading script in `scripts/Line Sensors.py` (GPIO20 left, GPIO21 right). The
-GL.iNet travel router was ordered 10/27.
+GL.iNet travel router was ordered 10/27 and has been received. The SHNITPWR bench supply (ordered
+10/29) has been received and powered the 11/02 stress test at 9 V.
 
 **Cokoino HAT power** (from the vendor's
 [CKK0018 introduction and schematic](https://github.com/Cokoino/CKK0018)): the
