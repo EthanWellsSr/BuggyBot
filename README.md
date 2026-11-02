@@ -18,8 +18,10 @@ spring scope is the autonomous vehicle.
   classifies them with the combined model, and shows the confirmed sign on the
   LCD. In the final test, 60 of 60 LCD outputs were correct (10 printed sign
   classes, 3 times each over two runs, one room).
-- [`Hardware/scripts/test_all_sensors.py`](Hardware/scripts/test_all_sensors.py)
-  is the integration test before PCB sign-off. On 10/28 all seven stages passed
+- [`Hardware/scripts/test_components.py`](Hardware/scripts/test_components.py)
+  and [`Hardware/scripts/stress_test.py`](Hardware/scripts/stress_test.py) are
+  the integration tests before PCB sign-off: each device on its own, then
+  everything at once. On 10/28 all seven stages of the original combined test passed
   on the Cokoino HAT (pins, I²C, line sensors, IMU, motors, sign pipeline, and a
   120 s stress run with everything at once), powered from the Pi with the wheels
   off the ground. Battery power and a loaded drivetrain are untested. Reports are

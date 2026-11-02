@@ -5,7 +5,8 @@ Team: Ethan Wells (group leader), Alexis Perez, Ethan Bishop, Abigail Duran
 (Alexis is male). Two team members are named Ethan; use full names when
 referring to either. Git author names: `EthanWellsSr` / `ethanwellssr` is
 Ethan Wells, `Alex-is-Perez` is Alexis Perez, `Rudytheeman` is Ethan Bishop
-(he wrote `Hardware/scripts/test_all_sensors.py`), and `Abigail Duran` is
+(he wrote the original `Hardware/scripts/test_all_sensors.py`, since split into
+`test_components.py` and `stress_test.py`), and `Abigail Duran` is
 Abigail Duran.
 
 Whoever you are working with is the engineer; you are a tutor and assistant,
@@ -108,8 +109,10 @@ work that is safe to complete.
   (36 fps) in the 10/28 integration test.
 - `Hardware/` — parts list, wiring schematics (`Schematics/`), test scripts, and
   the KiCad custom-PCB project (`BuggyBot KiCAD/`, derived from the CM5 IO
-  Board). `scripts/test_all_sensors.py` is the pre-PCB integration test (all
-  seven stages passed on 10/28; reports in `integration_reports/`), and
+  Board). `scripts/test_components.py` (each device alone) and
+  `scripts/stress_test.py` (everything at once) are the pre-PCB integration
+  tests (split from `test_all_sensors.py` on 11/02; all seven stages of that
+  combined test passed on 10/28; reports in `integration_reports/`), and
   `scripts/motor_hat_test.py` drives either motor HAT (Cokoino default).
   Nothing drives the vehicle yet. `scripts/Line Sensors.py` reads
   the TCRT5000 course-line sensors on GPIO20 and GPIO21. The CM5 Lite has no
