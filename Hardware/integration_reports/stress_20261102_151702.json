@@ -1,0 +1,30 @@
+{
+  "time": "2026-11-02T15:17:02",
+  "board": "cokoino",
+  "max_speed_pct": 60,
+  "results": {
+    "stress": {
+      "status": "PASS",
+      "detail": "120s with no errors, no under-voltage, 30.0 fps"
+    }
+  },
+  "metrics": {
+    "baseline_fps": 30.17,
+    "stress": {
+      "seconds": 120.0,
+      "fps": 30.02,
+      "counts": {
+        "motor_reversals": 120,
+        "line_reads": 23278,
+        "lcd_writes": 235,
+        "imu_reads": 9361,
+        "signs_shown": 22
+      },
+      "first_errors": [],
+      "throttled_before": "0x0",
+      "throttled_after": "0x0",
+      "cpu_temp_before_c": 38.9,
+      "cpu_temp_after_c": 42.8
+    }
+  }
+}
