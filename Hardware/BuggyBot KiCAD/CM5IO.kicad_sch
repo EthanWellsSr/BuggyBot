@@ -2827,7 +2827,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Field6" "EMK105B7104KV-F"
 			(at 83.82 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -3143,7 +3143,7 @@
 				)
 			)
 		)
-		(property "Field7" ""
+		(property "Field7" " Rohm"
 			(at 87.63 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -3154,7 +3154,7 @@
 				)
 			)
 		)
-		(property "Field6" ""
+		(property "Field6" "MCR01MZPF2201"
 			(at 87.63 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -3290,7 +3290,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Field6" "EMK105B7104KV-F"
 			(at 72.39 76.2 0)
 			(hide yes)
 			(show_name no)

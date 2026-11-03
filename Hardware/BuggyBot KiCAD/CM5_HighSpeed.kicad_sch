@@ -11358,7 +11358,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Field6" "EMK105B7104KV-F"
 			(at 229.87 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -11505,7 +11505,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Field6" "EMK105B7104KV-F"
 			(at 196.85 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -12027,7 +12027,7 @@
 				)
 			)
 		)
-		(property "Field6" "2x 10164227-1001A1RLF"
+		(property "Field6" "10164227-1001A1RLF"
 			(at -71.12 86.36 0)
 			(hide yes)
 			(show_name no)
@@ -12038,7 +12038,7 @@
 				)
 			)
 		)
-		(property "Field7" "Hirose"
+		(property "Field7" "Amphenol"
 			(at -71.12 86.36 0)
 			(hide yes)
 			(show_name no)
@@ -12049,7 +12049,7 @@
 				)
 			)
 		)
-		(property "Part Description" "	100 Position Connector Receptacle, Center Strip Contacts Surface Mount Gold"
+		(property "Part Description" "2 pcs per board"
 			(at -71.12 86.36 0)
 			(hide yes)
 			(show_name no)
@@ -13080,6 +13080,17 @@
 				)
 			)
 		)
+		(property "Field6" "EEF-CX0J101R"
+			(at 87.63 181.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "09f421e8-acca-4e6f-ba1f-80adf40332ae")
 		)
@@ -13706,7 +13717,7 @@
 				)
 			)
 		)
-		(property "Field6" "AP22653W6"
+		(property "Field6" "AP22653W6-7"
 			(at 59.69 177.8 0)
 			(hide yes)
 			(show_name no)

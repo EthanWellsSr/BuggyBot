@@ -1,0 +1,20 @@
+BuggyBot CM5IO - Impedance Control Requirements
+================================================
+
+Board: 4 layers, 1.6 mm, FR-4, 1 oz outer / 1 oz inner copper
+Stack: F.Cu (signal) / In1.Cu (GND plane) / In2.Cu (GND plane) / B.Cu (signal)
+Design assumes outer prepreg ~0.09-0.10 mm, Er ~4.2-4.5.
+
+All controlled-impedance traces are on OUTER layers (F.Cu and B.Cu),
+referenced to the adjacent internal GND plane (In1.Cu under F.Cu, In2.Cu under B.Cu).
+
+Type                 Target    Trace width   Gap       Nets
+-------------------  --------  ------------  --------  -----------------------------------
+Differential         100 ohm   0.127 mm      0.253 mm  MIPI DPHY0_*, Ethernet TRD0-3, HDMI0_*
+Differential          90 ohm   0.147 mm      0.253 mm  USB3-0/1 (D, TX, RX), PCIe TX/RX/CLK
+Single-ended          50 ohm   0.13 mm       -         general signals
+
+Tolerance: +/-10%.
+
+Please adjust trace widths as needed to hit these targets on your stackup,
+and confirm the final stackup and widths with us before production.

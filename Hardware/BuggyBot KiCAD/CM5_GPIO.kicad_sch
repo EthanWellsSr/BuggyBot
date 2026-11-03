@@ -14989,7 +14989,7 @@
 				)
 			)
 		)
-		(property "Field6" "2x 10164227-1001A1RLF"
+		(property "Field6" "10164227-1001A1RLF"
 			(at 72.39 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -15000,7 +15000,7 @@
 				)
 			)
 		)
-		(property "Field7" "Hirose"
+		(property "Field7" "Amphenol"
 			(at 72.39 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -15011,7 +15011,7 @@
 				)
 			)
 		)
-		(property "Part Description" "	100 Position Connector Receptacle, Center Strip Contacts Surface Mount Gold"
+		(property "Part Description" "2 pcs per board"
 			(at 72.39 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -15719,7 +15719,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Field6" "EMK105B7104KV-F"
 			(at 228.6 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -17387,7 +17387,7 @@
 				)
 			)
 		)
-		(property "Field6" "CDDFN10-3324P-13"
+		(property "Field6" "TPD4EUSB30DQAR"
 			(at 207.01 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -17398,7 +17398,7 @@
 				)
 			)
 		)
-		(property "Field7" "Bourns"
+		(property "Field7" "Texas Instruments"
 			(at 207.01 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -18120,7 +18120,7 @@
 				)
 			)
 		)
-		(property "Field6" "CDDFN10-3324P-13"
+		(property "Field6" "TPD4EUSB30DQAR"
 			(at 207.01 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -18131,7 +18131,7 @@
 				)
 			)
 		)
-		(property "Field7" "Bourns"
+		(property "Field7" "Texas Instruments"
 			(at 207.01 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -18724,7 +18724,7 @@
 				)
 			)
 		)
-		(property "Field7" "Trxcon"
+		(property "Field7" "Trxcom"
 			(at 267.97 92.71 0)
 			(hide yes)
 			(show_name no)
@@ -19212,7 +19212,7 @@
 				)
 			)
 		)
-		(property "Field6" "SHBM04B-SRSS-TB"
+		(property "Field6" "BM04B-SRSS-TB(LF)(SN)"
 			(at 219.71 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -19610,6 +19610,28 @@
 				)
 			)
 		)
+		(property "Field6" "SM04B-SRSS-TB(LF)(SN)"
+			(at 115.57 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field7" "JST"
+			(at 115.57 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "6b75994a-dbd3-4a06-8794-9d81100e09ac")
 		)
@@ -19819,6 +19841,28 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated"
+			(at 152.4 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field6" "SM04B-SRSS-TB(LF)(SN)"
+			(at 152.4 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field7" "JST"
 			(at 152.4 173.99 0)
 			(hide yes)
 			(show_name no)
@@ -20051,6 +20095,28 @@
 				)
 			)
 		)
+		(property "Field6" "SM04B-SRSS-TB(LF)(SN)"
+			(at 154.94 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field7" "JST"
+			(at 154.94 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "fccb06ff-5577-49a6-a022-0ca3e0fbe02c")
 		)
@@ -20127,6 +20193,28 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x04, script generated"
+			(at 81.28 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field6" "SM04B-SRSS-TB(LF)(SN)"
+			(at 81.28 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field7" "JST"
 			(at 81.28 173.99 0)
 			(hide yes)
 			(show_name no)

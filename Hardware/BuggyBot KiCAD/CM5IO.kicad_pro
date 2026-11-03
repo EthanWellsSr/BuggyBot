@@ -39,9 +39,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 2.7,
-          "height": 2.7,
-          "width": 2.7
+          "drill": 0.0,
+          "height": 1.55,
+          "width": 0.3
         },
         "silk_line_width": 0.12,
         "silk_text_italic": false,
@@ -173,7 +173,7 @@
         "max_error": 0.005,
         "min_clearance": 0.125,
         "min_connection": 0.0,
-        "min_copper_edge_clearance": 0.01,
+        "min_copper_edge_clearance": 0.3,
         "min_groove_width": 0.0,
         "min_hole_clearance": 0.19,
         "min_hole_to_hole": 0.24,
@@ -726,7 +726,7 @@
       "gencad": "CM5IOUSB3.cad",
       "idf": "",
       "netlist": "CM5IO.net",
-      "plot": "RPI-CM5IO-R2-Gerber050325/",
+      "plot": "PCBWay/Gerbers/",
       "pos_files": "RPI-CM5IO-Gerber171224/",
       "specctra_dsn": "",
       "step": "",
@@ -742,7 +742,7 @@
       "method": 0,
       "sort_order": 0
     },
-    "bom_export_filename": "BuggyBot_INCOMPLETE_BOM.csv",
+    "bom_export_filename": "../../../Documents/BuggyBotBOM.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",
@@ -759,7 +759,7 @@
       "fields_ordered": [
         {
           "group_by": false,
-          "label": "Reference",
+          "label": "Designator",
           "name": "Reference",
           "show": true
         },
@@ -773,11 +773,11 @@
           "group_by": false,
           "label": "Datasheet",
           "name": "Datasheet",
-          "show": true
+          "show": false
         },
         {
           "group_by": true,
-          "label": "Footprint",
+          "label": "Package",
           "name": "Footprint",
           "show": true
         },
@@ -788,10 +788,10 @@
           "show": true
         },
         {
-          "group_by": true,
+          "group_by": false,
           "label": "DNP",
           "name": "${DNP}",
-          "show": true
+          "show": false
         },
         {
           "group_by": false,
@@ -812,16 +812,16 @@
           "show": false
         },
         {
-          "group_by": false,
+          "group_by": true,
           "label": "Field6",
           "name": "Field6",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
           "label": "Field7",
           "name": "Field7",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
@@ -839,7 +839,7 @@
           "group_by": false,
           "label": "Description",
           "name": "Description",
-          "show": true
+          "show": false
         }
       ],
       "filter_string": "",
@@ -911,7 +911,7 @@
         "uuid": "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
       }
     ],
-    "used_designators": "H7,H9,#PWR5,#PWR32-37,#FLG1-2,J1,J3-4,J6-7",
+    "used_designators": "H7,H9,#PWR5,#PWR32-37,J1,J3-4,J6-7,#FLG1-2",
     "variants": []
   },
   "sheets": [

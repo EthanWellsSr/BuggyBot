@@ -5854,7 +5854,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Field6" "EMK105B7104KV-F"
 			(at 233.68 139.7 0)
 			(hide yes)
 			(show_name no)
@@ -6137,7 +6137,7 @@
 				)
 			)
 		)
-		(property "Field6" ""
+		(property "Field6" "MCR01MZPF2201"
 			(at 119.38 180.34 0)
 			(hide yes)
 			(show_name no)
@@ -6148,7 +6148,7 @@
 				)
 			)
 		)
-		(property "Field7" ""
+		(property "Field7" " Rohm"
 			(at 119.38 180.34 0)
 			(hide yes)
 			(show_name no)
@@ -6695,7 +6695,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Field6" "EMK105B7104KV-F"
 			(at 55.88 171.45 0)
 			(hide yes)
 			(show_name no)
@@ -7215,7 +7215,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board no)
 		(in_pos_files yes)
 		(dnp no)
@@ -7440,6 +7440,28 @@
 			)
 		)
 		(property "Part Description" "4.7nF capacitor 0402"
+			(at 109.22 171.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field6" "GRM155R71H472KA01D"
+			(at 109.22 171.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field7" "Murata"
 			(at 109.22 171.45 0)
 			(hide yes)
 			(show_name no)
@@ -7900,6 +7922,28 @@
 			)
 		)
 		(property "Description" "M.2 Socket 3 Mechanical Key M"
+			(at 161.29 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field6" "MTSSD03-67MSW337"
+			(at 161.29 80.01 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field7" "MTCONN"
 			(at 161.29 80.01 0)
 			(hide yes)
 			(show_name no)
