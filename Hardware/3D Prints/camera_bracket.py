@@ -28,24 +28,25 @@ BOARD_HOLE_D = 2.7          # matches the KiCad M2.5 hole
 # 2 mm in from the edges. Board is 25 x 24 mm.
 CAM_PILOT_D = 1.8           # M2 self-tapping into plastic
 CAM_HOLE_X = 9.5            # hole column; the camera extends +X from here
-CAM_LOWER_Z = 26.0          # lower hole; the camera's bottom edge is 9.5 mm below
+CAM_LOWER_Z = 153.5         # lower hole; the camera's bottom edge is 9.5 mm below
+                            # (puts the upright top at 170 mm)
 CAM_HOLE_DZ = 12.5
 STANDOFF_D = 5.0
 STANDOFF_LEN = 3.0          # gap for parts on the back of the camera
 
 # Foot: stays clear of J5 (Y >= 5) and J3 (X <= -3.97 for Y <= -0.3)
-FOOT = (-3.5, 13.0, -6.0, 4.0)      # x0, x1, y0, y1
+FOOT = (-3.5, 15.0, -9.0, 4.0)      # x0, x1, y0, y1
 FOOT_T = 4.0
 
 # Upright sits beside H7 so a screwdriver can reach the board screw
-UPRIGHT_X = (6.0, 13.0)
-UPRIGHT_Y = (-1.0, 3.0)
+UPRIGHT_X = (5.0, 15.0)
+UPRIGHT_Y = (-4.0, 3.0)
 UPRIGHT_TOP = CAM_LOWER_Z + CAM_HOLE_DZ + 4.0
 
 # Brace behind the upright
-GUSSET_X = (8.0, 11.0)
+GUSSET_X = (7.0, 12.0)
 GUSSET_DEPTH = 5.0
-GUSSET_H = 15.0
+GUSSET_H = 60.0
 
 
 def circle(cx, cy, r, n=SEGMENTS):
