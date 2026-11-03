@@ -77,7 +77,28 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "starved_thermal|117900000|107200000|2dc18cf1-c0ec-4210-9821-f9567ce6d762|bde372ba-6173-494d-8edd-1e2a28a87e99|B.Cu",
+          ""
+        ],
+        [
+          "starved_thermal|117900000|107200000|3ce4b781-d797-40c3-8567-5814fdc79823|bde372ba-6173-494d-8edd-1e2a28a87e99|F.Cu",
+          ""
+        ],
+        [
+          "starved_thermal|181030000|132700000|3ce4b781-d797-40c3-8567-5814fdc79823|5ad32080-d80b-4135-ae59-972e73127817|F.Cu",
+          ""
+        ],
+        [
+          "starved_thermal|210500000|78898000|657189e6-9736-47c8-9bf9-eaca203b46fc|cd0db3ab-d297-444b-90ad-f9fe2bec8f60|F.Cu",
+          ""
+        ],
+        [
+          "track_not_centered_on_via|234710000|113980000|58f4eb0b-b6fe-424e-9430-661744e712d4|f2821654-9e2d-40c6-ba0b-92bde85422bf",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -890,7 +911,7 @@
         "uuid": "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
       }
     ],
-    "used_designators": "H7,H9,#PWR5,#PWR32-37,J1,J3-4,J6-7,#FLG1-2",
+    "used_designators": "H7,H9,#PWR5,#PWR32-37,#FLG1-2,J1,J3-4,J6-7",
     "variants": []
   },
   "sheets": [
