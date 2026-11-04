@@ -4,56 +4,56 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 PROJECT = "Self Driving RC Car"
-DATE = "10/27/2026"
-SUMMARY_DATE = "10/27/2026"
+DATE = "11/3/2026"
+SUMMARY_DATE = "11/3/2026"
 
 members = ["Ethan Wells (Group Leader)", "Alexis Perez", "Ethan Bishop", "Abigail Duran"]
 
 summary = (
-    "This week the team ran live traffic-sign recognition on BuggyBot, built a test script for every sensor and the motor driver, "
-    "and continued the custom PCB design. "
-    "Alexis Perez met last week's goal of implementing OpenCV with the Raspberry Pi camera: he wrote the first sign-detection demo script for the CM5, "
-    "which captures frames from the Raspberry Pi Camera Module 3, finds sign-shaped regions with OpenCV, classifies them with the combined model, and shows the result on the LCD. "
-    "He also moved the TCRT5000 line sensors to GPIO20 and GPIO21 so they no longer share pins with the Cokoino motor HAT. "
-    "Ethan Wells met two of last week's three goals. He connected the combined classifier to the CM5 camera and LCD through Alexis's demo and tested it live with signs located automatically, without using the known sign class. "
-    "Live testing showed false detections, so he added a browser video stream (the Pi has no desktop), LCD backlight colors by sign, color and shape checks that stop hands, faces, and shirts from being read as stop signs, "
-    "whole-sign cropping so the added-lane sign is no longer read as merge, and a rule that the same sign must be read on 3 frames in a row before it reaches the LCD. "
-    "In the final live test all 10 printed sign classes were shown 3 times each over two runs, and 60 of 60 LCD outputs were correct. "
-    "He documented the problems and fixes in a troubleshooting guide. Measuring accuracy and inference time at set distances and angles carries into a later week. "
-    "Ethan Bishop built a master test script that checks the line sensors, IMU, camera, LCD, and motor driver in turn and prints a pass/fail summary, "
-    "ran the ROS 2 turtlesim tutorial under Windows Subsystem for Linux, and started the ROS 2 test program from last week's goal. "
-    "Abigail Duran continued the PCB design toward manufacturing: she added the required new components to the board, began tracing the connections, "
-    "and ordered STEMMA QT / Qwiic I2C cables for connecting the I2C boards."
+    "This week the team tested every BuggyBot component together on the bench, finished the custom PCB design, "
+    "and started the project poster and a ROS 2 version of the sign pipeline. "
+    "Ethan Wells met both of last week's goals. The integration test passed all seven stages on the Raspberry Pi Compute Module 5 (CM5) I/O board, "
+    "powered from the Pi with no motor load: the I2C scan found the LCD and IMU, both TCRT5000 line sensors responded, "
+    "and the sign pipeline read a printed card at 98% confidence with 1.9 ms inference at 36 fps. "
+    "The test found and fixed two bugs: the line sensor script was missing a required setting, and the I2C scan missed the LCD because the LCD only answers writes. "
+    "He read the Cokoino 4WD motor HAT's schematic, found that it needs a 7-12 V input, and bought a 60 W adjustable bench supply. "
+    "He then split the test into a per-component test and a stress test that runs the motors, camera and sign model, IMU, line sensors, and LCD all at once. "
+    "On 9 V from the bench supply, the 120-second stress test passed with no errors and no under-voltage, and the camera held 30.0 fps against a 30.2 fps baseline. "
+    "He also designed a 3D-printed bracket that holds the Camera Module 3 above the I/O board, and gave Abigail Duran final approval to send the PCB design for manufacturing. "
+    "Alexis Perez worked on the Semester 1 project poster (due 11/5) instead of last week's goal of fine-tuning OpenCV: he collected the project information and results and designed the poster. "
+    "Ethan Bishop partly met his goal of a first ROS 2 node on the CM5: he wrote a preliminary ROS 2 version of the sign pipeline with camera, sign classifier, and LCD nodes. "
+    "It runs in Docker on a development machine, because ROS 2 has no Raspberry Pi OS packages, and has not yet run on the CM5 or been added to the repository. "
+    "He also reprinted the camera bracket taller (170 mm), wider, and with a larger brace, helped with the stress test, and supplied a battery to make the test setup mobile. "
+    "Abigail Duran finished tracing the connections on the PCB and generated the manufacturing files: Gerbers, bill of materials, and pick-and-place."
 )
 
 plan = [
-    ("Ethan Wells", "Run a full sensor test on the CM5 I/O board, then give Abigail Duran final approval to send the PCB design for manufacturing."),
-    ("Alexis Perez", "Fine-tune OpenCV on the Raspberry Pi and test all components."),
-    ("Ethan Bishop", "Write a first ROS 2 test node and run it on the CM5."),
-    ("Abigail Duran", "Generate all required files for manufacturing and place the PCB order."),
+    ("Ethan Wells", "Write the Self-analysis, Project, and Technical Reports (due 11/19) and fine-tune OpenCV detection in the Pi sign demo."),
+    ("Alexis Perez", "Plan how the vision model will be integrated with the vehicle."),
+    ("Ethan Bishop", "Run the ROS 2 sign program on the CM5 with the camera on the new mount."),
+    ("Abigail Duran", "Receive the PCB and begin testing it."),
 ]
 
-# Per-task hours are omitted this week; the Hour Tracker carries each member's
-# weekly total from their slide.
+# Per-task hours are omitted; the Hour Tracker carries each member's weekly
+# total from their slide.
 contributions = [
-    ("Ethan Wells", [("", "Connected the combined classifier to the CM5 camera and LCD through Alexis Perez's sign demo and tested it live on BuggyBot", None),
-                     ("", "Fixed false detections found in live testing: color and shape checks, whole-sign cropping, and 3-frame confirmation; added a browser video stream and LCD colors by sign", None),
-                     ("", "Final live test: 60 of 60 LCD outputs correct (10 sign classes, 3 times each over two runs)", None),
-                     ("", "Wrote the OpenCV troubleshooting guide documenting each problem and fix", None),
+    ("Ethan Wells", [("", "Ran the integration test on the CM5 I/O board: all seven stages passed; fixed the line sensor and LCD detection bugs it found", None),
+                     ("", "Read the Cokoino HAT schematic and bought a 60 W adjustable bench supply for its 7-12 V input", None),
+                     ("", "Split the test into test_components.py and stress_test.py; the 120-second stress test passed on 9 V with no errors or under-voltage at 30.0 fps", None),
+                     ("", "Designed a 3D-printed Camera Module 3 bracket for the CM5 I/O board", None),
+                     ("", "Gave Abigail Duran final approval to send the PCB design for manufacturing", None),
                      ("", "Prepared the weekly slides and report", None)]),
-    ("Alexis Perez", [("", "Wrote the first sign-detection demo script for the CM5: Pi camera, OpenCV sign regions, combined model, and LCD output", None),
-                      ("", "Tested OpenCV with a laptop webcam and wrote OpenCV setup instructions and test scripts", None),
-                      ("", "Moved the line sensors to GPIO20 and GPIO21 to avoid a pin clash with the Cokoino motor HAT", None)]),
-    ("Ethan Bishop", [("", "Built a master test script for every sensor and the motor driver (line sensors, IMU, camera, LCD, motors) with a pass/fail summary", None),
-                      ("", "Ran the ROS 2 turtlesim tutorial under Windows Subsystem for Linux", None),
-                      ("", "Started the ROS 2 test program", None)]),
-    ("Abigail Duran", [("", "Added the required new components to the PCB design", None),
-                       ("", "Began tracing the connections on the board", None),
-                       ("", "Ordered STEMMA QT / Qwiic I2C cables", None)]),
+    ("Alexis Perez", [("", "Collected project information and results for the Semester 1 poster", None),
+                      ("", "Designed the project poster", None)]),
+    ("Ethan Bishop", [("", "Wrote a preliminary ROS 2 version of the sign pipeline (camera, sign classifier, and LCD nodes), running in Docker", None),
+                      ("", "Reprinted the camera bracket taller (170 mm), wider, and with a larger brace", None),
+                      ("", "Helped with the stress test and supplied a battery to make the test setup mobile", None)]),
+    ("Abigail Duran", [("", "Finished tracing the connections on the PCB", None),
+                       ("", "Generated the manufacturing files: Gerbers, bill of materials, and pick-and-place", None)]),
 ]
 
-hours = [("Ethan Wells", "10", "58"), ("Alexis Perez", "7", "48"),
-         ("Ethan Bishop", "6", "46"), ("Abigail Duran", "6", "47")]
+hours = [("Ethan Wells", "6", "64"), ("Alexis Perez", "6", "54"),
+         ("Ethan Bishop", "7", "53"), ("Abigail Duran", "6", "53")]
 
 d = Document("project_name.docx")
 
