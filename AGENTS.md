@@ -109,7 +109,8 @@ work that is safe to complete.
   (36 fps) in the 10/28 integration test.
 - `Hardware/` — parts list, wiring schematics (`Schematics/`), test scripts, and
   the KiCad custom-PCB project (`BuggyBot KiCAD/`, derived from the CM5 IO
-  Board). `scripts/test_components.py` (each device alone) and
+  Board; design complete 11/03 with manufacturing files in `PCBWay/`; board
+  not yet received), and `3D Prints/` (Camera Module 3 bracket). `scripts/test_components.py` (each device alone) and
   `scripts/stress_test.py` (everything at once) are the pre-PCB integration
   tests (split from `test_all_sensors.py` on 11/02; all seven stages of that
   combined test passed on 10/28, and `stress_test.py` passed on 11/02 on a 9 V
@@ -123,8 +124,10 @@ work that is safe to complete.
   unless current device evidence confirms it.
 - `ROS 2` — a node architecture and data flow for the vehicle (camera, sign
   detector, line sensor, IMU, behavior, motor driver, LCD, teleop) have been
-  drafted, and ROS 2 is installed under WSL on a development machine. There is
-  no ROS 2 code in the repository and none runs on the CM5.
+  drafted, and ROS 2 is installed under WSL on a development machine. Ethan
+  Bishop has a preliminary ROS 2 sign pipeline (camera, classifier, LCD nodes)
+  running in Docker on a development machine. There is no ROS 2 code in the
+  repository and none runs on the CM5.
 - `Sign Cards/` — printable cards and artwork for the 12 selected US sign
   classes, plus cropped camera test photos (raw photos are Git ignored).
 - `Learning/` — self-directed learning projects (currently `llms/`); follow each

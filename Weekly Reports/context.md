@@ -16,7 +16,7 @@ A file `Self_Driving_RC_Car.docx` and a matching `Self_Driving_RC_Car.pdf` in th
 - **Faculty advisor (the "client"):** Professor Nguyen
 - **Team (list in this order):** Ethan Wells, Alexis Perez, Ethan Bishop, Abigail Duran  (Alexis is male)
 - **Terminology — fix Ethan's occasional slips:**
-  - Compute: **Raspberry Pi Compute Module 5 (CM5)** on its IO Board for bench testing; the custom carrier PCB is planned — NOT "Arduino"
+  - Compute: **Raspberry Pi Compute Module 5 (CM5)** on its IO Board for bench testing; the custom carrier PCB design is complete (11/03) and not yet received — NOT "Arduino"
   - Prototyping board: **Raspberry Pi Compute Module I/O Board** — NOT "breadboard"
   - Sensors: camera (primary, reads signs) + TCRT5000 line sensors (course line) + IMU (heading/turns); no LiDAR. The HC-SR04 ultrasonic sensor is no longer used (10/27).
   - Scope: autonomous car that follows a controlled course AND obeys traffic signs. Fall = stationary recognition system; Spring = autonomous vehicle.
@@ -101,8 +101,10 @@ Historical proposals and frozen weekly deliverables are reference material.
 - The live sign demo (`Model Training/OpenCV/pi_sign_detection_demo.py`) finds
   signs automatically and scored 60/60 in one room; distance and angle are
   unmeasured. CM5 inference averaged 1.9 ms per crop (36 fps) in the 10/28
-  integration test, which passed all seven stages on Pi power with no load. The PCB and
-  vehicle autonomy remain planned or under study unless current code and hardware
-  evidence establish otherwise. ROS 2 is installed under WSL on a development
-  machine and its node architecture is drafted, but no ROS 2 code runs on the CM5
-  yet — describe it as a plan, not an implemented pipeline.
+  integration test, which passed all seven stages on Pi power with no load. The PCB
+  design and manufacturing files are complete (11/03), but the board has not been
+  received or tested. Vehicle autonomy remains planned unless current code and
+  hardware evidence establish otherwise. ROS 2 is installed under WSL on a
+  development machine and its node architecture is drafted; a preliminary ROS 2
+  sign pipeline runs in Docker on a development machine, but no ROS 2 code is in
+  the repository or runs on the CM5 yet.

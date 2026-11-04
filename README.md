@@ -34,7 +34,9 @@ spring scope is the autonomous vehicle.
   combined LISA+Mapillary dataset. Their models and results are in this repo.
 - A ROS 2 node architecture for the vehicle (camera, sign detector, line sensor,
   IMU, behavior, motor driver, LCD, teleop) has been drafted. ROS 2 is installed
-  under WSL on a development machine; it is not running on the CM5.
+  under WSL on a development machine. A preliminary ROS 2 version of the sign
+  pipeline (camera, sign classifier, and LCD nodes) runs in Docker on a
+  development machine; it is not in this repository and has not run on the CM5.
 
 ## Hardware
 
@@ -49,7 +51,9 @@ spring scope is the autonomous vehicle.
 - **Chassis:** EMOZNY Emo smart robot car chassis kit (2 DC gear motors with
   speed encoders, battery box) has been received
 - **Custom PCB:** a KiCad carrier-board design, derived from the CM5 IO Board, is
-  in progress in [`Hardware/BuggyBot KiCAD/`](Hardware/BuggyBot%20KiCAD/)
+  complete in [`Hardware/BuggyBot KiCAD/`](Hardware/BuggyBot%20KiCAD/), with
+  Gerber, BOM, and pick-and-place files for manufacturing (11/03). The board has
+  not yet been received or tested
 
 The [parts list](Hardware/partslist.md) records purchase and availability
 status. Wiring references and hardware test scripts are in [`Hardware/`](Hardware/);

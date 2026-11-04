@@ -26,7 +26,7 @@ The root `setup.sh` does **not** run on the Pi — `apt-get` isn't available on 
 
 | File | Contents |
 | --- | --- |
-| [`camera_bracket.py`](3D%20Prints/camera_bracket.py) | Generates `camera_bracket.stl` (no dependencies; run with `python3` on your development computer): a Camera Module 3 bracket that bolts to IO board hole H7 behind CAM/DISP 0 with one M2.5 screw and to the camera's two holes on one side with M2 self-tapping screws. Positions come from `CM5IO.kicad_pcb`; measure the board before printing |
+| [`camera_bracket.py`](3D%20Prints/camera_bracket.py) | Generates `camera_bracket.stl` (no dependencies; run with `python3` on your development computer): a Camera Module 3 bracket that bolts to IO board hole H7 behind CAM/DISP 0 with one M2.5 screw and to the camera's two holes on one side with M2 self-tapping screws. Positions come from `CM5IO.kicad_pcb`; measure the board before printing. Ethan Bishop enlarged and printed it on 11/02: 170 mm upright, wider foot and upright, 60 mm brace |
 | [`camera_bracket.stl`](3D%20Prints/camera_bracket.stl) | Generated print file; print foot down, no supports |
 
 ## Scripts
