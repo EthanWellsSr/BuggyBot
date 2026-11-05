@@ -86,6 +86,7 @@ From the repository root on BuggyBot:
 | `--lcd / --no-lcd` | on | Waveshare RGB1602 output |
 | `--confirm-frames` | 3 | Consecutive agreeing frames before output |
 | `--threshold` | 0.85 | Minimum classifier confidence |
+| `--min-crop` | 120 | Smallest crop side (px) classified; 0 disables. Rejects small background/fragment crops, but skips far-away signs |
 | `--display-seconds` | 3.0 | LCD hold time after a detection |
 | `--save-every` | 2.0 | Seconds between timed frame saves (0 disables) |
 | `--output` | `~/buggybot_sign_demo` | Where frames are saved |
@@ -228,7 +229,7 @@ the classifier's job.
 | Color | Range | Why |
 |---|---|---|
 | red | H 0–2 or 165–179, S ≥ 100, V ≥ 25 | Red wraps around 0/179. See measurements below. |
-| yellow | H 15–55, S ≥ 80, V ≥ 40 | Upper bound 55 includes the fluorescent yellow-green school sign; V ≥ 40 keeps dim photos |
+| yellow | H 15–55, S ≥ 130, V ≥ 40 | Upper bound 55 includes the fluorescent yellow-green school sign; V ≥ 40 keeps dim photos; S ≥ 130 rejects skin and the wooden stick (median S 83–126 on 11/04) while printed cards measure ≥ 168 |
 | white | S ≤ 70, V ≥ Otsu threshold of the crop | Otsu adapts the brightness cutoff to each crop's lighting |
 
 **Red measurements that set the range:**

@@ -102,7 +102,7 @@ scripts, preparation steps, and detailed results.
 
 | Path | Contents |
 | --- | --- |
-| `Proposal/` | Project proposal and Gantt charts |
+| `Proposal/` | Project proposal, Gantt charts, and the Semester 1 poster |
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
 | `Hardware/` | Parts list, wiring references, hardware test scripts, integration test reports, and the KiCad custom-PCB project |
 | `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; the live Pi sign demo in `OpenCV/`; downloaded datasets are Git ignored |

@@ -84,9 +84,9 @@ work that is safe to complete.
 
 - `README.md` — current project overview, hardware, model status, team, and
   repository layout. Read it before making project claims.
-- `Proposal/` — original proposal and fall/spring Gantt charts. Treat it as
-  historical intent; check the current code and README before describing
-  implementation.
+- `Proposal/` — original proposal, fall/spring Gantt charts, and the Semester 1
+  poster. Treat it as historical intent; check the current code and README
+  before describing implementation.
 - `Model Training/` — see its `README.md` for dataset preparation, training,
   evaluation, and results. `scripts/` holds prepare/train/evaluate scripts per
   dataset, the sign-photo crop and evaluation scripts, and

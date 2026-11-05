@@ -64,6 +64,7 @@ searching.
 | `--lcd / --no-lcd` | on | Write detections to the LCD |
 | `--confirm-frames` | 3 | Consecutive frames that must agree before output |
 | `--threshold` | 0.85 | Minimum classifier confidence |
+| `--min-crop` | 120 | Smallest crop side in pixels to classify; `0` turns it off. Skips far-away signs |
 | `--display-seconds` | 3.0 | How long a detection stays on the LCD |
 | `--save-every` | 2.0 | Seconds between saved frames; `0` turns it off |
 | `--output` | `~/buggybot_sign_demo` | Folder for saved frames |

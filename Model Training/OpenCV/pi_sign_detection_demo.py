@@ -55,6 +55,12 @@ def arguments():
     p.add_argument('--height', type=int, default=720)
     p.add_argument('--threshold', type=float, default=.85, help='minimum classifier confidence to show')
     p.add_argument('--max-candidates', type=int, default=8)
+    # 11/04 run: the non-signs the color masks miss (wall cabinet, letter
+    # fragments, ceiling lights -> keepRight/speedLimit25, a blob -> merge)
+    # cropped to <= 118 px; the smallest real sign was a stop at 122 px, most
+    # >= 220 px. Narrow gap, and it trades range: far-away signs are skipped.
+    p.add_argument('--min-crop', type=int, default=120,
+                   help='smallest crop side in pixels to classify (0 disables)')
     p.add_argument('--stream', type=int, default=8000, metavar='PORT',
                    help='serve annotated video at http://buggybot.local:PORT; 0 disables')
     p.add_argument('--lcd', action=argparse.BooleanOptionalAction, default=True,
@@ -244,7 +250,10 @@ def color_mask(hsv, color):
         # orange-side (hue ~3) and duller (sat ~97), so both bounds are tight.
         return cv2.inRange(hsv, (0, 100, 25), (2, 255, 255)) | cv2.inRange(hsv, (165, 100, 25), (179, 255, 255))
     if color == 'yellow':  # includes fluorescent yellow-green school/ped signs
-        return cv2.inRange(hsv, (15, 80, 40), (55, 255, 255))
+        # Sat >= 130: printed yellow cards measure median sat >= 168 (live) and
+        # >= 178 (test crops); skin, arms, and the wooden stick that reached the
+        # LCD as signalAhead/merge/pedestrianCrossing measured 83-126 (11/04 run).
+        return cv2.inRange(hsv, (15, 130, 40), (55, 255, 255))
     # White face: unsaturated and brighter than the crop's Otsu split, so it
     # adapts to dim and bright lighting.
     otsu, _ = cv2.threshold(hsv[..., 2], 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -391,7 +400,7 @@ def main():
                 matches = []
                 for box in candidates:
                     crop = crop_square(frame, box)
-                    if crop.size == 0:
+                    if crop.size == 0 or min(crop.shape[:2]) < args.min_crop:
                         continue
                     label, confidence = classify(interpreter, labels, crop)
                     if confidence >= args.threshold and shape_matches(crop, label):
