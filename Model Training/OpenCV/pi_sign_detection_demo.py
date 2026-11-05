@@ -330,7 +330,12 @@ def draw_banner(frame, label, confidence):
     cv2.rectangle(frame, (0, h - bar), (w, h), (b, g, r), -1)  # OpenCV is BGR
     ink = (255, 255, 255) if label == 'stop' else (0, 0, 0)
     scale = bar / 45
-    cv2.putText(frame, f'{label}  {confidence:.0%}', (20, h - bar // 4),
+    # Center the text horizontally
+    text = f'{label}  {confidence:.0%}'
+    (text_width, text_height), baseline = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, scale, max(2, round(scale * 2)))
+    x_center = (w - text_width) // 2
+    y_center = h - bar // 4
+    cv2.putText(frame, text, (x_center, y_center),
                 cv2.FONT_HERSHEY_SIMPLEX, scale, ink, max(2, round(scale * 2)), cv2.LINE_AA)
 
 
