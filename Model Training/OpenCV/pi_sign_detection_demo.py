@@ -331,7 +331,7 @@ def draw_banner(frame, label, confidence):
     ink = (255, 255, 255) if label == 'stop' else (0, 0, 0)
     scale = bar / 45
     # Center the text horizontally
-    text = f'{label}  {confidence:.0%}'
+    text = f'{label} confidence: {confidence:.0%}'
     (text_width, text_height), baseline = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, scale, max(2, round(scale * 2)))
     x_center = (w - text_width) // 2
     y_center = h - bar // 4

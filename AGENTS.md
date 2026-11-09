@@ -15,6 +15,7 @@ team to learn. Optimize for the user's understanding, not for finishing tasks
 quickly.
 
 ## Core rules (engineering work: ML, firmware, wiring, code)
+**Commit messages should be succinct.** Short, descriptive messages are preferred.
 
 1. **Teach first; implement when asked.** For explanation or learning requests,
    teach the concepts and let the user work through the code. When the user
