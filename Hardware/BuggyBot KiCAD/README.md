@@ -2,7 +2,7 @@
 
 This folder contains the KiCad design files used for the BuggyBot senior capstone project.
 
-The design started from the Raspberry Pi Compute Module 5 IO Board files and was modified into the custom BuggyBot carrier PCB. Abigail Duran completed the layout and generated the manufacturing files in Week 11 (11/03/2026), and Ethan Wells gave final approval to send it for manufacturing.
+The design started from the Raspberry Pi Compute Module 5 IO Board files and was modified into the custom BuggyBot carrier PCB. Abigail Duran completed the layout and generated the manufacturing files in Week 11 (11/03/2026), and Ethan Wells gave final approval to send it for manufacturing. After PCBWay quoted $583, the team decided not to manufacture it.
 
 ## Main Project Files
 
@@ -88,6 +88,6 @@ Opening the `.kicad_pro` file should load the schematic, PCB, and associated pro
 
 ## Project Purpose
 
-These files are the final design for BuggyBot's custom PCB. The board has not yet been received or tested.
+These files are the final design for BuggyBot's custom PCB. PCBWay quoted $583 to manufacture and assemble it (after a discount), which the team judged not financially feasible. The board will not be manufactured; BuggyBot uses the stock CM5 IO Board.
 
 The original CM5 IO Board contains some different hardware than BuggyBot requires. The team is identifying which CM5 support circuitry and interfaces the final board must keep, and adding connectors for BuggyBot's sensors and display. The IMU and LCD ports were added in October 2026. A component checklist and a review of which CM5 features to keep, remove, or modify were also made in October 2026; the checklist itself is not committed to this repository.

@@ -1,13 +1,13 @@
 # Parts List
 
-Running list of hardware for BuggyBot, the autonomous car. Status: **Have** / **Ordered** / **Need** / **TBD**.
+Running list of hardware for BuggyBot, the autonomous car. Status: **Have** / **Ordered** / **Need** / **TBD** / **Not buying**.
 
 Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Schematic.png) · earlier Pico version [Schematic_with_pico.jpeg](Schematics/Schematic_with_pico.jpeg).
 
 | Component | Qty | Purpose | Status | Price (USD) | Date Purchased | Purchased By | Link |
 |---|---|---|---|---|---|---|---|
 | Raspberry Pi Compute Module 5 (4 GB, Lite) | 1 | Main compute — runs vision model | Have | 100.00 | 8/26 | Ethan Wells | [seeedstudio](https://www.seeedstudio.com/Raspberry-Pi-Compute-Module-CM5004000-p-6275.html) |
-| Raspberry Pi Compute Module 5 IO Board | 1 | Carrier/prototyping board (M.2, camera, GPIO) | Have | 20.00 | 9/3 | Ethan Wells | [canakit](https://www.canakit.com/raspberry-pi-compute-module-5-io-board.html) |
+| Raspberry Pi Compute Module 5 IO Board | 1 | Carrier board (M.2, camera, GPIO); used in place of the custom PCB | Have | 20.00 | 9/3 | Ethan Wells | [canakit](https://www.canakit.com/raspberry-pi-compute-module-5-io-board.html) |
 | ZDE ZC505 CM5 aluminum heatsink + PWM fan | 1 | Secures CM5 to IO board; active cooling | Have | 11.99 | 9/16 | Ethan Wells | [amazon](https://www.amazon.com/dp/B0DT12D9F3) |
 | iUniker 27W GaN USB-C PD power supply (5.1 V/5 A) | 1 | Bench power for CM5 IO Board and peripherals | Have | 10.89 | 9/16 | Ethan Wells | [amazon](https://www.amazon.com/dp/B0FHH9K47T) |
 | Raspberry Pi Camera Module 3 Standard (12MP AF) | 1 | Reads traffic signs | Have | 29.25 | 9/7 | Abigail Duran | [adafruit 5657](https://www.adafruit.com/product/5657) |
@@ -34,7 +34,7 @@ Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Sch
 | Steering servo | 1 | Steering — only needed for a servo-steered chassis | TBD | — | — | — | |
 | Battery | 1 | Power source; 7–12 V to feed the Cokoino HAT (for example, a 2S 18650 pack) | TBD | — | — | — | |
 | Battery charger | 1 | Charge the battery | TBD | — | — | — | |
-| Custom carrier PCB | 1 | Final CM5 carrier board (spring) | TBD | — | — | — | |
+| Custom carrier PCB | 1 | Final CM5 carrier board; not manufactured (PCBWay quoted $583), stock CM5 IO Board used instead | Not buying | — | — | — | |
 | **Running total (priced items only)** | | | | **434.26** | | | |
 
 Pricing may vary depending on current market; prices listed were from time of purchase.

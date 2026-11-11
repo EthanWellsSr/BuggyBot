@@ -85,9 +85,12 @@ work that is safe to complete.
 
 - `README.md` — current project overview, hardware, model status, team, and
   repository layout. Read it before making project claims.
-- `Proposal/` — original proposal, fall/spring Gantt charts, and the Semester 1
-  poster. Treat it as historical intent; check the current code and README
-  before describing implementation.
+- `Proposal/` — original proposal and fall/spring Gantt charts. Treat it as
+  historical intent; check the current code and README before describing
+  implementation.
+- `Semester 1 Deliverables/` — final Semester 1 submissions (poster, final
+  presentation, Project Report, Technical Paper); see its `README.md`.
+  Individual self-analysis reports stay out of the repository.
 - `Model Training/` — see its `README.md` for dataset preparation, training,
   evaluation, and results. `scripts/` holds prepare/train/evaluate scripts per
   dataset, the sign-photo crop and evaluation scripts, and
@@ -110,9 +113,10 @@ work that is safe to complete.
   (36 fps) in the 10/28 integration test.
 - `Hardware/` — parts list, wiring schematics (`Schematics/`), test scripts, and
   the KiCad custom-PCB project (`BuggyBot KiCAD/`, derived from the CM5 IO
-  Board; design complete 11/03 with manufacturing files in `PCBWay/`; board
-  not yet received), and `3D Prints/` (Camera Module 3 bracket). `scripts/test_components.py` (each device alone) and
-  `scripts/stress_test.py` (everything at once) are the pre-PCB integration
+  Board; design complete 11/03 with manufacturing files in `PCBWay/`; PCBWay
+  quoted $583, so it will not be manufactured and BuggyBot uses the stock CM5
+  IO Board), and `3D Prints/` (Camera Module 3 bracket). `scripts/test_components.py` (each device alone) and
+  `scripts/stress_test.py` (everything at once) are the hardware integration
   tests (split from `test_all_sensors.py` on 11/02; all seven stages of that
   combined test passed on 10/28, and `stress_test.py` passed on 11/02 on a 9 V
   bench supply into the Cokoino HAT; reports in `integration_reports/`), and
@@ -134,7 +138,8 @@ work that is safe to complete.
 - `Learning/` — self-directed learning projects (currently `llms/`); follow each
   project's `MISSION.md` when working there.
 - `Weekly Reports/` — admin carve-out. Follow `context.md`; build reports with
-  `build_report.py` and decks with `assemble_deck.py`. Each team member edits
+  `build_report.py` and decks with `assemble_deck.py` (`--final` writes the
+  Semester 1 final presentation into `Semester 1 Deliverables/`). Each team member edits
   only their own file in `slides/`; the assembled deck is generated, not
   hand-edited.
 - `setup.sh` — installs Git, Python, pip, and venv on your development computer. Runs on your dev PC, not the Pi.

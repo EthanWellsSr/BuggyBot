@@ -1,4 +1,4 @@
-"""Assemble the weekly presentation from the per-person files in slides/.
+"""Assemble the weekly or final presentation from the per-person files in slides/.
 
 Each team member edits ONLY their own file in slides/ (e.g. slides/1-ethan-wells.pptx),
 so no two people ever touch the same file and git never has a binary merge conflict.
@@ -8,21 +8,35 @@ This script stitches those files, in filename order, into the final deck:
 
 Run it (from inside the Weekly Reports folder) whenever slides change:
 
-    python3 assemble_deck.py
+    python3 assemble_deck.py           # weekly deck -> Self-Driving-RC-Car.pptx
+    python3 assemble_deck.py --final   # Semester 1 final presentation ->
+                                       #   ../Semester 1 Deliverables/Final Presentation.pptx
+
+Every slide from a person's file gets their first and last name, taken from the
+file name, in small black text at the bottom right. The title file is skipped.
 
 Naming: the numeric prefix sets slide order (0-title, 1-ethan-wells, ...). Add a member
 by dropping a new NN-name.pptx into slides/; remove one by deleting their file.
 """
+import argparse
 import copy
 import glob
 import os
 from pptx import Presentation
+from pptx.dml.color import RGBColor
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.opc.packuri import PackURI
 from pptx.oxml.ns import qn
+from pptx.util import Inches, Pt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SLIDES_DIR = os.path.join(HERE, "slides")
 OUT = os.path.join(HERE, "Self-Driving-RC-Car.pptx")
+FINAL_OUT = os.path.join(HERE, "..", "Semester 1 Deliverables", "Final Presentation.pptx")
+
+# name label: small black text in the bottom-right corner of each person's slides
+LABEL_W, LABEL_H, LABEL_MARGIN = Inches(2.2), Inches(0.3), Inches(0.1)
+LABEL_SIZE = Pt(11)
 
 # relationships namespace, used to find/rewrite image & hyperlink references (r:embed, r:id, ...)
 RNS = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
@@ -64,6 +78,32 @@ def copy_slide(src_slide, dest):
                 el.set(attr, rid_map[val])
 
 
+def owner_name(path):
+    """'1-ethan-wells.pptx' -> 'Ethan Wells'; None for the title file."""
+    stem = os.path.splitext(os.path.basename(path))[0]
+    words = stem.split("-")[1:]  # drop the numeric order prefix
+    if not words or words == ["title"]:
+        return None
+    return " ".join(w.capitalize() for w in words)
+
+
+def add_name_label(slide, name, slide_w, slide_h):
+    """Put `name` in small black right-aligned text at the slide's bottom-right corner."""
+    box = slide.shapes.add_textbox(slide_w - LABEL_W - LABEL_MARGIN,
+                                   slide_h - LABEL_H - LABEL_MARGIN, LABEL_W, LABEL_H)
+    box.name = "Name label"
+    tf = box.text_frame
+    tf.word_wrap = False
+    tf.vertical_anchor = MSO_ANCHOR.BOTTOM
+    tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
+    para = tf.paragraphs[0]
+    para.alignment = PP_ALIGN.RIGHT
+    run = para.add_run()
+    run.text = name
+    run.font.size = LABEL_SIZE
+    run.font.color.rgb = RGBColor(0, 0, 0)
+
+
 def dedupe_media(dest):
     """Give every image/media part a unique name inside the output package.
 
@@ -91,6 +131,11 @@ def dedupe_media(dest):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--final", action="store_true",
+                        help="write the Semester 1 final presentation into Semester 1 Deliverables/")
+    out = os.path.normpath(FINAL_OUT if parser.parse_args().final else OUT)
+
     files = sorted(glob.glob(os.path.join(SLIDES_DIR, "*.pptx")))
     if not files:
         raise SystemExit("no slide files found in " + SLIDES_DIR)
@@ -102,14 +147,17 @@ def main():
         dest.slides._sldIdLst.remove(sid)
 
     for f in files:
+        name = owner_name(f)
         for slide in Presentation(f).slides:
             copy_slide(slide, dest)
+            if name:
+                add_name_label(dest.slides[-1], name, dest.slide_width, dest.slide_height)
 
     dedupe_media(dest)
 
-    dest.save(OUT)
+    dest.save(out)
     print("assembled %d slides from %d files -> %s"
-          % (len(dest.slides._sldIdLst), len(files), os.path.basename(OUT)))
+          % (len(dest.slides._sldIdLst), len(files), os.path.relpath(out, HERE)))
 
 
 if __name__ == "__main__":

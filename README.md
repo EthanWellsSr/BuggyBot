@@ -20,7 +20,7 @@ spring scope is the autonomous vehicle.
   classes, 3 times each over two runs, one room).
 - [`Hardware/scripts/test_components.py`](Hardware/scripts/test_components.py)
   and [`Hardware/scripts/stress_test.py`](Hardware/scripts/stress_test.py) are
-  the integration tests before PCB sign-off: each device on its own, then
+  the hardware integration tests: each device on its own, then
   everything at once. On 10/28 all seven stages of the original combined test passed
   on the Cokoino HAT (pins, I²C, line sensors, IMU, motors, sign pipeline, and a
   120 s stress run with everything at once), powered from the Pi with the wheels
@@ -52,8 +52,8 @@ spring scope is the autonomous vehicle.
   speed encoders, battery box) has been received
 - **Custom PCB:** a KiCad carrier-board design, derived from the CM5 IO Board, is
   complete in [`Hardware/BuggyBot KiCAD/`](Hardware/BuggyBot%20KiCAD/), with
-  Gerber, BOM, and pick-and-place files for manufacturing (11/03). The board has
-  not yet been received or tested
+  Gerber, BOM, and pick-and-place files (11/03). PCBWay quoted $583 to
+  manufacture it, so it will not be made; BuggyBot uses the stock CM5 IO Board
 
 The [parts list](Hardware/partslist.md) records purchase and availability
 status. Wiring references and hardware test scripts are in [`Hardware/`](Hardware/);
@@ -102,7 +102,8 @@ scripts, preparation steps, and detailed results.
 
 | Path | Contents |
 | --- | --- |
-| `Proposal/` | Project proposal, Gantt charts, and the Semester 1 poster |
+| `Proposal/` | Project proposal and Gantt charts |
+| `Semester 1 Deliverables/` | Final Semester 1 deliverables: poster, final presentation, Project Report, and Technical Paper |
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
 | `Hardware/` | Parts list, wiring references, hardware test scripts, integration test reports, and the KiCad custom-PCB project |
 | `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; the live Pi sign demo in `OpenCV/`; downloaded datasets are Git ignored |
