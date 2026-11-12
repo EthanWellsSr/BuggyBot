@@ -30,7 +30,8 @@ deck goes to `../Self-Driving-RC-Car.pptx`; `--final` writes
 `Semester 1 Deliverables/`. Commit the deck alongside the slide files.
 
 The script also puts each person's first and last name, taken from the file name,
-in small black text at the bottom right of their slides (not on the title slide),
+in small black text at the bottom right of their slides (not on the title slide or
+the team's shared closing slides in `NN-team.pptx`),
 so you don't need to add your name yourself. Check the assembled deck for slides
 that look different from their source file; images and charts from different
 files are renamed so they can't overwrite each other.
@@ -46,6 +47,7 @@ Slide order comes from the numeric prefix:
 | `2-alexis-perez.pptx` | Alexis Perez |
 | `3-ethan-bishop.pptx` | Ethan Bishop |
 | `4-abigail-duran.pptx` | Abigail Duran |
+| `5-team.pptx` | Shared closing slides (cost breakdown, future work); no name label |
 
 Add a person by dropping a new `NN-name.pptx` here; remove one by deleting their file.
 For weekly decks, each member's slide keeps the four sections: **Goals for the week**,

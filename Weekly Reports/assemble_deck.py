@@ -13,7 +13,8 @@ Run it (from inside the Weekly Reports folder) whenever slides change:
                                        #   ../Semester 1 Deliverables/Final Presentation.pptx
 
 Every slide from a person's file gets their first and last name, taken from the
-file name, in small black text at the bottom right. The title file is skipped.
+file name, in small black text at the bottom right. The shared files (0-title and
+the team's closing slides, NN-team.pptx) are skipped.
 
 Naming: the numeric prefix sets slide order (0-title, 1-ethan-wells, ...). Add a member
 by dropping a new NN-name.pptx into slides/; remove one by deleting their file.
@@ -34,6 +35,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SLIDES_DIR = os.path.join(HERE, "slides")
 OUT = os.path.join(HERE, "Self-Driving-RC-Car.pptx")
 FINAL_OUT = os.path.join(HERE, "..", "Semester 1 Deliverables", "Final Presentation.pptx")
+
+# files whose slides belong to the whole team and get no name label
+SHARED = {"title", "team"}
 
 # name label: small black text in the bottom-right corner of each person's slides
 LABEL_W, LABEL_H, LABEL_MARGIN = Inches(2.2), Inches(0.3), Inches(0.1)
@@ -92,10 +96,10 @@ def copy_slide(src_slide, dest):
 
 
 def owner_name(path):
-    """'1-ethan-wells.pptx' -> 'Ethan Wells'; None for the title file."""
+    """'1-ethan-wells.pptx' -> 'Ethan Wells'; None for the shared title and team files."""
     stem = os.path.splitext(os.path.basename(path))[0]
     words = stem.split("-")[1:]  # drop the numeric order prefix
-    if not words or words == ["title"]:
+    if not words or "-".join(words) in SHARED:
         return None
     return " ".join(w.capitalize() for w in words)
 

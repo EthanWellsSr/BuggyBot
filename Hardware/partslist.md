@@ -31,11 +31,12 @@ Wiring: current [Autonomous Car Schematic.png](Schematics/Autonomous%20Car%20Sch
 | AEDIKO TT motor kit (4 sets: 3–6 V dual-shaft 1:48 TT motors with wheels) | 1 | Propulsion and wheels | Have | 8.79 | 10/13 | Alexis Perez | [amazon](https://www.amazon.com/dp/B099Z85573) |
 | GL.iNet GL-SFT1200 Opal travel router (AC1200 dual-band, OpenWrt) | 1 | Portable Wi-Fi network for SSH to BuggyBot | Have | 39.99 | 10/27 | Ethan Wells | [amazon](https://a.co/d/084fiKs8) |
 | SHNITPWR 60W universal adjustable AC/DC power supply (3.5–12 V, 5 A max) | 1 | Bench power for the full sensor setup through the Cokoino HAT; set to 9 V (the DRV8833 limit is 10.8 V) | Have | 18.99 | 10/29 | Ethan Wells | [amazon](https://www.amazon.com/dp/B08BL55LMB) |
+| Energizer MAX 20,000 mAh power bank (UE20035C; 5 V, 15 W max, 2× USB-C + USB-A) | 1 | Semester 1 demo power for the CM5, camera, LCD, and travel router | Have | 29.99 | — | Ethan Bishop | [bestbuy](https://www.bestbuy.com/product/energizer-max-20000mah-15w-usb-c-3-port-universal-portable-battery-charger-power-bank-w-lcd-screen-for-smartphones-accessories-black/J36C4YXKKH) |
 | Steering servo | 1 | Steering — only needed for a servo-steered chassis | TBD | — | — | — | |
 | Battery | 1 | Power source; 7–12 V to feed the Cokoino HAT (for example, a 2S 18650 pack) | TBD | — | — | — | |
 | Battery charger | 1 | Charge the battery | TBD | — | — | — | |
 | Custom carrier PCB | 1 | Final CM5 carrier board; not manufactured (PCBWay quoted $583), stock CM5 IO Board used instead | Not buying | — | — | — | |
-| **Running total (priced items only)** | | | | **434.26** | | | |
+| **Running total (priced items only)** | | | | **464.25** | | | |
 
 Pricing may vary depending on current market; prices listed were from time of purchase.
 The Week 6 report records bench tests of the camera, IMU, LCD, and both motor
@@ -50,9 +51,10 @@ drive set and the AEDIKO TT motor kit. The TCRT5000 line sensors now have a
 reading script in `scripts/Line Sensors.py` (GPIO20 left, GPIO21 right). The
 GL.iNet travel router was ordered 10/27 and has been received. The SHNITPWR bench supply (ordered
 10/29) has been received and powered the 11/02 stress test at 9 V. The
-Semester 1 demo runs the CM5, camera, LCD, and travel router from Ethan
-Bishop's own battery, which is not a project purchase and is not listed above;
-the motor battery below is still TBD.
+Semester 1 demo runs the CM5, camera, LCD, and travel router from the Energizer
+power bank, which Ethan Bishop already owned; it is priced at Best Buy's listed
+price (no Amazon listing for this model was found). The power bank's 5 V USB
+output cannot feed the Cokoino HAT (7–12 V), so the motor battery is still TBD.
 
 **Cokoino HAT power** (from the vendor's
 [CKK0018 introduction and schematic](https://github.com/Cokoino/CKK0018)): the
