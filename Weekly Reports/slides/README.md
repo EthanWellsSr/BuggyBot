@@ -9,21 +9,31 @@ and you can all work at the same time.
 
 - **Edit only your own file** in this folder (e.g. Alexis edits `2-alexis-perez.pptx`).
   Edit it in PowerPoint like normal — text, images, whatever.
-- **Do not hand-edit** `../Self-Driving-RC-Car.pptx`. It is generated and your changes
-  there get overwritten.
+- **Do not hand-edit** `../Self-Driving-RC-Car.pptx` or
+  `../../Semester 1 Deliverables/Final Presentation.pptx`. Both are generated and
+  your changes there get overwritten.
 - Pull, edit your file, commit, push — as usual. No coordination needed.
 
-## Building the final deck
+## Building the deck
 
-Whoever is assembling the deck (usually the group leader, before submission) runs,
-from the `Weekly Reports` folder:
+Whoever is assembling the deck (usually the group leader, before submission) runs
+one of these from the `Weekly Reports` folder:
 
 ```
-python3 assemble_deck.py
+python3 assemble_deck.py           # weekly deck
+python3 assemble_deck.py --final   # Semester 1 final presentation
 ```
 
-That stitches every `slides/*.pptx`, in filename order, into
-`../Self-Driving-RC-Car.pptx`. Then commit that final deck alongside the slide files.
+Both stitch every `slides/*.pptx`, in filename order, into one deck. The weekly
+deck goes to `../Self-Driving-RC-Car.pptx`; `--final` writes
+[`Final Presentation.pptx`](../../Semester%201%20Deliverables/) in
+`Semester 1 Deliverables/`. Commit the deck alongside the slide files.
+
+The script also puts each person's first and last name, taken from the file name,
+in small black text at the bottom right of their slides (not on the title slide),
+so you don't need to add your name yourself. Check the assembled deck for slides
+that look different from their source file; images and charts from different
+files are renamed so they can't overwrite each other.
 
 ## Files / order
 
@@ -38,5 +48,8 @@ Slide order comes from the numeric prefix:
 | `4-abigail-duran.pptx` | Abigail Duran |
 
 Add a person by dropping a new `NN-name.pptx` here; remove one by deleting their file.
-Each member's slide keeps the four sections: **Goals for the week**, **Progress for the
-week**, **Goals for next week**, **Hours spent on progress**.
+For weekly decks, each member's slide keeps the four sections: **Goals for the week**,
+**Progress for the week**, **Goals for next week**, **Hours spent on progress**. The
+Semester 1 final presentation (built 11/12) used narrative slides instead, so the files
+here currently hold final-presentation content; earlier weekly versions are in Git
+history and in each `Week N/` deck.
