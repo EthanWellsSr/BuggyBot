@@ -7,7 +7,7 @@ reports are not stored here.
 | Deliverable | Due | Files | Status |
 | --- | --- | --- | --- |
 | Project poster | 11/05 | `Senior Project Poster Semester 1_FinalVersion.pdf`, `.png` | Final |
-| Final presentation | — | `Final Presentation.pptx` | In progress |
+| Final presentation | — | `Final Presentation.pptx` | Built 11/12 |
 | Project Report | 11/19, 11:59 pm | — | Not started |
 | Technical Paper | 11/19, 11:59 pm | — | Not started |
 

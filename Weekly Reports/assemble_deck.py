@@ -22,6 +22,7 @@ import argparse
 import copy
 import glob
 import os
+import re
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
@@ -42,11 +43,23 @@ LABEL_SIZE = Pt(11)
 RNS = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
 
 
+def match_layout(name, dest):
+    """Find the output deck's layout for a source layout name.
+
+    PowerPoint names a copied layout "1_Title and Content", which the output deck
+    may not have. Falling back to the last layout picked "Vertical Title and
+    Text" and turned every title and bullet sideways, so strip that prefix and
+    fall back to "Title and Content" instead.
+    """
+    by_name = {l.name: l for l in dest.slide_layouts}
+    base = re.sub(r"^\d+_", "", name)
+    return by_name.get(name) or by_name.get(base) or by_name.get("Title and Content") or dest.slide_layouts[0]
+
+
 def copy_slide(src_slide, dest):
     """Append a deep copy of src_slide (all shapes + images) to dest presentation."""
     # match the source slide's layout by name so placeholders inherit correct position/format
-    lname = src_slide.slide_layout.name
-    layout = next((l for l in dest.slide_layouts if l.name == lname), dest.slide_layouts[-1])
+    layout = match_layout(src_slide.slide_layout.name, dest)
     new = dest.slides.add_slide(layout)
 
     # drop the empty placeholders the layout auto-adds; we bring our own shapes over
@@ -130,6 +143,33 @@ def dedupe_media(dest):
         part.partname = PackURI(new)
 
 
+def dedupe_parts(dest):
+    """Rename any other part whose name collides with one from another deck.
+
+    The same problem as dedupe_media, for charts and their embedded workbooks and
+    style parts: two people's ppt/charts/chart1.xml would both be saved under one
+    zip name, and one chart would replace the other. The first part keeps its
+    name; each later duplicate gets the next number no other part uses.
+    """
+    parts = list(dest.part.package.iter_parts())
+    taken = {str(p.partname).lower() for p in parts}
+    seen = set()
+    for part in parts:
+        name = str(part.partname)
+        if name.lower() not in seen:
+            seen.add(name.lower())
+            continue
+        base, ext = name.rsplit(".", 1)
+        stem = base.rstrip("0123456789")
+        n = 1
+        while ("%s%d.%s" % (stem, n, ext)).lower() in taken:
+            n += 1
+        new = "%s%d.%s" % (stem, n, ext)
+        taken.add(new.lower())
+        seen.add(new.lower())
+        part.partname = PackURI(new)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--final", action="store_true",
@@ -154,6 +194,7 @@ def main():
                 add_name_label(dest.slides[-1], name, dest.slide_width, dest.slide_height)
 
     dedupe_media(dest)
+    dedupe_parts(dest)
 
     dest.save(out)
     print("assembled %d slides from %d files -> %s"
