@@ -51,8 +51,8 @@ All seven stages passed on the Cokoino HAT, powered from the Pi with no
 batteries and the wheels off the ground: I²C found the LCD (0x3E, backlight
 0x60) and IMU (0x69), both line sensors toggled, the pipeline read a card at
 98% with 1.9 ms mean inference and 36 fps, and the 120 s stress run held 30 fps
-with no I²C errors and no under-voltage. Battery power and a loaded drivetrain
-are still untested. See the [report](integration_reports/integration_20261028_192332.json).
+with no I²C errors and no under-voltage. Motors on battery power and a loaded
+drivetrain are still untested. See the [report](integration_reports/integration_20261028_192332.json).
 
 ### Stress test result (11/02)
 
@@ -62,8 +62,8 @@ ground and motors 1 and 2 reversing every second at 60%. The camera held
 30.0 fps against a 30.2 fps baseline, the throttle flags stayed `0x0`, the CPU
 rose from 38.9 to 42.8 °C, and there were no IMU, LCD, line-sensor, motor, or
 camera errors. No implausible IMU readings or line-sensor toggles were counted.
-Battery power and
-a loaded drivetrain are still untested. See the
+Motors on battery
+power and a loaded drivetrain are still untested. See the
 [report](integration_reports/stress_20261102_151702.json).
 
 ### Power
@@ -79,8 +79,11 @@ a loaded drivetrain are still untested. See the
   the test speed near the 60% default.
 - **One 5 V source at a time:** power the IO board from its USB-C or from the
   HAT, never both.
-- **Demo without motors:** a 5 V USB-C power bank can run the CM5 (camera, LCD,
-  sign demo) and the travel router. The router is rated under 6 W; keep the
-  total under the bank's rating and check `vcgencmd get_throttled` reads `0x0`.
+- **Demo without motors:** the Semester 1 demo runs from Ethan Bishop's own
+  battery (not a project purchase), which powers the CM5 (camera, LCD, sign
+  demo) and the travel router. That makes the demo mobile and lets the team SSH
+  into the Pi at school through the router. The router is rated under 6 W; keep
+  the total under the battery's rating and check `vcgencmd get_throttled` reads
+  `0x0`.
 
 Lift the wheels off the ground before running the motor test.

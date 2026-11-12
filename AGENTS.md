@@ -123,7 +123,9 @@ work that is safe to complete.
   `scripts/motor_hat_test.py` drives either motor HAT (Cokoino default).
   Nothing drives the vehicle yet. `scripts/Line Sensors.py` reads
   the TCRT5000 course-line sensors on GPIO20 and GPIO21. The CM5 Lite has no
-  onboard Wi-Fi and uses a USB adapter. BuggyBot runs Raspberry Pi OS Lite,
+  onboard Wi-Fi and uses a USB adapter. For the Semester 1 demo, Ethan Bishop's
+  own battery powers the CM5, camera, LCD, and travel router (motors on
+  battery are untested). BuggyBot runs Raspberry Pi OS Lite,
   Debian 13 "trixie" (13.7; headless, no desktop), so view camera output over a network
   stream. Treat driver reliability as unresolved
   unless current device evidence confirms it.

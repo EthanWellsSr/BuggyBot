@@ -26,7 +26,9 @@ spring scope is the autonomous vehicle.
   120 s stress run with everything at once), powered from the Pi with the wheels
   off the ground. On 11/02 the 120 s stress run passed again with the motors on
   real power (a 9 V bench supply into the Cokoino HAT): no under-voltage, no I²C
-  or line-sensor noise, and 30 fps. Battery power and a loaded drivetrain are
+  or line-sensor noise, and 30 fps. For the Semester 1 demo, Ethan Bishop's own
+  battery runs the CM5, camera, LCD, and travel router, so the demo is mobile
+  and reachable over SSH. Motors on battery power and a loaded drivetrain are
   untested. Reports are
   in [`Hardware/integration_reports/`](Hardware/integration_reports/). Nothing
   drives the vehicle yet.

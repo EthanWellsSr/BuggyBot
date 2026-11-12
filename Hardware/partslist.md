@@ -49,7 +49,10 @@ only be needed for a servo-steered chassis. Its motors may replace the DIANN
 drive set and the AEDIKO TT motor kit. The TCRT5000 line sensors now have a
 reading script in `scripts/Line Sensors.py` (GPIO20 left, GPIO21 right). The
 GL.iNet travel router was ordered 10/27 and has been received. The SHNITPWR bench supply (ordered
-10/29) has been received and powered the 11/02 stress test at 9 V.
+10/29) has been received and powered the 11/02 stress test at 9 V. The
+Semester 1 demo runs the CM5, camera, LCD, and travel router from Ethan
+Bishop's own battery, which is not a project purchase and is not listed above;
+the motor battery below is still TBD.
 
 **Cokoino HAT power** (from the vendor's
 [CKK0018 introduction and schematic](https://github.com/Cokoino/CKK0018)): the
