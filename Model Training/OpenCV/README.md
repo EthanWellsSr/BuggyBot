@@ -98,7 +98,8 @@ rm -r ~/buggybot_sign_demo
   mistakes, but they don't fix the cause.
 - Thresholds were tuned in one room under one lighting setup.
 - Speed limits 30 and 35 have not been tested live.
-- Distance and viewing angle have not been measured. CM5 inference averaged
+- Distance and viewing angle have not been measured. Measuring recognition
+  distance was the class's feedback on the final presentation. CM5 inference averaged
   1.9 ms per crop (36 fps) in the 10/28 integration test.
 
 See section 8 of the troubleshooting guide for details.

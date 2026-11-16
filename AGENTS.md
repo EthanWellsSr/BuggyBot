@@ -89,7 +89,8 @@ work that is safe to complete.
   historical intent; check the current code and README before describing
   implementation.
 - `Semester 1 Deliverables/` — final Semester 1 submissions (poster, final
-  presentation, Project Report, Technical Paper); see its `README.md`. The
+  presentation, Project Report; the Technical Paper is a Semester 2
+  deliverable); see its `README.md`. The
   Project Report is written in `Project Report.md` and rendered to DOCX and PDF
   by `build_paper.py`; edit the Markdown, not the generated files.
   Individual self-analysis reports stay out of the repository (the local

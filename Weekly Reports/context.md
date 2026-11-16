@@ -101,7 +101,7 @@ Historical proposals and frozen weekly deliverables are reference material.
   measured result and state its test set. A crop-based score does not measure
   BuggyBot's live camera pipeline.
 - The live sign demo (`Model Training/OpenCV/pi_sign_detection_demo.py`) finds
-  signs automatically and scored 60/60 in one room; distance and angle are
+  signs automatically and scored 60/60 in two rooms; distance and angle are
   unmeasured. CM5 inference averaged 1.9 ms per crop (36 fps) in the 10/28
   integration test, which passed all seven stages on Pi power with no load. The PCB
   design and manufacturing files are complete (11/03), but PCBWay quoted $583, so
