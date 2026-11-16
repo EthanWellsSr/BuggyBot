@@ -108,7 +108,7 @@ work that is safe to complete.
   camera photos of the printed sign cards (about 30 distinct setups, 10
   classes), the combined model scored 100%; those crops were placed by hand. In
   the live Pi sign demo's final test (10 classes, 3 times each over two runs,
-  one room), 60 of 60 LCD outputs were correct; distance, angle, and other
+  two rooms), 60 of 60 LCD outputs were correct; distance, angle, and other
   lighting are still unmeasured. CM5 inference averaged 1.9 ms per crop
   (36 fps) in the 10/28 integration test.
 - `Hardware/` — parts list, wiring schematics (`Schematics/`), test scripts, and

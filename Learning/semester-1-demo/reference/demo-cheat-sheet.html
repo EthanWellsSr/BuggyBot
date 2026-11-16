@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semester 1 Demo Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="sheet">
+<main>
+<p class="kicker">BuggyBot · Reference</p>
+<h1>Semester 1 demo cheat sheet</h1>
+<p class="lede">Live recognition of printed US traffic signs on a Raspberry Pi CM5. The demo doesn't drive. Sources: the <a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Model%20Training/OpenCV/README.md">demo README</a> and <a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Model%20Training/OpenCV/pi_sign_detection_demo.py">source</a>.</p>
+
+<div class="cols">
+<section>
+<h3>Pipeline (each frame while searching)</h3>
+<ol class="steps">
+  <li><strong>Capture</strong>: 1280×720 color frame from Camera Module 3.</li>
+  <li><strong>Propose</strong>: OpenCV marks colored pixels and edges, traces contours, and keeps up to 8 plausibly sized, roughly square regions.</li>
+  <li><strong>Classify</strong>: square crop (skipped if under 120 px), resized to 32×32 RGB, passed to the CNN, which returns a label and a confidence.</li>
+  <li><strong>Reject</strong>: keep only if confidence ≥ 0.85 and the color and shape match the label. Drop matches inside other matches.</li>
+  <li><strong>Confirm</strong>: same best label on 3 consecutive frames.</li>
+  <li><strong>Output</strong>: LCD shows the label and confidence for 3 s, then goes back to searching. Stream at <code>http://buggybot.local:8000</code>.</li>
+</ol>
+</section>
+
+<section>
+<h3>Shape check per sign color</h3>
+<table>
+  <tr><th>Color</th><th>Signs</th><th>Expected outline</th></tr>
+  <tr><td>Red</td><td>stop</td><td>Solid octagon</td></tr>
+  <tr><td>Yellow</td><td>school</td><td>Pentagon</td></tr>
+  <tr><td>Yellow</td><td>pedestrianCrossing, addedLane, merge, signalAhead</td><td>Diamond</td></tr>
+  <tr><td>White</td><td>keepRight, speed limits 25/30/35/45/65</td><td>Rectangle with ≥ 2 dark shapes inside</td></tr>
+</table>
+<p class="meta">The LCD backlight matches the sign color: red, amber, or white. It's green while searching.</p>
+</section>
+
+<section>
+<h3>Hardware in the demo</h3>
+<table>
+  <tr><td>Compute</td><td>Raspberry Pi CM5 (4 GB, Lite) on the CM5 IO Board, NVMe SSD, Raspberry Pi OS Lite (no desktop)</td></tr>
+  <tr><td>Camera</td><td>Camera Module 3</td></tr>
+  <tr><td>Display</td><td>Waveshare RGB1602 LCD, I²C</td></tr>
+  <tr><td>Network</td><td>USB Wi-Fi and a travel router, for SSH and the stream</td></tr>
+  <tr><td>Power</td><td>20,000 mAh USB power bank, 15 W total</td></tr>
+  <tr><td>Unused</td><td>Motor board, line sensors, motion sensor (for spring)</td></tr>
+</table>
+</section>
+
+<section>
+<h3>Numbers</h3>
+<table>
+  <tr><td class="num">12</td><td>Classes the model knows. 10 are tested, because speed limits 30 and 35 aren't on the course.</td></tr>
+  <tr><td class="num">621 KB</td><td>Model file (<code>combined_model.tflite</code>, float32)</td></tr>
+  <tr><td class="num">99.31%</td><td>On 1,016 held-out LISA and Mapillary road-sign crops</td></tr>
+  <tr><td class="num">329/329</td><td>On hand-placed camera crops of the printed cards</td></tr>
+  <tr><td class="num">60/60</td><td>Live LCD outputs in the final test (10 classes × 3, two runs, two rooms)</td></tr>
+  <tr><td class="num">1.9 ms</td><td>Model time per crop on the CM5</td></tr>
+  <tr><td>Untested</td><td>Distance, viewing angle, other lighting</td></tr>
+</table>
+</section>
+
+<section>
+<h3>Glossary</h3>
+<dl class="glossary">
+  <dt>Classifier</dt><dd>A model that assigns one of a fixed set of labels to the image it's given. It can't say "none of these."</dd>
+  <dt>Detector</dt><dd>A system that finds where objects are in a full image. BuggyBot builds one from proposals, a classifier, and checks.</dd>
+  <dt>Proposal</dt><dd>A region of the frame that OpenCV flags as possibly a sign, before any model sees it.</dd>
+  <dt>Contour</dt><dd>The traced outline of a blob of marked pixels.</dd>
+  <dt>Confidence</dt><dd>The classifier's score (0–1) for its top label. It measures certainty about <em>which</em> sign, not <em>whether</em> it's a sign.</dd>
+  <dt>CNN</dt><dd>Convolutional neural network: a model that learns visual patterns from labeled images.</dd>
+  <dt>LiteRT</dt><dd>Google's on-device runtime for <code>.tflite</code> models (formerly TensorFlow Lite).</dd>
+  <dt>CM5</dt><dd>Raspberry Pi Compute Module 5: a Raspberry Pi 5 as a plug-in module, used with a carrier board for its ports.</dd>
+  <dt>Confirmation</dt><dd>Requiring the same top label on 3 consecutive frames before showing it.</dd>
+</dl>
+</section>
+</div>
+
+<nav class="lessons"><a href="../lessons/0001-what-the-demo-does.html">← Lesson 1: the demo end to end</a><span></span></nav>
+</main>
+</body>
+</html>

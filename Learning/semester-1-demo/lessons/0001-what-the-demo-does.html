@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 1 · The Semester 1 Demo, End to End</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+
+<p class="kicker">BuggyBot · Lesson 1</p>
+<h1>The Semester 1 demo, end to end</h1>
+<p class="lede">You hold a printed traffic sign in front of a small computer with a camera. A second later its LCD names the sign. This lesson explains how one camera frame becomes that answer, and how much the results prove.</p>
+<p class="meta">About 10 minutes · Assumes basic software and computer engineering, nothing about this project</p>
+
+<h2>What BuggyBot is, and what this demo is not</h2>
+<p>BuggyBot is a senior project (CENG 4265, University of Houston–Clear Lake) to build a small car that follows a course and obeys traffic signs. The work is split in two. <strong>Fall</strong> is a stationary sign-recognition system. <strong>Spring</strong> is the moving car.<sup><a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/README.md">[1]</a></sup></p>
+<div class="key">
+  <strong>The one-sentence version</strong>
+  The demo recognizes 10 kinds of printed US traffic signs from a live camera and shows the result on an LCD. It does not drive: no motors run, and no line following happens.
+</div>
+
+<h2>The hardware</h2>
+<figure>
+<svg viewBox="0 0 680 230" role="img" aria-label="Hardware: camera into CM5, CM5 to LCD and to a router that serves a laptop browser, power bank powers everything" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="13">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker></defs>
+  <g style="stroke:var(--muted);fill:none;stroke-width:1.5">
+    <line x1="150" y1="70" x2="246" y2="70" marker-end="url(#a)"/>
+    <line x1="430" y1="70" x2="526" y2="70" marker-end="url(#a)"/>
+    <line x1="340" y1="110" x2="340" y2="146" marker-end="url(#a)"/>
+    <line x1="430" y1="175" x2="526" y2="175" marker-end="url(#a)"/>
+  </g>
+  <g style="stroke:var(--ink);stroke-width:1.2">
+    <rect x="10" y="40" width="140" height="60" rx="4" style="fill:var(--panel)"/>
+    <rect x="250" y="30" width="180" height="80" rx="4" style="fill:var(--panel);stroke:var(--accent);stroke-width:2"/>
+    <rect x="530" y="40" width="140" height="60" rx="4" style="fill:var(--panel)"/>
+    <rect x="250" y="150" width="180" height="50" rx="4" style="fill:var(--panel)"/>
+    <rect x="530" y="150" width="140" height="50" rx="4" style="fill:var(--panel)"/>
+  </g>
+  <g style="fill:var(--ink)" text-anchor="middle">
+    <text x="80" y="66" font-weight="600">Camera Module 3</text><text x="80" y="84" style="fill:var(--muted)">1280×720 frames</text>
+    <text x="340" y="58" font-weight="600">Raspberry Pi CM5</text><text x="340" y="76" style="fill:var(--muted)">on the CM5 IO Board</text><text x="340" y="94" style="fill:var(--muted)">runs the whole pipeline</text>
+    <text x="600" y="66" font-weight="600">RGB1602 LCD</text><text x="600" y="84" style="fill:var(--muted)">16×2 text, over I²C</text>
+    <text x="340" y="171" font-weight="600">USB Wi-Fi + router</text><text x="340" y="189" style="fill:var(--muted)">SSH and video stream</text>
+    <text x="600" y="171" font-weight="600">Laptop browser</text><text x="600" y="189" style="fill:var(--muted)">watches the stream</text>
+  </g>
+  <text x="10" y="222" style="fill:var(--muted)" font-size="12">Power: a 20,000 mAh USB power bank (15 W max) runs the CM5, camera, LCD, and router, so the demo is portable.</text>
+</svg>
+<figcaption>Everything runs on the Pi. The laptop only displays. Sources: <a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/README.md">project README</a>, <a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Hardware/README.md">Hardware README</a>.</figcaption>
+</figure>
+<p>The <strong>CM5</strong> (Compute Module 5) is a Raspberry Pi 5 packaged as a plug-in module. The IO Board supplies its ports.<sup><a href="https://www.raspberrypi.com/documentation/computers/compute-module.html">[2]</a></sup> It runs Raspberry Pi OS Lite with no desktop, which is why you watch the camera in a browser rather than on a screen attached to the Pi. A motor board, line sensors, and a motion sensor are wired to the Pi for spring, but the demo does not use them.</p>
+
+<h2>One frame through the pipeline</h2>
+<p>The camera delivers frames continuously. While the demo is searching, each frame goes through these steps:<sup><a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Model%20Training/OpenCV/README.md">[3]</a></sup></p>
+
+<figure>
+<svg viewBox="0 0 680 200" role="img" aria-label="Pipeline: capture, propose, classify, reject, confirm, output" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="13">
+  <defs><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker></defs>
+  <g style="stroke:var(--muted);fill:none;stroke-width:1.5">
+    <line x1="200" y1="50" x2="236" y2="50" marker-end="url(#b)"/>
+    <line x1="440" y1="50" x2="476" y2="50" marker-end="url(#b)"/>
+    <path d="M580,82 L580,104 L100,104 L100,122" marker-end="url(#b)"/>
+    <line x1="200" y1="155" x2="236" y2="155" marker-end="url(#b)"/>
+    <line x1="440" y1="155" x2="476" y2="155" marker-end="url(#b)"/>
+  </g>
+  <g style="stroke:var(--ink);stroke-width:1.2;fill:var(--panel)">
+    <rect x="0" y="18" width="200" height="64" rx="4"/>
+    <rect x="240" y="18" width="200" height="64" rx="4"/>
+    <rect x="480" y="18" width="200" height="64" rx="4" style="stroke:var(--accent);stroke-width:2"/>
+    <rect x="0" y="125" width="200" height="64" rx="4" style="stroke:var(--accent);stroke-width:2"/>
+    <rect x="240" y="125" width="200" height="64" rx="4"/>
+    <rect x="480" y="125" width="200" height="64" rx="4"/>
+  </g>
+  <g text-anchor="middle" style="fill:var(--ink)">
+    <text x="100" y="45" font-weight="600">1 · Capture</text><text x="100" y="64" style="fill:var(--muted)">one camera frame</text>
+    <text x="340" y="45" font-weight="600">2 · Propose</text><text x="340" y="64" style="fill:var(--muted)">OpenCV finds ≤ 8 regions</text>
+    <text x="580" y="45" font-weight="600">3 · Classify</text><text x="580" y="64" style="fill:var(--muted)">CNN labels each region</text>
+    <text x="100" y="152" font-weight="600">4 · Reject</text><text x="100" y="171" style="fill:var(--muted)">confidence + shape checks</text>
+    <text x="340" y="152" font-weight="600">5 · Confirm</text><text x="340" y="171" style="fill:var(--muted)">same sign 3 frames in a row</text>
+    <text x="580" y="152" font-weight="600">6 · Output</text><text x="580" y="171" style="fill:var(--muted)">LCD for 3 s + video stream</text>
+  </g>
+</svg>
+<figcaption>Steps 3 and 4 (outlined in red) are the heart of the demo: a neural network guesses, then plain geometry checks the guess.</figcaption>
+</figure>
+
+<ol class="steps">
+  <li><strong>Capture.</strong> The Pi reads a 1280×720 color frame from the camera.</li>
+  <li><strong>Propose.</strong> <a href="https://docs.opencv.org/4.x/d4/d73/tutorial_py_contours_begin.html">OpenCV</a>, a classic image-processing library, finds regions that <em>could</em> be signs. It marks pixels that are strongly colored or lie on a sharp edge, then traces the outlines of those blobs (<em>contours</em>). It keeps blobs that are a plausible size and roughly square, and passes at most 8 on.</li>
+  <li><strong>Classify.</strong> Each region is cut out as a square, shrunk to 32×32 pixels, and given to a small <a href="https://cs231n.github.io/convolutional-networks/">convolutional neural network</a> (CNN), a model that learns visual patterns from labeled examples. It returns one of 12 sign labels and a <em>confidence</em> between 0 and 1. The model is a 621 KB file run with <a href="https://ai.google.dev/edge/litert">LiteRT</a>, Google's lightweight runtime for running models on small devices.</li>
+  <li><strong>Reject.</strong> A guess survives only if its confidence is at least 0.85 <em>and</em> the region has the right color and outline for that sign. For example, a stop guess must be a solid red octagon.</li>
+  <li><strong>Confirm.</strong> The best surviving guess must be the same sign on 3 frames in a row. A single blurry frame as you move the card can't reach the display.</li>
+  <li><strong>Output.</strong> The LCD shows the sign name and confidence, with its backlight in the sign's color (red, amber, or white). The demo holds that result for 3 seconds without searching, then goes back to searching with a green backlight. The browser stream draws boxes around each match.</li>
+</ol>
+
+<figure>
+<div class="pairs">
+  <span class="pairs-head">Square cut from the camera frame</span><span></span><span class="pairs-head">Shrunk to 32×32 pixels</span>
+  <img src="../assets/img/stop.png" alt="Square region of a camera frame showing the printed stop card"><span class="pairs-arrow">→</span><img src="../assets/img/stop_32.png" class="pix" alt="The same stop region shrunk to 32 by 32 pixels">
+  <img src="../assets/img/school.png" alt="Square region of a camera frame showing the printed school card"><span class="pairs-arrow">→</span><img src="../assets/img/school_32.png" class="pix" alt="The same school region shrunk to 32 by 32 pixels">
+  <img src="../assets/img/speedLimit25.png" alt="Square region of a camera frame showing the printed speed limit 25 card"><span class="pairs-arrow">→</span><img src="../assets/img/speedLimit25_32.png" class="pix" alt="The same speed limit 25 region shrunk to 32 by 32 pixels">
+</div>
+<figcaption>Step 3 for three real signs. Left: a square region cut from a BuggyBot camera frame. Right: that region shrunk to 32×32 pixels, enlarged here so you can see the individual pixels. The neural network sees only the 32×32 image, so this is all the detail it has to tell, say, a 25 from a 45. In the live demo, OpenCV picks the square (step 2). These examples come from the project's <a href="https://github.com/EthanWellsSr/BuggyBot/tree/main/Sign%20Cards">sign-card test set</a>, where the squares were placed by hand.</figcaption>
+</figure>
+
+<h2>Why the model isn't enough on its own</h2>
+<p>The CNN is a <strong>classifier</strong>: given a picture, it answers <em>which of my 12 signs is this?</em> It has no answer for <em>none of them</em>, so it always picks one. Show it a red hand and it may say "stop" with high confidence.<sup><a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Model%20Training/OpenCV/pi_sign_detection_demo.py">[4]</a></sup></p>
+<p>It also can't search a whole frame for signs. That is the job of a <strong>detector</strong>. BuggyBot builds one from parts. OpenCV proposes regions (step 2), the classifier labels them (step 3), and color and shape rules throw out labels that can't be true (step 4). Each rule in step 4 was added after a specific false positive in testing, such as skin, a shirt, a wooden stick, or one arrow cut from a larger sign.<sup><a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Model%20Training/OpenCV/OpenCV_troubleshooting_guide.md">[5]</a></sup></p>
+<div class="key">
+  <strong>The idea to keep</strong>
+  Confidence is the model's certainty about <em>which sign</em> this is. It says nothing about <em>whether</em> it is a sign. Steps 2 and 4 handle the second question.
+</div>
+
+<h2>What the results show, and what they don't</h2>
+<table>
+  <tr><th>Test</th><th>Result</th><th>What it covers</th></tr>
+  <tr><td>Model on held-out dataset images</td><td class="num">99.31%</td><td>1,016 crops of real road signs from two public datasets (LISA and Mapillary). Not BuggyBot's camera.</td></tr>
+  <tr><td>Model on BuggyBot camera crops</td><td class="num">329 / 329</td><td>Photos of the printed cards, about 30 setups, 10 classes, three lighting conditions. The crops were placed by hand, so OpenCV wasn't tested.</td></tr>
+  <tr><td>Live demo, final test</td><td class="num">60 / 60</td><td>The full pipeline: 10 classes, 3 times each, over two runs, in two different rooms. Counts correct LCD outputs.</td></tr>
+  <tr><td>Speed on the CM5</td><td class="num">1.9 ms</td><td>Average model time per crop, in the 10/28 integration test.</td></tr>
+</table>
+<p>Only 10 of the 12 classes are tested because speed limits 30 and 35 aren't used on the course.<sup><a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Model%20Training/README.md">[6]</a></sup> <strong>Not yet measured:</strong> distance, viewing angle, and lighting beyond the two rooms tested. A fair summary is that the full system worked every time under demo conditions, and its limits haven't been tested yet.</p>
+
+<hr>
+
+<h2>Check yourself</h2>
+<p>Answer from memory before scrolling back. Each answer locks on the first click.</p>
+<div class="quiz">
+  <div class="q" data-answer="1" data-why="Fall is stationary sign recognition. No motors run in the demo; driving and line following are the spring work.">
+    <div class="q-prompt">1. What does BuggyBot do in the Semester 1 demo?</div>
+    <div class="q-opts"><button>Drives itself around the course</button><button>Recognizes printed traffic signs live</button><button>Follows a taped floor line</button><button>Avoids obstacles in its path</button></div>
+  </div>
+  <div class="q" data-answer="3" data-why="A classifier only labels the image it is given, and it always picks one of its 12 labels. OpenCV has to find candidate regions first.">
+    <div class="q-prompt">2. Why does OpenCV run before the neural network?</div>
+    <div class="q-opts"><button>The network needs grayscale input images</button><button>OpenCV makes the network run faster</button><button>The camera only outputs edge maps</button><button>The network only labels given crops</button></div>
+  </div>
+  <div class="q" data-answer="0" data-why="0.91 passes the 0.85 confidence threshold. The shape check stops it: a hand isn't a solid red octagon.">
+    <div class="q-prompt">3. The network labels a red hand "stop" with confidence 0.91. What keeps it off the LCD?</div>
+    <div class="q-opts"><button>The color and shape check</button><button>The confidence threshold of 0.85</button><button>The LCD ignores red labels</button><button>The network retrains on it</button></div>
+  </div>
+  <div class="q" data-answer="2" data-why="A sign must be the best match on 3 consecutive frames, so a one-frame misread (a blurred card moving into view) resets the count instead of reaching the LCD.">
+    <div class="q-prompt">4. Why must the same sign appear on 3 frames in a row?</div>
+    <div class="q-opts"><button>So the camera exposure can settle</button><button>So the LCD can fully refresh</button><button>So that one-frame misreads are dropped</button><button>So the video stream can buffer</button></div>
+  </div>
+  <div class="q" data-answer="1" data-why="Speed (1.9 ms per crop), printed-card crops (329/329), and live LCD output (60/60) were all measured. Distance, angle, and other lighting were not.">
+    <div class="q-prompt">5. Which of these has <em>not</em> been measured yet?</div>
+    <div class="q-opts"><button>Inference time for each crop</button><button>Accuracy at different viewing distances</button><button>Accuracy on printed card crops</button><button>Correct outputs on the LCD</button></div>
+  </div>
+</div>
+
+<div class="note">
+  <strong>Say it back.</strong> Without looking, explain the six steps to someone in under a minute, and say why steps 2 and 4 exist. If you get stuck, that's the part to reread.
+</div>
+
+<h2>Read next</h2>
+<p><strong>Primary source:</strong> the <a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Model%20Training/OpenCV/README.md">OpenCV sign demo README</a>. It's short, it's the team's own description of the demo, and it covers how to run it. For the reasoning behind every rejection rule, read the <a href="https://github.com/EthanWellsSr/BuggyBot/blob/main/Model%20Training/OpenCV/OpenCV_troubleshooting_guide.md">troubleshooting guide</a>.</p>
+<p>Keep the <a href="../reference/demo-cheat-sheet.html">demo cheat sheet</a> open for the numbers and terms.</p>
+<p class="note">Anything unclear? Ask your agent (run <code>/teach</code> in the BuggyBot repo) or a team member. Follow-up questions are the fastest way to fill gaps.</p>
+
+<nav class="lessons"><span>Lesson 1 of the Semester 1 demo course</span><a href="../reference/demo-cheat-sheet.html">Cheat sheet →</a></nav>
+</main>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

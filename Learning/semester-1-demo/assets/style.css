@@ -1,0 +1,116 @@
+/* Shared stylesheet for the Semester 1 demo lessons and reference sheets. */
+:root {
+  --ink: #1d1d1b;
+  --muted: #5f5d58;
+  --rule: #d9d5cc;
+  --paper: #fffef9;
+  --panel: #f5f2ea;
+  --accent: #9b2c1f;      /* stop-sign red, used sparingly */
+  --amber: #b7791f;
+  --ok: #2f6b3a;
+  --bad: #9b2c1f;
+  --measure: 40rem;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e9e6de; --muted: #a8a49a; --rule: #3a3833; --paper: #191816;
+    --panel: #23221f; --accent: #e0705f; --amber: #e0a94a; --ok: #7fbf8a; --bad: #e0705f;
+  }
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--serif); line-height: 1.55;
+}
+main { max-width: var(--measure); margin: 0 auto; padding: 3rem 1rem 4rem; }
+h1 { font-size: 2rem; line-height: 1.15; font-weight: 600; margin: 0 0 .4rem; }
+h2 { font-size: 1.25rem; font-weight: 600; margin: 2.4rem 0 .6rem; }
+h3 { font-size: 1rem; font-family: var(--sans); text-transform: uppercase;
+     letter-spacing: .06em; color: var(--muted); margin: 1.6rem 0 .4rem; }
+p, li { margin: 0 0 .8rem; }
+a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 2px; }
+code { font-family: var(--mono); font-size: .82em; background: var(--panel);
+       padding: .05em .3em; border-radius: 3px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+.kicker { font-family: var(--sans); font-size: .75rem; letter-spacing: .1em;
+          text-transform: uppercase; color: var(--accent); margin-bottom: .6rem; }
+.lede { font-size: 1.15rem; color: var(--muted); margin-bottom: 2rem; }
+.meta { font-family: var(--sans); font-size: .78rem; color: var(--muted); }
+
+/* Callouts */
+.key { border-left: 3px solid var(--accent); padding: .2rem 0 .2rem 1rem; margin: 1.4rem 0; }
+.key strong:first-child { font-family: var(--sans); font-size: .8rem; letter-spacing: .05em;
+                          text-transform: uppercase; color: var(--accent); display: block; }
+.note { background: var(--panel); padding: .9rem 1.1rem; border-radius: 4px;
+        font-size: .92rem; margin: 1.4rem 0; }
+
+/* Figures */
+figure { margin: 1.8rem 0; }
+figure svg { width: 100%; height: auto; display: block; }
+figcaption { font-family: var(--sans); font-size: .78rem; color: var(--muted); margin-top: .5rem; }
+.pix { image-rendering: pixelated; }
+/* Before/after image pairs: before, arrow, after on each row */
+.pairs { display: grid; grid-template-columns: 1fr auto 1fr; gap: .8rem 1rem;
+         align-items: center; justify-items: center; max-width: 26rem; }
+.pairs img { width: 100%; max-width: 160px; aspect-ratio: 1; border: 1px solid var(--rule); }
+.pairs-head { font-family: var(--sans); font-size: .72rem; letter-spacing: .05em;
+              text-transform: uppercase; color: var(--muted); text-align: center; }
+.pairs-arrow { font-family: var(--sans); color: var(--muted); font-size: 1.2rem; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: 1rem 0 1.4rem; }
+th, td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--sans); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+     color: var(--muted); font-weight: 600; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Numbered pipeline steps */
+ol.steps { counter-reset: s; list-style: none; padding: 0; }
+ol.steps > li { counter-increment: s; position: relative; padding-left: 2.2rem; margin-bottom: 1rem; }
+ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: .1rem;
+  width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--ink); color: var(--paper);
+  font-family: var(--sans); font-size: .75rem; display: grid; place-items: center; }
+
+/* Quiz component (assets/quiz.js) */
+.quiz { margin: 1.5rem 0; }
+.q { border-top: 1px solid var(--rule); padding: 1.1rem 0 .4rem; }
+.q-prompt { font-weight: 600; margin-bottom: .6rem; }
+.q-opts { display: grid; gap: .45rem; }
+.q-opts button { font: inherit; font-size: .95rem; text-align: left; color: var(--ink);
+  background: transparent; border: 1px solid var(--rule); border-radius: 4px;
+  padding: .55rem .8rem; cursor: pointer; }
+.q-opts button:hover:not(:disabled) { border-color: var(--ink); }
+.q-opts button:disabled { cursor: default; }
+.q-opts button.right { border-color: var(--ok); color: var(--ok); font-weight: 600; }
+.q-opts button.wrong { border-color: var(--bad); color: var(--bad); text-decoration: line-through; }
+.q-why { font-size: .9rem; color: var(--muted); margin-top: .6rem; display: none; }
+.q.done .q-why { display: block; }
+.q-score { font-family: var(--sans); font-size: .85rem; color: var(--muted); margin-top: 1rem; }
+.q-reset { font: inherit; font-family: var(--sans); font-size: .8rem; background: none;
+  border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; padding: 0; }
+
+/* Footer nav */
+nav.lessons { font-family: var(--sans); font-size: .85rem; display: flex;
+  justify-content: space-between; gap: 1rem; border-top: 1px solid var(--rule); padding-top: 1rem; margin-top: 3rem; }
+
+/* Reference sheets: denser, two columns on wide screens */
+.sheet main { max-width: 56rem; }
+.sheet .cols { columns: 2 22rem; column-gap: 2.5rem; }
+.sheet .cols > section { break-inside: avoid; margin-bottom: 1.2rem; }
+dl.glossary dt { font-weight: 600; margin-top: .6rem; }
+dl.glossary dd { margin: 0 0 .4rem; font-size: .92rem; }
+
+@media print {
+  html { font-size: 11pt; }
+  :root { --paper: #fff; --ink: #000; --panel: #f3f3f3; }
+  main { padding: 0; max-width: none; }
+  .q-opts button { border-color: #999; }
+  .q-why, .q-score, .q-reset, nav.lessons { display: none !important; }
+  a { text-decoration: none; }
+  figure, table, .key, .note { break-inside: avoid; }
+}

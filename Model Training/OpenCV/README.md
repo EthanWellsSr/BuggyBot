@@ -11,7 +11,7 @@ on the CM5 and does not drive the motors.
 
 In the final live test, all 10 printed sign classes were shown 3 times each
 across two runs, and 60 of 60 LCD outputs were correct. Those runs were done in
-one room, under one lighting setup.
+two different rooms.
 
 ## Files
 

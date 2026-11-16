@@ -17,7 +17,7 @@ spring scope is the autonomous vehicle.
   is the live sign demo on the CM5. It finds sign regions with OpenCV,
   classifies them with the combined model, and shows the confirmed sign on the
   LCD. In the final test, 60 of 60 LCD outputs were correct (10 printed sign
-  classes, 3 times each over two runs, one room).
+  classes, 3 times each over two runs, in two different rooms).
 - [`Hardware/scripts/test_components.py`](Hardware/scripts/test_components.py)
   and [`Hardware/scripts/stress_test.py`](Hardware/scripts/stress_test.py) are
   the hardware integration tests: each device on its own, then
@@ -87,7 +87,7 @@ photos of the printed [sign cards](Sign%20Cards/README.md) correctly (10
 classes, three lighting conditions, about 30 distinct setups). The LISA and
 Mapillary models scored 47.7% and 79.9%. These crops were placed with
 knowledge of each sign's class. Through the car's own detector (the live
-demo), 60 of 60 LCD outputs were correct in one room; distance, angle, other
+demo), 60 of 60 LCD outputs were correct in two rooms; distance, angle, other
 lighting are still unmeasured; CM5 inference averaged 1.9 ms per crop (36 fps). See the [model training guide](Model%20Training/README.md) for the
 scripts, preparation steps, and detailed results.
 
