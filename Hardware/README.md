@@ -79,11 +79,12 @@ power and a loaded drivetrain are still untested. See the
   the test speed near the 60% default.
 - **One 5 V source at a time:** power the IO board from its USB-C or from the
   HAT, never both.
-- **Demo without motors:** the Semester 1 demo runs from Ethan Bishop's own
-  battery (not a project purchase), which powers the CM5 (camera, LCD, sign
-  demo) and the travel router. That makes the demo mobile and lets the team SSH
-  into the Pi at school through the router. The router is rated under 6 W; keep
-  the total under the battery's rating and check `vcgencmd get_throttled` reads
-  `0x0`.
+- **Demo without motors:** the Semester 1 demo runs from Ethan Bishop's
+  Energizer MAX 20,000 mAh power bank (UE20035C; listed in the parts list),
+  which powers the CM5 (camera, LCD, sign demo) and the travel router. That
+  makes the demo mobile and lets the team SSH into the Pi at school through the
+  router. The power bank is rated 15 W total, 5 V at up to 3 A on USB-C1 and
+  2.4 A on USB-C2 and USB-A; the router is rated under 6 W. Keep the total under
+  15 W and check `vcgencmd get_throttled` reads `0x0`.
 
 Lift the wheels off the ground before running the motor test.
