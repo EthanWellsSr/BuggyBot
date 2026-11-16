@@ -89,8 +89,11 @@ work that is safe to complete.
   historical intent; check the current code and README before describing
   implementation.
 - `Semester 1 Deliverables/` — final Semester 1 submissions (poster, final
-  presentation, Project Report, Technical Paper); see its `README.md`.
-  Individual self-analysis reports stay out of the repository.
+  presentation, Project Report, Technical Paper); see its `README.md`. The
+  Project Report is written in `Project Report.md` and rendered to DOCX and PDF
+  by `build_paper.py`; edit the Markdown, not the generated files.
+  Individual self-analysis reports stay out of the repository (the local
+  `Self-Analysis/` folder is Git ignored).
 - `Model Training/` — see its `README.md` for dataset preparation, training,
   evaluation, and results. `scripts/` holds prepare/train/evaluate scripts per
   dataset, the sign-photo crop and evaluation scripts, and
