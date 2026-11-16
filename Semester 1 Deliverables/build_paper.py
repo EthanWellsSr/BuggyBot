@@ -104,6 +104,11 @@ def add_table(doc, rows):
     table.style = "Table Grid"
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     for r, row in enumerate(rows):
+        # Keep each row on one page, and repeat the header row after a break.
+        tr_pr = table.rows[r]._tr.get_or_add_trPr()
+        tr_pr.append(OxmlElement("w:cantSplit"))
+        if r == 0:
+            tr_pr.append(OxmlElement("w:tblHeader"))
         for c, text in enumerate(row):
             paragraph = table.cell(r, c).paragraphs[0]
             set_spacing(paragraph, 1.0, before=2, after=2)

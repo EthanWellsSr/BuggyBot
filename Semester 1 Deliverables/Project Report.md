@@ -270,3 +270,19 @@ The goal of Semester 2 is a car that drives a course on its own and obeys the si
 | Stationary system demonstration | Nov 20 | Live demo scored 60 of 60 by 10/27; presented to the class in November |
 
 The stationary system was finished ahead of schedule. The PCB design finished about a week and a half late and was then cancelled on cost. Some Semester 2 work started early: the motor controllers, IMU, line sensors, and chassis kit were all bought and bench-tested in the fall, and the integration test already runs every device at once. The largest risks carried into the spring are motor power from a battery and how well sign detection holds up when the camera is moving.
+
+The proposed Spring 2027 schedule is unchanged from the proposal. The table shows where each milestone stands after the fall.
+
+![Spring 2027 Gantt chart from the project proposal.](figures/spring_gantt.png){width=5.2}
+
+| Proposal milestone | Planned | Status after Semester 1 |
+| --- | --- | --- |
+| Vehicle planning and hardware selection | Jan 11 | Mostly done. Chassis kit, both motor HATs, IMU, and line sensors bought and bench-tested. Motor HAT choice and motor battery remain |
+| Assemble chassis and install major hardware | Jan 29 | Chassis kit received, not assembled. Camera bracket printed |
+| Motor and steering control software and hardware testing | Feb 19 | Motor test scripts for both HATs work. No driving code yet |
+| Retrain and deploy the model and integrate with vehicle controls | Mar 12 | Sign model runs on the CM5. Distance not yet measured. A preliminary ROS 2 sign pipeline runs in Docker, not on the CM5 |
+| Autonomous driving tests and improvements | Mar 26 | Not started |
+| Enclosure, final assembly, and hardware cleanup | Apr 7 | Not started |
+| Final autonomous testing, presentation, and demonstration | Apr 16 | Not started |
+
+One change from the proposal affects the spring plan. The ultrasonic sensors are replaced by the two TCRT5000 line sensors, which keep the car on the course line.
