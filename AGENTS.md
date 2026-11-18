@@ -92,8 +92,8 @@ work that is safe to complete.
   presentation, Project Report; the Technical Paper is a Semester 2
   deliverable). It also contains an unrelated Auto-Aeroponics Project Report
   kept as a reference; see its `README.md`. The Project Report is written in
-  `Project Report.md` and rendered to DOCX and PDF by `build_paper.py`; edit
-  the Markdown, not the generated files.
+  `Self_Driving_RC_Car_Project_Report.md` and rendered to DOCX and PDF by
+  `build_paper.py`; edit the Markdown, not the generated files.
   Individual self-analysis reports stay out of the repository (the local
   `Self-Analysis/` folder is Git ignored).
 - `Model Training/` — see its `README.md` for dataset preparation, training,

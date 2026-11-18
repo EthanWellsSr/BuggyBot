@@ -89,7 +89,7 @@ Historical proposals and frozen weekly deliverables are reference material.
    `slides/` by filename into `Self-Driving-RC-Car.pptx`. Inspect the rendered
    deck for missing slides, broken images, and text overflow.
    For the Semester 1 final presentation, run `python3 assemble_deck.py --final`
-   instead; it writes `Semester 1 Deliverables/Final Presentation.pptx`.
+   instead; it writes `Semester 1 Deliverables/Self_Driving_RC_Car_Final_Presentation.pptx`.
 5. Once final, copy the working DOCX, PDF, and PPTX into the dated `Week N/`
    folder. Complete the repository documentation review above before proposing
    a commit and push. Ethan approves those Git actions separately.

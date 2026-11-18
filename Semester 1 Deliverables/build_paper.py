@@ -1,7 +1,7 @@
 """Render a Markdown paper to DOCX and PDF.
 
 Usage (from anywhere):
-    python3 "Semester 1 Deliverables/build_paper.py" "Semester 1 Deliverables/Project Report.md"
+    python3 "Semester 1 Deliverables/build_paper.py" "Semester 1 Deliverables/Self_Driving_RC_Car_Project_Report.md"
 
 Needs python-docx and LibreOffice (`soffice`) on the development computer.
 Writes the .docx and .pdf next to the Markdown file.

@@ -10,7 +10,7 @@ and you can all work at the same time.
 - **Edit only your own file** in this folder (e.g. Alexis edits `2-alexis-perez.pptx`).
   Edit it in PowerPoint like normal — text, images, whatever.
 - **Do not hand-edit** `../Self-Driving-RC-Car.pptx` or
-  `../../Semester 1 Deliverables/Final Presentation.pptx`. Both are generated and
+  `../../Semester 1 Deliverables/Self_Driving_RC_Car_Final_Presentation.pptx`. Both are generated and
   your changes there get overwritten.
 - Pull, edit your file, commit, push — as usual. No coordination needed.
 
@@ -26,7 +26,7 @@ python3 assemble_deck.py --final   # Semester 1 final presentation
 
 Both stitch every `slides/*.pptx`, in filename order, into one deck. The weekly
 deck goes to `../Self-Driving-RC-Car.pptx`; `--final` writes
-[`Final Presentation.pptx`](../../Semester%201%20Deliverables/) in
+[`Self_Driving_RC_Car_Final_Presentation.pptx`](../../Semester%201%20Deliverables/Self_Driving_RC_Car_Final_Presentation.pptx) in
 `Semester 1 Deliverables/`. Commit the deck alongside the slide files.
 
 The script also puts each person's first and last name, taken from the file name,

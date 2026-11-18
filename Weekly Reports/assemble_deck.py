@@ -10,7 +10,7 @@ Run it (from inside the Weekly Reports folder) whenever slides change:
 
     python3 assemble_deck.py           # weekly deck -> Self-Driving-RC-Car.pptx
     python3 assemble_deck.py --final   # Semester 1 final presentation ->
-                                       #   ../Semester 1 Deliverables/Final Presentation.pptx
+                                       #   ../Semester 1 Deliverables/Self_Driving_RC_Car_Final_Presentation.pptx
 
 Every slide from a person's file gets their first and last name, taken from the
 file name, in small black text at the bottom right. The shared files (0-title and
@@ -34,7 +34,7 @@ from pptx.util import Inches, Pt
 HERE = os.path.dirname(os.path.abspath(__file__))
 SLIDES_DIR = os.path.join(HERE, "slides")
 OUT = os.path.join(HERE, "Self-Driving-RC-Car.pptx")
-FINAL_OUT = os.path.join(HERE, "..", "Semester 1 Deliverables", "Final Presentation.pptx")
+FINAL_OUT = os.path.join(HERE, "..", "Semester 1 Deliverables", "Self_Driving_RC_Car_Final_Presentation.pptx")
 
 # files whose slides belong to the whole team and get no name label
 SHARED = {"title", "team"}
