@@ -90,9 +90,10 @@ work that is safe to complete.
   implementation.
 - `Semester 1 Deliverables/` — final Semester 1 submissions (poster, final
   presentation, Project Report; the Technical Paper is a Semester 2
-  deliverable); see its `README.md`. The
-  Project Report is written in `Project Report.md` and rendered to DOCX and PDF
-  by `build_paper.py`; edit the Markdown, not the generated files.
+  deliverable). It also contains an unrelated Auto-Aeroponics Project Report
+  kept as a reference; see its `README.md`. The Project Report is written in
+  `Project Report.md` and rendered to DOCX and PDF by `build_paper.py`; edit
+  the Markdown, not the generated files.
   Individual self-analysis reports stay out of the repository (the local
   `Self-Analysis/` folder is Git ignored).
 - `Model Training/` — see its `README.md` for dataset preparation, training,

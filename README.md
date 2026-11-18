@@ -105,7 +105,7 @@ scripts, preparation steps, and detailed results.
 | Path | Contents |
 | --- | --- |
 | `Proposal/` | Project proposal and Gantt charts |
-| `Semester 1 Deliverables/` | Final Semester 1 deliverables: poster, final presentation, and Project Report |
+| `Semester 1 Deliverables/` | Final Semester 1 deliverables: poster, final presentation, and Project Report; includes an unrelated Auto-Aeroponics report kept as a reference |
 | `Weekly Reports/` | Rolling report and presentation, source slides, build scripts, and frozen weekly deliverables |
 | `Hardware/` | Parts list, wiring references, hardware test scripts, integration test reports, and the KiCad custom-PCB project |
 | `Model Training/` | GTSRB, LISA, Mapillary, and combined-data preparation, training, evaluation, and reports; the live Pi sign demo in `OpenCV/`; downloaded datasets are Git ignored |

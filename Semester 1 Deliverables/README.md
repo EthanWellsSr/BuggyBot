@@ -5,6 +5,9 @@ its editable source and the PDF that was submitted. Individual self-analysis
 reports are not stored here. The Technical Paper is a Semester 2 deliverable,
 not due this semester.
 
+`Auto-Aeroponics Project Report-2 (1).pdf` is an unrelated project report kept
+here as a reference; it is not a BuggyBot deliverable.
+
 | Deliverable | Due | Files | Status |
 | --- | --- | --- | --- |
 | Project poster | 11/05 | `Senior Project Poster Semester 1_FinalVersion.pdf`, `.png` | Final |
